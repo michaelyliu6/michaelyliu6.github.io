@@ -1,0 +1,56 @@
+baseURL: https://example.org/
+languageCode: en-us
+title: Michael's AI Blog
+
+
+theme: ["PaperMod"]
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+    extensions:
+      passthrough:
+        delimiters:
+          block:
+          - - \[
+            - \]
+          - - $$
+            - $$
+          inline:
+          - - \(
+            - \)
+        enable: true
+  
+
+params:
+    defaultTheme: auto
+    ShowReadingTime: true
+    ShowShareButtons: true
+    ShowPostNavLinks: true
+    ShowBreadCrumbs: true
+    ShowCodeCopyButtons: true
+    math: true
+    
+    profileMode:
+        enabled: true
+        title: "Michael Liu"
+        subtitle: "Your blog description here"
+        # imageUrl: "#"
+        # imageTitle: "my image"
+        buttons:
+            - name: Blog
+              url: posts
+            - name: About
+              url: about
+
+menu:
+    main:
+        - identifier: posts
+          name: Posts
+          url: /posts/
+          weight: 10
+        - identifier: about
+          name: About
+          url: /about/
+          weight: 20

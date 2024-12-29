@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>My First Post | Michael&#39;s AI Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="Set Up
+import os
+import time
+from dataclasses import dataclass
+from functools import reduce
+from operator import mul
+from typing import Any, Optional, Union
+import matplotlib.pyplot as plt
+import torch as t
+import torch.nn as nn
+import torch.nn.functional as F
+from einops import rearrange, repeat
+from einops.layers.torch import Rearrange
+from torch.utils.data import DataLoader, TensorDataset
+from tqdm import tqdm
+import wandb
+import tests.toy_model_tests
+
+torch_device = &#39;cuda&#39; if t.cuda.is_available() else &#34;cpu&#34; # mps not supported 
+Helper Functions
+def plot_images(imgs: t.Tensor, titles: Optional[list[str]] = None) -&gt; None:
+    n_images = imgs.shape[0]
+    fig, axes = plt.subplots(1, n_images, figsize=(5*n_images, 5))
+    
+    # Convert axes to array if there&#39;s only one image
+    if n_images == 1:
+        axes = [axes]
+    
+    for i in range(n_images):
+        img = rearrange(imgs[i], &#34;c h w -&gt; h w c&#34;)
+        axes[i].imshow(img.numpy())
+        if titles and i &lt; len(titles):
+            axes[i].set_title(titles[i])
+        axes[i].axis(&#39;off&#39;)  # This removes the axes for cleaner visualization
+    
+    plt.tight_layout()  # Adjusts spacing between subplots
+    plt.show()
+
+def log_images(
+    img: t.Tensor,
+    noised: t.Tensor,
+    noise: t.Tensor,
+    noise_pred: t.Tensor,
+    reconstructed: t.Tensor,
+    num_images: int = 3,
+) -&gt; list[wandb.Image]:
+    &#34;&#34;&#34;
+    Convert tensors to a format suitable for logging to Weights and Biases. 
+    Returns an image with the ground truth in the upper row, and model reconstruction on the bottom row. 
+    Left is the noised image, middle is noise, and reconstructed image is in the rightmost column.
+    &#34;&#34;&#34;
+    actual = t.cat((noised, noise, img), dim=-1)
+    pred = t.cat((noised, noise_pred, reconstructed), dim=-1)
+    log_img = t.cat((actual, pred), dim=-2)
+    images = [wandb.Image(i) for i in log_img[:num_images]]
+    return images
+Introduction
+
+Section 2: Background in Denoising Diffusion Probabilistic Models
+Equation 1: Reverse Process
+$p$ is a probability density function that represents the reverse process, the process of adding noise.">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/part1_toy_model/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.d6fcd20a4fb86efa4dfac8ec95da60244cc8871042183da1ef28e3a762ad79c8.css" integrity="sha256-1vzSCk&#43;4bvpN&#43;sjsldpgJEzIhxBCGD2h7yjjp2Ktecg=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/part1_toy_model/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<head>
+    
+      <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
+      inlineMath: [['$', '$']]                  
+    }
+  };
+</script>
+    
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Michael&#39;s AI Blog (Alt + H)">Michael&#39;s AI Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      My First Post
+    </h1>
+    <div class="post-meta"><span title='2024-01-14 07:07:07 +0100 +0100'>January 14, 2024</span>&nbsp;·&nbsp;22 min
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="set-up">Set Up<a hidden class="anchor" aria-hidden="true" href="#set-up">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> time
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> dataclasses <span style="color:#f92672">import</span> dataclass
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> functools <span style="color:#f92672">import</span> reduce
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> operator <span style="color:#f92672">import</span> mul
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> typing <span style="color:#f92672">import</span> Any, Optional, Union
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> torch <span style="color:#66d9ef">as</span> t
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> torch.nn <span style="color:#66d9ef">as</span> nn
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> torch.nn.functional <span style="color:#66d9ef">as</span> F
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> einops <span style="color:#f92672">import</span> rearrange, repeat
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> einops.layers.torch <span style="color:#f92672">import</span> Rearrange
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> torch.utils.data <span style="color:#f92672">import</span> DataLoader, TensorDataset
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> tqdm <span style="color:#f92672">import</span> tqdm
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> wandb
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> tests.toy_model_tests
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>torch_device <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;cuda&#39;</span> <span style="color:#66d9ef">if</span> t<span style="color:#f92672">.</span>cuda<span style="color:#f92672">.</span>is_available() <span style="color:#66d9ef">else</span> <span style="color:#e6db74">&#34;cpu&#34;</span> <span style="color:#75715e"># mps not supported </span>
+</span></span></code></pre></div><h2 id="helper-functions">Helper Functions<a hidden class="anchor" aria-hidden="true" href="#helper-functions">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">plot_images</span>(imgs: t<span style="color:#f92672">.</span>Tensor, titles: Optional[list[str]] <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>    n_images <span style="color:#f92672">=</span> imgs<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>    fig, axes <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(<span style="color:#ae81ff">1</span>, n_images, figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">5</span><span style="color:#f92672">*</span>n_images, <span style="color:#ae81ff">5</span>))
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Convert axes to array if there&#39;s only one image</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> n_images <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>        axes <span style="color:#f92672">=</span> [axes]
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(n_images):
+</span></span><span style="display:flex;"><span>        img <span style="color:#f92672">=</span> rearrange(imgs[i], <span style="color:#e6db74">&#34;c h w -&gt; h w c&#34;</span>)
+</span></span><span style="display:flex;"><span>        axes[i]<span style="color:#f92672">.</span>imshow(img<span style="color:#f92672">.</span>numpy())
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> titles <span style="color:#f92672">and</span> i <span style="color:#f92672">&lt;</span> len(titles):
+</span></span><span style="display:flex;"><span>            axes[i]<span style="color:#f92672">.</span>set_title(titles[i])
+</span></span><span style="display:flex;"><span>        axes[i]<span style="color:#f92672">.</span>axis(<span style="color:#e6db74">&#39;off&#39;</span>)  <span style="color:#75715e"># This removes the axes for cleaner visualization</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    plt<span style="color:#f92672">.</span>tight_layout()  <span style="color:#75715e"># Adjusts spacing between subplots</span>
+</span></span><span style="display:flex;"><span>    plt<span style="color:#f92672">.</span>show()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">log_images</span>(
+</span></span><span style="display:flex;"><span>    img: t<span style="color:#f92672">.</span>Tensor,
+</span></span><span style="display:flex;"><span>    noised: t<span style="color:#f92672">.</span>Tensor,
+</span></span><span style="display:flex;"><span>    noise: t<span style="color:#f92672">.</span>Tensor,
+</span></span><span style="display:flex;"><span>    noise_pred: t<span style="color:#f92672">.</span>Tensor,
+</span></span><span style="display:flex;"><span>    reconstructed: t<span style="color:#f92672">.</span>Tensor,
+</span></span><span style="display:flex;"><span>    num_images: int <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>,
+</span></span><span style="display:flex;"><span>) <span style="color:#f92672">-&gt;</span> list[wandb<span style="color:#f92672">.</span>Image]:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Convert tensors to a format suitable for logging to Weights and Biases. 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Returns an image with the ground truth in the upper row, and model reconstruction on the bottom row. 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Left is the noised image, middle is noise, and reconstructed image is in the rightmost column.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    actual <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>cat((noised, noise, img), dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    pred <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>cat((noised, noise_pred, reconstructed), dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    log_img <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>cat((actual, pred), dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>    images <span style="color:#f92672">=</span> [wandb<span style="color:#f92672">.</span>Image(i) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> log_img[:num_images]]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> images
+</span></span></code></pre></div><h2 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h2>
+<img src="/assets/images/references/paper_background.png" alt="Paper Background">
+<figcaption><code>Section 2: Background</code> in <a href="https://arxiv.org/pdf/2006.11239#page=2">Denoising Diffusion Probabilistic Models</a></figcaption>
+<h3 id="equation-1-reverse-process">Equation 1: Reverse Process<a hidden class="anchor" aria-hidden="true" href="#equation-1-reverse-process">#</a></h3>
+<p>$p$ is a <strong>probability density function</strong> that represents the <strong>reverse</strong> process, the process of adding noise.</p>
+<p>Let&rsquo;s start with the notation $p(x_T) = N(x_T; 0, I)$. $N$ is a normal distribution. $0$ is the mean (centered at zero). $I$ is the identity matrix representing the covariance (meaning that elements are independent with unit variance). It describes the distribution of completely random noise, which is the starting point $x_T$.</p>
+<p>With that information, we can understand Equation 1. $p_\theta(X_{0:T})$ represents starting with $p(x_T)$ (a standard normal distribution) and continually multiplying other normals distibutions that have the same dimensionality. You can think of it like a blob of proabiltiies iteratively shifting around, approaching the de-noised output.</p>
+<p>To implement this in our code, we will be <strong>sampling</strong>. We will start with a sample from $p_(x_T)$ (a standard normal distribution). Next, we will pass the sample into our model to get the mean and variance terms, and use those terms with define a new Guassian to obtain a new sample $p(x_{t-1})$. We can keep repeating this process until we reach $p(x_0)$, which should look like a real $x_0$.</p>
+<h3 id="equation-2-forwarddiffusion-process">Equation 2: Forward/Diffusion Process<a hidden class="anchor" aria-hidden="true" href="#equation-2-forwarddiffusion-process">#</a></h3>
+<p>$q$ is a a probability density function that represents the <strong>forward</strong> or <strong>diffusion</strong> process, the process of adding noise. We apply noise in small steps T, where each $\beta_t$ is a scalar that controls the variance of the normal distribution. Since we take the square root of 1 - $\beta_t$, every $\beta_t$ will less than or equal to 1. We implement the variance schedule $\beta_t$ in <a href="##variance-schedule">Variance Schedule</a>.</p>
+<p>Just like the *<em>reverse</em> process, the forward process is also a product of Gaussian/normal distributions. Note that every Gaussian is independent of each other. To calculate the distribution $q(x_t)$, we only need $x_{t-1}$ and the $\beta_t$ value corresponding to the step number. All pixels and color channels are noised independently.</p>
+<h2 id="creating-dataset">Creating dataset<a hidden class="anchor" aria-hidden="true" href="#creating-dataset">#</a></h2>
+<p>We&rsquo;ll first generate a dataset of random color gradients for our toy model. We will train the model to be able to recover these gradients from random images by the end of this notebook. Each of these generated images will represents our $x_0$.This should be an easy task for neural networks since the structure of the data is simple.</p>
+<details>
+<summary>What is a color gradient?</summary>
+<p>Color gradients displays the range of possible combinations of <strong>two</strong> colors, with each of the <strong>two</strong> colors on opposite corners.</p>
+</details>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">gradient_images</span>(n_images: int, img_size: tuple[int, int, int]) <span style="color:#f92672">-&gt;</span> t<span style="color:#f92672">.</span>Tensor:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Generate n_images of img_size, each being a color gradient.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Args:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        n_images: Number of gradient images to generate
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        img_size: Tuple of (channels, height, width)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Returns:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Tensor of shape (n_images, channels, height, width) containing normalized gradients
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    C, H, W <span style="color:#f92672">=</span> img_size
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Keep corners as integers (0-255) like the original</span>
+</span></span><span style="display:flex;"><span>    corners <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">255</span>, (<span style="color:#ae81ff">2</span>, n_images, C), dtype<span style="color:#f92672">=</span>t<span style="color:#f92672">.</span>float32)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Create coordinate grids</span>
+</span></span><span style="display:flex;"><span>    x_coords <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>linspace(<span style="color:#ae81ff">0</span>, W <span style="color:#f92672">/</span> (W <span style="color:#f92672">+</span> H), W)
+</span></span><span style="display:flex;"><span>    y_coords <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>linspace(<span style="color:#ae81ff">0</span>, H <span style="color:#f92672">/</span> (W <span style="color:#f92672">+</span> H), H)
+</span></span><span style="display:flex;"><span>    x, y <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>meshgrid(x_coords, y_coords, indexing<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;xy&#34;</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Use grid[-1, -1] for normalization exactly as original</span>
+</span></span><span style="display:flex;"><span>    grid <span style="color:#f92672">=</span> x <span style="color:#f92672">+</span> y
+</span></span><span style="display:flex;"><span>    grid <span style="color:#f92672">=</span> grid <span style="color:#f92672">/</span> grid[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Expand dimensions for broadcasting</span>
+</span></span><span style="display:flex;"><span>    grid <span style="color:#f92672">=</span> grid<span style="color:#f92672">.</span>unsqueeze(<span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>unsqueeze(<span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># shape: 1, 1, H, W</span>
+</span></span><span style="display:flex;"><span>    grid <span style="color:#f92672">=</span> grid<span style="color:#f92672">.</span>expand(n_images, C, H, W)   <span style="color:#75715e"># shape: n_images, C, H, W</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Calculate gradients using broadcasting but keeping original value ranges</span>
+</span></span><span style="display:flex;"><span>    start_colors <span style="color:#f92672">=</span> corners[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>unsqueeze(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">.</span>unsqueeze(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)  <span style="color:#75715e"># shape: n_images, C, 1, 1</span>
+</span></span><span style="display:flex;"><span>    color_ranges <span style="color:#f92672">=</span> (corners[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> corners[<span style="color:#ae81ff">0</span>])<span style="color:#f92672">.</span>unsqueeze(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">.</span>unsqueeze(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Combine everything and normalize at the end like original</span>
+</span></span><span style="display:flex;"><span>    gradients <span style="color:#f92672">=</span> start_colors <span style="color:#f92672">+</span> grid <span style="color:#f92672">*</span> color_ranges
+</span></span><span style="display:flex;"><span>    gradients <span style="color:#f92672">=</span> gradients <span style="color:#f92672">/</span> <span style="color:#ae81ff">255</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">assert</span> gradients<span style="color:#f92672">.</span>shape <span style="color:#f92672">==</span> (n_images, C, H, W)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> gradients
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;A few samples from the input distribution: &#34;</span>)
+</span></span><span style="display:flex;"><span>img_shape <span style="color:#f92672">=</span> (<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">16</span>, <span style="color:#ae81ff">16</span>)
+</span></span><span style="display:flex;"><span>n_images <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>imgs <span style="color:#f92672">=</span> gradient_images(n_images, img_shape)
+</span></span><span style="display:flex;"><span>plot_images(imgs) <span style="color:#75715e"># Try running a few times until you understand color gradients</span>
+</span></span></code></pre></div><pre><code>A few samples from the input distribution: 
+</code></pre>
+<p><img alt="png" loading="lazy" src="/assets/images/part1_toy_model_files/part1_toy_model_8_1.png"></p>
+<h2 id="normalization">Normalization<a hidden class="anchor" aria-hidden="true" href="#normalization">#</a></h2>
+<p>For every image, every $(\text{channel} \times \text{height} \times \text{weight})$ has a value between $[0, 1]$, but to help neural networks to learn if we preprocess the data to have a mean of 0. This helps with faster and more stable training, provides better conditions for optimization problems, and reduces the impact of initalization.</p>
+<p>All of our model&rsquo;s inputs will be normalized, but we will denomralize output whenever we want to visualize the results.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">normalize_img</span>(img: t<span style="color:#f92672">.</span>Tensor) <span style="color:#f92672">-&gt;</span> t<span style="color:#f92672">.</span>Tensor:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> img <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">denormalize_img</span>(img: t<span style="color:#f92672">.</span>Tensor) <span style="color:#f92672">-&gt;</span> t<span style="color:#f92672">.</span>Tensor:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> ((img <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>)<span style="color:#f92672">.</span>clamp(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Normalize/Denormalize the first image from the above section</span>
+</span></span><span style="display:flex;"><span>plot_images(t<span style="color:#f92672">.</span>stack([imgs[<span style="color:#ae81ff">0</span>], normalize_img(imgs)[<span style="color:#ae81ff">0</span>], denormalize_img(normalize_img(imgs))[<span style="color:#ae81ff">0</span>]]), [<span style="color:#e6db74">&#34;Original&#34;</span>, <span style="color:#e6db74">&#34;Normalized&#34;</span>, <span style="color:#e6db74">&#34;Denormalized&#34;</span>])
+</span></span></code></pre></div><pre><code>Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-0.40392154..0.58431375].
+</code></pre>
+<p><img alt="png" loading="lazy" src="/assets/images/part1_toy_model_files/part1_toy_model_11_1.png"></p>
+<h2 id="variance-schedule">Variance schedule<a hidden class="anchor" aria-hidden="true" href="#variance-schedule">#</a></h2>
+<img src="/assets/images/references/variance_schedule.png" alt="Descriptive alt text">
+<figcaption><code>Section 4: Experiments</code> in <a href="https://arxiv.org/pdf/2006.11239#page=5">Denoising Diffusion Probabilistic Models</a></figcaption>
+<p>In the paper, the authors linearly scaled the amount of noise, $\beta$, from $10^{-4}$ to $0.02$ in 1000 steps. Since we are training a smaller and simpler dataset, we are going to only be using <strong>200 steps</strong> in this notebook for faster training.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">variance_schedule</span>(max_steps: int, min_noise: float <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0001</span>, max_noise: float <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.02</span>) <span style="color:#f92672">-&gt;</span> t<span style="color:#f92672">.</span>Tensor:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Return the forward process variances as in the paper.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    max_steps: total number of steps of noise addition
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    out: shape (step=max_steps, ) the amount of noise at each step
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> t<span style="color:#f92672">.</span>linspace(min_noise, max_noise, max_steps)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>steps <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>
+</span></span><span style="display:flex;"><span>betas <span style="color:#f92672">=</span> variance_schedule(steps)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure()
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>plot(range(steps), betas, <span style="color:#e6db74">&#39;b-&#39;</span>, label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Noise Schedule&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#39;Linear Noise Schedule&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;Step&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#39;Noise Amount&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>grid(<span style="color:#66d9ef">True</span>, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.3</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>tight_layout()
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>tests<span style="color:#f92672">.</span>toy_model_tests<span style="color:#f92672">.</span>test_variance_schedule(variance_schedule) <span style="color:#75715e"># simple check for a linear function</span>
+</span></span></code></pre></div><p><img alt="png" loading="lazy" src="/assets/images/part1_toy_model_files/part1_toy_model_15_0.png"></p>
+<pre><code>[32mtests.toy_model_tests.test_variance_schedule passed in 0.00s.[0m
+</code></pre>
+<h2 id="forward-q-function">Forward (q) function<a hidden class="anchor" aria-hidden="true" href="#forward-q-function">#</a></h2>
+<h3 id="forward-q-function-equation-2">Forward (q) function: Equation 2<a hidden class="anchor" aria-hidden="true" href="#forward-q-function-equation-2">#</a></h3>
+<img src="/assets/images/references/forward_equation.png" alt="Forward Equation">
+<figcaption><code>Section 2: Background - Equation 2</code> in <a href="https://arxiv.org/pdf/2006.11239#page=2">Denoising Diffusion Probabilistic Models</a></figcaption>
+<p>Compute the <strong>forward</strong> function. This function iteratively samples from a normal distribution of the (1) a weighted mean of $x_{t-1}$ and (2) a scheduled varaiance. In early steps $t$, $x_{t-1}$ is heavily waited in the mean and the variance is low. But in later steps $t$, the mean approaches 0 and standard deviation appraches 1.</p>
+<p>Remeber that our input is normalized with a mean of 0 and $\beta$ range from $10^{-4}$ to $0.02$</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">q_eq2</span>(x: t<span style="color:#f92672">.</span>Tensor, num_steps: int, betas: t<span style="color:#f92672">.</span>Tensor) <span style="color:#f92672">-&gt;</span> t<span style="color:#f92672">.</span>Tensor:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Add noise to the input image iteratively using a noise schedule.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Args:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        x: Input image tensor of shape (channels, height, width)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        num_steps: Number of noise iterations to perform
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        betas: Noise schedule tensor of shape (T,) containing variance values,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">              where T &gt;= num_steps
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Returns:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Noised image tensor of shape (channels, height, width)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> beta <span style="color:#f92672">in</span> betas[:num_steps]:
+</span></span><span style="display:flex;"><span>        x <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>normal(t<span style="color:#f92672">.</span>sqrt(<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> beta) <span style="color:#f92672">*</span> x, t<span style="color:#f92672">.</span>sqrt(beta))
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># OR</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># x = t.sqrt(1 - beta) * x + t.randn_like(x) * t.sqrt(beta)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> x
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>x <span style="color:#f92672">=</span> normalize_img(imgs[<span style="color:#ae81ff">0</span>])
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># x = normalize_img(gradient_images(1, (3, 16, 16))[0]) # Try with new random gradient</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>q_x <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>titles <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> num_steps <span style="color:#f92672">in</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">200</span>]:
+</span></span><span style="display:flex;"><span>    xt <span style="color:#f92672">=</span> q_eq2(x, num_steps, betas)
+</span></span><span style="display:flex;"><span>    q_x<span style="color:#f92672">.</span>append(denormalize_img(xt))
+</span></span><span style="display:flex;"><span>    titles<span style="color:#f92672">.</span>append(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Equation 2 after </span><span style="color:#e6db74">{</span>num_steps<span style="color:#e6db74">}</span><span style="color:#e6db74"> step(s)&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>q_x<span style="color:#f92672">.</span>append(denormalize_img(t<span style="color:#f92672">.</span>randn_like(xt)))
+</span></span><span style="display:flex;"><span>titles<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#34;Random Gaussian noise&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plot_images(t<span style="color:#f92672">.</span>stack(q_x), titles)
+</span></span><span style="display:flex;"><span>tests<span style="color:#f92672">.</span>toy_model_tests<span style="color:#f92672">.</span>test_q_eq2(q_eq2, variance_schedule, x) <span style="color:#75715e"># check after lots of steps, the image is close to a standard Gaussian</span>
+</span></span></code></pre></div><p><img alt="png" loading="lazy" src="/assets/images/part1_toy_model_files/part1_toy_model_19_0.png"></p>
+<pre><code>[32mtests.toy_model_tests.test_q_eq2 passed in 0.31s.[0m
+</code></pre>
+<p>After 50 steps, we can barely make out the colors of the original gradient. After 200 steps, the image looks like random Gaussian noise. As we go from left to right, we start a high signal with most of the image strucutre preserved, but as well continue taking steps, we go from noisy image to pure noise.</p>
+<h3 id="forward-q-function-equation-4">Forward (q) function: Equation 4<a hidden class="anchor" aria-hidden="true" href="#forward-q-function-equation-4">#</a></h3>
+<img src="/assets/images/references/forward_equation2.png" alt="Forward Equation 2">
+<figcaption><code>Section 2: Background - Equation 4</code> in <a href="https://arxiv.org/pdf/2006.11239#page=2">Denoising Diffusion Probabilistic Models</a></figcaption>
+<p>Equation 2 shows the <strong>forward</strong> process with a &ldquo;for loop&rdquo; that iteratively samples from a Guassian distribution with a weighted mean of the previous image. However, using a &ldquo;for loop&rdquo; is computationally expensive.</p>
+<p>Equation 4 optimizes Equation 2 by calculating $\alpha$, a closed form notation to directly go to step $t$. The ouputs of Equation 4 should look almost identical to Equation 2.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">q_eq4</span>(x: t<span style="color:#f92672">.</span>Tensor, num_steps: int, betas: t<span style="color:#f92672">.</span>Tensor) <span style="color:#f92672">-&gt;</span> t<span style="color:#f92672">.</span>Tensor:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Equivalent to Equation 2 but without a for loop.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    alphas <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.0</span> <span style="color:#f92672">-</span> betas
+</span></span><span style="display:flex;"><span>    alpha_bar <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>prod(alphas[:num_steps])
+</span></span><span style="display:flex;"><span>    noise <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>randn_like(x)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> t<span style="color:#f92672">.</span>sqrt(alpha_bar) <span style="color:#f92672">*</span> x <span style="color:#f92672">+</span> t<span style="color:#f92672">.</span>sqrt(<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> alpha_bar) <span style="color:#f92672">*</span> noise
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>q_x <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>titles <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> num_steps <span style="color:#f92672">in</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">200</span>]:
+</span></span><span style="display:flex;"><span>    xt <span style="color:#f92672">=</span> q_eq4(x, num_steps, betas)
+</span></span><span style="display:flex;"><span>    q_x<span style="color:#f92672">.</span>append(denormalize_img(xt))
+</span></span><span style="display:flex;"><span>    titles<span style="color:#f92672">.</span>append(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Equation 2 after </span><span style="color:#e6db74">{</span>num_steps<span style="color:#e6db74">}</span><span style="color:#e6db74"> step(s)&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plot_images(t<span style="color:#f92672">.</span>stack(q_x), titles)
+</span></span><span style="display:flex;"><span>tests<span style="color:#f92672">.</span>toy_model_tests<span style="color:#f92672">.</span>test_q_eq4(q_eq4, variance_schedule, x) <span style="color:#75715e"># check after lots of steps, the image is close to a standard Gaussian</span>
+</span></span></code></pre></div><p><img alt="png" loading="lazy" src="/assets/images/part1_toy_model_files/part1_toy_model_23_0.png"></p>
+<pre><code>[32mtests.toy_model_tests.test_q_eq4 passed in 0.00s.[0m
+</code></pre>
+<h2 id="noise-schedule">Noise Schedule<a hidden class="anchor" aria-hidden="true" href="#noise-schedule">#</a></h2>
+<p>We will need to remember the noise schedule we used during training (forward equation) for in our reconstruction process. This <code>NoiseSchedule</code> class (<code>nn.Module</code> subclass) will help us pre-compute and store our $\beta$, $\alpha$, and $\bar{\alpha}$ values to use during training and sampling.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NoiseSchedule</span>(nn<span style="color:#f92672">.</span>Module):
+</span></span><span style="display:flex;"><span>    betas: t<span style="color:#f92672">.</span>Tensor
+</span></span><span style="display:flex;"><span>    alphas: t<span style="color:#f92672">.</span>Tensor
+</span></span><span style="display:flex;"><span>    alpha_bars: t<span style="color:#f92672">.</span>Tensor
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(
+</span></span><span style="display:flex;"><span>        self, max_steps: int, device: Union[t<span style="color:#f92672">.</span>device, str], min_noise: float <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0001</span>, max_noise: float <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.02</span>
+</span></span><span style="display:flex;"><span>    ) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>        super()<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>max_steps <span style="color:#f92672">=</span> max_steps
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>device <span style="color:#f92672">=</span> device
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>register_buffer(<span style="color:#e6db74">&#34;betas&#34;</span>, variance_schedule(max_steps, min_noise, max_noise))
+</span></span><span style="display:flex;"><span>        alphas <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> self<span style="color:#f92672">.</span>betas
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>register_buffer(<span style="color:#e6db74">&#34;alphas&#34;</span>, alphas)
+</span></span><span style="display:flex;"><span>        alpha_bars <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>cumprod(alphas, dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>register_buffer(<span style="color:#e6db74">&#34;alpha_bars&#34;</span>, alpha_bars)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>to(device)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@t.inference_mode</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">beta</span>(self, num_steps: Union[int, t<span style="color:#f92672">.</span>Tensor]) <span style="color:#f92672">-&gt;</span> t<span style="color:#f92672">.</span>Tensor:
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Returns the beta(s) corresponding to a given number of noise steps
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        num_steps: int or int tensor of shape (batch_size,)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Returns a tensor of shape (batch_size,), where batch_size is one if num_steps is an int
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>betas[num_steps]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@t.inference_mode</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">alpha</span>(self, num_steps: Union[int, t<span style="color:#f92672">.</span>Tensor]) <span style="color:#f92672">-&gt;</span> t<span style="color:#f92672">.</span>Tensor:
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Returns the alphas(s) corresponding to a given number of noise steps
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        num_steps: int or int tensor of shape (batch_size,)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Returns a tensor of shape (batch_size,), where batch_size is one if num_steps is an int
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>alphas[num_steps]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@t.inference_mode</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">alpha_bar</span>(self, num_steps: Union[int, t<span style="color:#f92672">.</span>Tensor]) <span style="color:#f92672">-&gt;</span> t<span style="color:#f92672">.</span>Tensor:
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Returns the alpha_bar(s) corresponding to a given number of noise steps
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        num_steps: int or int tensor of shape (batch_size,)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Returns a tensor of shape (batch_size,), where batch_size is one if num_steps is an int
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>alpha_bars[num_steps]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __len__(self) <span style="color:#f92672">-&gt;</span> int:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>max_steps
+</span></span></code></pre></div><p>Next, let&rsquo;s use a batched version of our optimized forward (q) function and our new <code>NoiseSchedule</code> to generate batches of noised images.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">noise_img</span>(
+</span></span><span style="display:flex;"><span>    img: t<span style="color:#f92672">.</span>Tensor, noise_schedule: NoiseSchedule, max_steps: Optional[int] <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>) <span style="color:#f92672">-&gt;</span> tuple[t<span style="color:#f92672">.</span>Tensor, t<span style="color:#f92672">.</span>Tensor, t<span style="color:#f92672">.</span>Tensor]:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Adds a random number of steps of noise to each image in img.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    img: An image tensor of shape (B, C, H, W)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    noise_schedule: The NoiseSchedule to follow
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    max_steps: if provided, only perform the first max_steps of the schedule
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Returns a tuple composed of:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    num_steps: an int tensor of shape (B,) of the number of steps of noise added to each image
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    noise: the unscaled, standard Gaussian noise added to each image, a tensor of shape (B, C, H, W)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    noised: the final noised image, a tensor of shape (B, C, H, W)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    (B, C, H, W) <span style="color:#f92672">=</span> img<span style="color:#f92672">.</span>shape
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> max_steps <span style="color:#f92672">is</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>        max_steps <span style="color:#f92672">=</span> len(noise_schedule)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">assert</span> len(noise_schedule) <span style="color:#f92672">&gt;=</span> max_steps
+</span></span><span style="display:flex;"><span>    num_steps <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">1</span>, max_steps, size<span style="color:#f92672">=</span>(B,), device<span style="color:#f92672">=</span>img<span style="color:#f92672">.</span>device)
+</span></span><span style="display:flex;"><span>    noise <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>randn_like(img)
+</span></span><span style="display:flex;"><span>    x_scale <span style="color:#f92672">=</span> noise_schedule<span style="color:#f92672">.</span>alpha_bar(num_steps)<span style="color:#f92672">.</span>sqrt()
+</span></span><span style="display:flex;"><span>    noise_scale <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> noise_schedule<span style="color:#f92672">.</span>alpha_bar(num_steps))<span style="color:#f92672">.</span>sqrt()
+</span></span><span style="display:flex;"><span>    noised <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>        repeat(x_scale, <span style="color:#e6db74">&#34;b -&gt; b c h w&#34;</span>, c<span style="color:#f92672">=</span>C, h<span style="color:#f92672">=</span>H, w<span style="color:#f92672">=</span>W) <span style="color:#f92672">*</span> img
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">+</span> repeat(noise_scale, <span style="color:#e6db74">&#34;b -&gt; b c h w&#34;</span>, c<span style="color:#f92672">=</span>C, h<span style="color:#f92672">=</span>H, w<span style="color:#f92672">=</span>W) <span style="color:#f92672">*</span> noise
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">assert</span> num_steps<span style="color:#f92672">.</span>shape <span style="color:#f92672">==</span> (B,)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">assert</span> noise<span style="color:#f92672">.</span>shape <span style="color:#f92672">==</span> (B, C, H, W)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">assert</span> noised<span style="color:#f92672">.</span>shape <span style="color:#f92672">==</span> (B, C, H, W)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> num_steps, noise, noised
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>noise_schedule <span style="color:#f92672">=</span> NoiseSchedule(max_steps<span style="color:#f92672">=</span><span style="color:#ae81ff">200</span>, device<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cpu&#34;</span>)
+</span></span><span style="display:flex;"><span>img <span style="color:#f92672">=</span> gradient_images(<span style="color:#ae81ff">2</span>, (<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">16</span>, <span style="color:#ae81ff">16</span>))
+</span></span><span style="display:flex;"><span>(num_steps, noise, noised) <span style="color:#f92672">=</span> noise_img(normalize_img(img), noise_schedule, max_steps<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(img<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]):
+</span></span><span style="display:flex;"><span>    images <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>stack([img[i], noise[i], denormalize_img(noised[i])])
+</span></span><span style="display:flex;"><span>    titles <span style="color:#f92672">=</span> [<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Batch </span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">: Original Gradient&#34;</span>, <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Batch </span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">: Unscaled Noise&#34;</span>, <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Batch </span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">: Gradient with Noise Applied&#34;</span>]
+</span></span><span style="display:flex;"><span>    plot_images(images, titles)    
+</span></span><span style="display:flex;"><span>tests<span style="color:#f92672">.</span>toy_model_tests<span style="color:#f92672">.</span>test_noise_img(noise_img, NoiseSchedule, gradient_images, normalize_img) <span style="color:#75715e"># check after lots of steps, the image is close to a standard Gaussian</span>
+</span></span></code></pre></div><pre><code>Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-3.4266975..2.9296658].
+</code></pre>
+<p><img alt="png" loading="lazy" src="/assets/images/part1_toy_model_files/part1_toy_model_28_1.png"></p>
+<pre><code>Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-3.1897902..2.674112].
+</code></pre>
+<p><img alt="png" loading="lazy" src="/assets/images/part1_toy_model_files/part1_toy_model_28_3.png"></p>
+<pre><code>[32mtests.toy_model_tests.test_noise_img passed in 0.10s.[0m
+</code></pre>
+<h2 id="reconstruct">Reconstruct<a hidden class="anchor" aria-hidden="true" href="#reconstruct">#</a></h2>
+<p>During training, we will want to reconstruct the image for logging purposes. We will be using the noisy image, the predicted noise, and the noise schedule to try to reconstruct to original image so we can visually see how close the prediction is.</p>
+<p>This is the inverse function of the <code>noise_img()</code> function above.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">reconstruct</span>(
+</span></span><span style="display:flex;"><span>    noisy_img: t<span style="color:#f92672">.</span>Tensor,
+</span></span><span style="display:flex;"><span>    noise: t<span style="color:#f92672">.</span>Tensor,
+</span></span><span style="display:flex;"><span>    num_steps: t<span style="color:#f92672">.</span>Tensor,
+</span></span><span style="display:flex;"><span>    noise_schedule: NoiseSchedule,
+</span></span><span style="display:flex;"><span>) <span style="color:#f92672">-&gt;</span> t<span style="color:#f92672">.</span>Tensor:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Subtract the scaled noise from noisy_img to recover the original image. We&#39;ll later use this with the model&#39;s output to log reconstructions during training. We&#39;ll use a different method to sample images once the model is trained.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Returns img, a tensor with shape (B, C, H, W)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    B, C, H, W <span style="color:#f92672">=</span> noisy_img<span style="color:#f92672">.</span>shape
+</span></span><span style="display:flex;"><span>    x_scale <span style="color:#f92672">=</span> noise_schedule<span style="color:#f92672">.</span>alpha_bar(num_steps)<span style="color:#f92672">.</span>sqrt()
+</span></span><span style="display:flex;"><span>    noise_scale <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> noise_schedule<span style="color:#f92672">.</span>alpha_bar(num_steps))<span style="color:#f92672">.</span>sqrt()
+</span></span><span style="display:flex;"><span>    img <span style="color:#f92672">=</span> noisy_img <span style="color:#f92672">-</span> repeat(noise_scale, <span style="color:#e6db74">&#34;b -&gt; b c h w&#34;</span>, c<span style="color:#f92672">=</span>C, h<span style="color:#f92672">=</span>H, w<span style="color:#f92672">=</span>W) <span style="color:#f92672">*</span> noise
+</span></span><span style="display:flex;"><span>    img <span style="color:#f92672">=</span> img <span style="color:#f92672">/</span> repeat(x_scale, <span style="color:#e6db74">&#34;b -&gt; b c h w&#34;</span>, c<span style="color:#f92672">=</span>C, h<span style="color:#f92672">=</span>H, w<span style="color:#f92672">=</span>W)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">assert</span> img<span style="color:#f92672">.</span>shape <span style="color:#f92672">==</span> (B, C, H, W)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> img
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>reconstructed <span style="color:#f92672">=</span> reconstruct(noised, noise, num_steps, noise_schedule)
+</span></span><span style="display:flex;"><span>denorm <span style="color:#f92672">=</span> denormalize_img(reconstructed)
+</span></span><span style="display:flex;"><span>plot_images(t<span style="color:#f92672">.</span>stack([img[<span style="color:#ae81ff">0</span>], denorm[<span style="color:#ae81ff">0</span>]]), [<span style="color:#e6db74">&#34;Original Gradient&#34;</span>, <span style="color:#e6db74">&#34;Reconstruction&#34;</span>])
+</span></span><span style="display:flex;"><span>tests<span style="color:#f92672">.</span>toy_model_tests<span style="color:#f92672">.</span>test_reconstruct(denorm, img) <span style="color:#75715e"># check that reconstruction matches the original</span>
+</span></span></code></pre></div><p><img alt="png" loading="lazy" src="/assets/images/part1_toy_model_files/part1_toy_model_30_0.png"></p>
+<pre><code>[32mtests.toy_model_tests.test_reconstruct passed in 0.00s.[0m
+</code></pre>
+<h2 id="toy-diffusion-model-definition">Toy Diffusion Model Definition<a hidden class="anchor" aria-hidden="true" href="#toy-diffusion-model-definition">#</a></h2>
+<p>For our model architecture, we will be using a simple two-layer MLP.</p>
+<p>The algorithm for the forward pass is:</p>
+<ol>
+<li>Scale down the the number of steps to between [0, 1]</li>
+<li>Convert the images into a 1D vector of length $k = (\text{channel} \times \text{height} \times \text{weight})$ to a $(batch, k)$ vector</li>
+<li>Concatenate the image vectors and the &ldquo;number of step&rdquo; vectors to a $(batch, k+1)$ vector</li>
+<li>Apply to a $(k+1, d_model)$ linear transformation to a $(batch, d_{model})$ vector</li>
+<li>Take the Relu actvations</li>
+<li>Apply a final $(d_{model}, k)$ linear transormation to a $(batch, k)$ vector</li>
+<li>Reshape the $(batch, k)$ back into the images dimensions $(batch, channel, height, width)$ representing the prediction of the noise that was added to the original image.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@dataclass</span>(frozen<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ToyDiffuserConfig</span>:
+</span></span><span style="display:flex;"><span>    img_shape: tuple[int, <span style="color:#f92672">...</span>]
+</span></span><span style="display:flex;"><span>    d_model: int
+</span></span><span style="display:flex;"><span>    max_steps: int
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ToyDiffuser</span>(nn<span style="color:#f92672">.</span>Module):
+</span></span><span style="display:flex;"><span>    config: ToyDiffuserConfig
+</span></span><span style="display:flex;"><span>    img_shape: tuple[int, <span style="color:#f92672">...</span>]
+</span></span><span style="display:flex;"><span>    noise_schedule: Optional[NoiseSchedule]
+</span></span><span style="display:flex;"><span>    max_steps: int
+</span></span><span style="display:flex;"><span>    model: nn<span style="color:#f92672">.</span>Sequential
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, config: ToyDiffuserConfig):
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        A toy diffusion model composed of an MLP (Linear, ReLU, Linear).
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        super()<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>config <span style="color:#f92672">=</span> config
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>img_shape <span style="color:#f92672">=</span> config<span style="color:#f92672">.</span>img_shape
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>noise_schedule <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span> 
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>max_steps <span style="color:#f92672">=</span> config<span style="color:#f92672">.</span>max_steps
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">assert</span> len(config<span style="color:#f92672">.</span>img_shape) <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>        num_pixels <span style="color:#f92672">=</span> int(reduce(mul, config<span style="color:#f92672">.</span>img_shape))
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>model <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>Sequential(
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>Linear(num_pixels <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, config<span style="color:#f92672">.</span>d_model),
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>ReLU(),
+</span></span><span style="display:flex;"><span>            nn<span style="color:#f92672">.</span>Linear(config<span style="color:#f92672">.</span>d_model, num_pixels),
+</span></span><span style="display:flex;"><span>            Rearrange(
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;b (c h w) -&gt; b c h w&#34;</span>,
+</span></span><span style="display:flex;"><span>                c<span style="color:#f92672">=</span>config<span style="color:#f92672">.</span>img_shape[<span style="color:#ae81ff">0</span>],
+</span></span><span style="display:flex;"><span>                h<span style="color:#f92672">=</span>config<span style="color:#f92672">.</span>img_shape[<span style="color:#ae81ff">1</span>],
+</span></span><span style="display:flex;"><span>                w<span style="color:#f92672">=</span>config<span style="color:#f92672">.</span>img_shape[<span style="color:#ae81ff">2</span>],
+</span></span><span style="display:flex;"><span>            ),
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, images: t<span style="color:#f92672">.</span>Tensor, num_steps: t<span style="color:#f92672">.</span>Tensor) <span style="color:#f92672">-&gt;</span> t<span style="color:#f92672">.</span>Tensor:
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Given a batch of images and noise steps applied, attempt to predict the noise that was applied.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        images: tensor of shape (B, C, H, W)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        num_steps: tensor of shape (B,)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Returns
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        noise_pred: tensor of shape (B, C, H, W)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        B, C, H, W <span style="color:#f92672">=</span> images<span style="color:#f92672">.</span>shape
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">assert</span> num_steps<span style="color:#f92672">.</span>shape <span style="color:#f92672">==</span> (B,)
+</span></span><span style="display:flex;"><span>        num_steps <span style="color:#f92672">=</span> num_steps <span style="color:#f92672">/</span> self<span style="color:#f92672">.</span>max_steps <span style="color:#75715e"># Scaling down num_steps to have the range [0, 1]</span>
+</span></span><span style="display:flex;"><span>        model_in <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>cat(
+</span></span><span style="display:flex;"><span>            (
+</span></span><span style="display:flex;"><span>                rearrange(num_steps, <span style="color:#e6db74">&#34;(b 1) -&gt; b 1&#34;</span>),
+</span></span><span style="display:flex;"><span>                rearrange(images, <span style="color:#e6db74">&#34;b c h w -&gt; b (c h w)&#34;</span>),
+</span></span><span style="display:flex;"><span>            ),
+</span></span><span style="display:flex;"><span>            dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        out <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>model(model_in)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">assert</span> out<span style="color:#f92672">.</span>shape <span style="color:#f92672">==</span> (B, C, H, W)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> out
+</span></span></code></pre></div><p>Now, let&rsquo;s see the noise preduction of our diffusion model without training. It should just be completely random.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>img_shape <span style="color:#f92672">=</span> (<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span>n_images <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>imgs <span style="color:#f92672">=</span> gradient_images(n_images, img_shape)
+</span></span><span style="display:flex;"><span>n_steps <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>zeros(imgs<span style="color:#f92672">.</span>size(<span style="color:#ae81ff">0</span>))
+</span></span><span style="display:flex;"><span>model_config <span style="color:#f92672">=</span> ToyDiffuserConfig(img_shape, <span style="color:#ae81ff">16</span>, <span style="color:#ae81ff">100</span>)
+</span></span><span style="display:flex;"><span>model <span style="color:#f92672">=</span> ToyDiffuser(model_config)
+</span></span><span style="display:flex;"><span>out <span style="color:#f92672">=</span> model(imgs, n_steps)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plot_images(denormalize_img(out[<span style="color:#ae81ff">0</span>])<span style="color:#f92672">.</span>detach()<span style="color:#f92672">.</span>unsqueeze(<span style="color:#ae81ff">0</span>), [<span style="color:#e6db74">&#34;Noise prediction of untrained model&#34;</span>])
+</span></span><span style="display:flex;"><span>tests<span style="color:#f92672">.</span>toy_model_tests<span style="color:#f92672">.</span>test_toy_diffuser(ToyDiffuser, ToyDiffuserConfig) <span style="color:#75715e"># check that the sizes match what is expected</span>
+</span></span></code></pre></div><p><img alt="png" loading="lazy" src="/assets/images/part1_toy_model_files/part1_toy_model_35_0.png"></p>
+<pre><code>[32mtests.toy_model_tests.test_toy_diffuser passed in 0.00s.[0m
+</code></pre>
+<h2 id="training">Training<a hidden class="anchor" aria-hidden="true" href="#training">#</a></h2>
+<img src="/assets/images/references/training.png" alt="Training">
+<figcaption><code>Algorithm 1</code> in <a href="https://arxiv.org/pdf/2006.11239#page=4">Denoising Diffusion Probabilistic Models</a></figcaption>
+<p>Line 2 - The $x_0$ is the original training data distrbution,</p>
+<p>Line 3 - We need to draw the number of steps of noise to add for each element of the batch, so the $t$ will have shape $(batch,)$ and be an integer tensor. Both 1 and T are inclusive. Each elemenet gets a different numer of steps of noise added.</p>
+<p>Line 4 - $\epsilon$ is a sample noise, not sclaed by anything. It&rsquo;s going to add to the image, so its shape should also be $(batch, channel, height, width)$.</p>
+<p>Line 5 - $\epsilon_\theta$ is our neural network. It takes in two arguments: the image with the noise applied in one step of $(batch, channel ,height, width)$, and the number of steps $(batch,)$, normalized to the range $[0,1]$</p>
+<p>Line 6 - It is not specified how we know if the network is convered so we are just going to keep going until the loss seems to stop decreasing.</p>
+<img src="/assets/images/references/variational_bound_loss.png" alt="Variational Bound loss">
+<figcaption><code>Equation 3</code> in <a href="https://arxiv.org/pdf/2006.11239#page=4">Denoising Diffusion Probabilistic Models</a></figcaption>
+<img src="/assets/images/references/mean_squared_error_loss.png" alt="Mean Squared Error Loss">
+<figcaption><code>Equation 14</code> in <a href="https://arxiv.org/pdf/2006.11239#page=5">Denoising Diffusion Probabilistic Models</a></figcaption>
+<p>In the paper, the author describes two loss functions: the variation lower bound (Equation 3) or the mean squared error (Equation 14). In our implementation, we will be using the mean squared error (MSE) since it is easier to implement, more stable during training, requires fewer compute resources, and we have only training a simple network.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">train</span>(
+</span></span><span style="display:flex;"><span>    model: ToyDiffuser,
+</span></span><span style="display:flex;"><span>    config_dict: dict[str, Any],
+</span></span><span style="display:flex;"><span>    trainset: TensorDataset,
+</span></span><span style="display:flex;"><span>    testset: Optional[TensorDataset] <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>,
+</span></span><span style="display:flex;"><span>) <span style="color:#f92672">-&gt;</span> ToyDiffuser:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    wandb<span style="color:#f92672">.</span>init(project<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;diffusion_models&#34;</span>, config<span style="color:#f92672">=</span>config_dict, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;online&#34;</span> <span style="color:#66d9ef">if</span> config_dict[<span style="color:#e6db74">&#34;enable_wandb&#34;</span>] <span style="color:#66d9ef">else</span> <span style="color:#e6db74">&#34;disabled&#34;</span>)
+</span></span><span style="display:flex;"><span>    config <span style="color:#f92672">=</span> wandb<span style="color:#f92672">.</span>config
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Training with config: </span><span style="color:#e6db74">{</span>config<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    schedule <span style="color:#f92672">=</span> NoiseSchedule(config<span style="color:#f92672">.</span>max_steps, config<span style="color:#f92672">.</span>device)
+</span></span><span style="display:flex;"><span>    model<span style="color:#f92672">.</span>noise_schedule <span style="color:#f92672">=</span> schedule
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    model<span style="color:#f92672">.</span>train()
+</span></span><span style="display:flex;"><span>    optimizer <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>optim<span style="color:#f92672">.</span>Adam(model<span style="color:#f92672">.</span>parameters(), lr<span style="color:#f92672">=</span>config<span style="color:#f92672">.</span>lr)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    train_loader <span style="color:#f92672">=</span> DataLoader(trainset, batch_size<span style="color:#f92672">=</span>config<span style="color:#f92672">.</span>batch_size, shuffle<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> testset <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>        test_loader <span style="color:#f92672">=</span> DataLoader(testset, batch_size<span style="color:#f92672">=</span>config<span style="color:#f92672">.</span>batch_size)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    start_time <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+</span></span><span style="display:flex;"><span>    examples_seen <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(config<span style="color:#f92672">.</span>epochs):
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># for every img in the training set</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i, (x,) <span style="color:#f92672">in</span> enumerate(tqdm(train_loader, desc<span style="color:#f92672">=</span><span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Epoch </span><span style="color:#e6db74">{</span>epoch <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)):
+</span></span><span style="display:flex;"><span>            x <span style="color:#f92672">=</span> x<span style="color:#f92672">.</span>to(config<span style="color:#f92672">.</span>device)
+</span></span><span style="display:flex;"><span>            num_steps, noise, noised <span style="color:#f92672">=</span> noise_img(x, schedule) <span style="color:#75715e"># add between 1 to max_step iterations of noise to the image</span>
+</span></span><span style="display:flex;"><span>            y_hat <span style="color:#f92672">=</span> model(noised, num_steps) <span style="color:#75715e"># model tries to predict what the noise was </span>
+</span></span><span style="display:flex;"><span>            loss <span style="color:#f92672">=</span> F<span style="color:#f92672">.</span>mse_loss(y_hat, noise) <span style="color:#75715e"># calculate the loss according to the MSE between the predicted noise and actual noise</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># </span>
+</span></span><span style="display:flex;"><span>            optimizer<span style="color:#f92672">.</span>zero_grad()
+</span></span><span style="display:flex;"><span>            loss<span style="color:#f92672">.</span>backward()
+</span></span><span style="display:flex;"><span>            optimizer<span style="color:#f92672">.</span>step()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># logging</span>
+</span></span><span style="display:flex;"><span>            info: dict[str, Any] <span style="color:#f92672">=</span> dict(
+</span></span><span style="display:flex;"><span>                train_loss<span style="color:#f92672">=</span>loss,
+</span></span><span style="display:flex;"><span>                elapsed<span style="color:#f92672">=</span>time<span style="color:#f92672">.</span>time() <span style="color:#f92672">-</span> start_time,
+</span></span><span style="display:flex;"><span>                y_hat_mean<span style="color:#f92672">=</span>y_hat<span style="color:#f92672">.</span>mean(),
+</span></span><span style="display:flex;"><span>                y_hat_var<span style="color:#f92672">=</span>y_hat<span style="color:#f92672">.</span>var(),
+</span></span><span style="display:flex;"><span>                noised_mean<span style="color:#f92672">=</span>noised<span style="color:#f92672">.</span>mean(),
+</span></span><span style="display:flex;"><span>                noised_var<span style="color:#f92672">=</span>noised<span style="color:#f92672">.</span>var(),
+</span></span><span style="display:flex;"><span>            )
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> config<span style="color:#f92672">.</span>img_log_interval <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>                reconstructed <span style="color:#f92672">=</span> reconstruct(noised, y_hat, num_steps, schedule)
+</span></span><span style="display:flex;"><span>                info[<span style="color:#e6db74">&#34;images&#34;</span>] <span style="color:#f92672">=</span> log_images(
+</span></span><span style="display:flex;"><span>                    img<span style="color:#f92672">=</span>x,
+</span></span><span style="display:flex;"><span>                    noised<span style="color:#f92672">=</span>noised,
+</span></span><span style="display:flex;"><span>                    noise<span style="color:#f92672">=</span>noise,
+</span></span><span style="display:flex;"><span>                    noise_pred<span style="color:#f92672">=</span>y_hat,
+</span></span><span style="display:flex;"><span>                    reconstructed<span style="color:#f92672">=</span>reconstructed,
+</span></span><span style="display:flex;"><span>                    num_images<span style="color:#f92672">=</span>config<span style="color:#f92672">.</span>n_images_to_log,
+</span></span><span style="display:flex;"><span>                )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            examples_seen <span style="color:#f92672">+=</span> len(x)
+</span></span><span style="display:flex;"><span>            wandb<span style="color:#f92672">.</span>log(info, step<span style="color:#f92672">=</span>examples_seen)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> testset <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Calculate evaluation loss for current epoch</span>
+</span></span><span style="display:flex;"><span>            losses <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> i, (x,) <span style="color:#f92672">in</span> enumerate(tqdm(test_loader, desc<span style="color:#f92672">=</span><span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Eval for Epoch </span><span style="color:#e6db74">{</span>epoch <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)):
+</span></span><span style="display:flex;"><span>                x <span style="color:#f92672">=</span> x<span style="color:#f92672">.</span>to(config<span style="color:#f92672">.</span>device)
+</span></span><span style="display:flex;"><span>                num_steps, noise, noised <span style="color:#f92672">=</span> noise_img(x, schedule)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">with</span> t<span style="color:#f92672">.</span>inference_mode():
+</span></span><span style="display:flex;"><span>                    y_hat <span style="color:#f92672">=</span> model(noised, num_steps)
+</span></span><span style="display:flex;"><span>                    loss <span style="color:#f92672">=</span> F<span style="color:#f92672">.</span>mse_loss(y_hat, noise)
+</span></span><span style="display:flex;"><span>                losses<span style="color:#f92672">.</span>append(loss<span style="color:#f92672">.</span>item())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># logging</span>
+</span></span><span style="display:flex;"><span>            eval_info <span style="color:#f92672">=</span> dict(eval_loss<span style="color:#f92672">=</span>sum(losses) <span style="color:#f92672">/</span> len(losses))
+</span></span><span style="display:flex;"><span>            wandb<span style="color:#f92672">.</span>log(eval_info, step<span style="color:#f92672">=</span>examples_seen)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    wandb<span style="color:#f92672">.</span>finish()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> model
+</span></span></code></pre></div><p>Now let&rsquo;s train our model!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># wandb config</span>
+</span></span><span style="display:flex;"><span>config: dict[str, Any] <span style="color:#f92672">=</span> dict(
+</span></span><span style="display:flex;"><span>    lr<span style="color:#f92672">=</span><span style="color:#ae81ff">1e-3</span>,
+</span></span><span style="display:flex;"><span>    image_shape<span style="color:#f92672">=</span>(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">5</span>),
+</span></span><span style="display:flex;"><span>    d_model<span style="color:#f92672">=</span><span style="color:#ae81ff">128</span>,
+</span></span><span style="display:flex;"><span>    epochs<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>,
+</span></span><span style="display:flex;"><span>    max_steps<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>,
+</span></span><span style="display:flex;"><span>    batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">128</span>,
+</span></span><span style="display:flex;"><span>    img_log_interval<span style="color:#f92672">=</span><span style="color:#ae81ff">200</span>,
+</span></span><span style="display:flex;"><span>    n_images_to_log<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>,
+</span></span><span style="display:flex;"><span>    n_images<span style="color:#f92672">=</span><span style="color:#ae81ff">50000</span>,
+</span></span><span style="display:flex;"><span>    n_eval_images<span style="color:#f92672">=</span><span style="color:#ae81ff">1000</span>,
+</span></span><span style="display:flex;"><span>    device<span style="color:#f92672">=</span>torch_device,
+</span></span><span style="display:flex;"><span>    enable_wandb<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Generate Training and Test data</span>
+</span></span><span style="display:flex;"><span>images <span style="color:#f92672">=</span> normalize_img(
+</span></span><span style="display:flex;"><span>    gradient_images(
+</span></span><span style="display:flex;"><span>        config[<span style="color:#e6db74">&#34;n_images&#34;</span>],
+</span></span><span style="display:flex;"><span>        config[<span style="color:#e6db74">&#34;image_shape&#34;</span>],
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>train_set <span style="color:#f92672">=</span> TensorDataset(images)
+</span></span><span style="display:flex;"><span>images <span style="color:#f92672">=</span> normalize_img(
+</span></span><span style="display:flex;"><span>    gradient_images(
+</span></span><span style="display:flex;"><span>        config[<span style="color:#e6db74">&#34;n_eval_images&#34;</span>],
+</span></span><span style="display:flex;"><span>        config[<span style="color:#e6db74">&#34;image_shape&#34;</span>],
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>test_set <span style="color:#f92672">=</span> TensorDataset(images)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Diffuser configs</span>
+</span></span><span style="display:flex;"><span>model_config <span style="color:#f92672">=</span> ToyDiffuserConfig(config[<span style="color:#e6db74">&#34;image_shape&#34;</span>], config[<span style="color:#e6db74">&#34;d_model&#34;</span>], config[<span style="color:#e6db74">&#34;max_steps&#34;</span>])
+</span></span><span style="display:flex;"><span>model <span style="color:#f92672">=</span> ToyDiffuser(model_config)<span style="color:#f92672">.</span>to(config[<span style="color:#e6db74">&#34;device&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Train</span>
+</span></span><span style="display:flex;"><span>model <span style="color:#f92672">=</span> train(model, config, train_set, test_set)
+</span></span></code></pre></div><pre><code>Training with config: {'lr': 0.001, 'image_shape': [3, 5, 5], 'd_model': 128, 'epochs': 20, 'max_steps': 100, 'batch_size': 128, 'img_log_interval': 200, 'n_images_to_log': 3, 'n_images': 50000, 'n_eval_images': 1000, 'device': 'cpu', 'enable_wandb': False}
+
+
+Epoch 1: 100%|██████████| 391/391 [00:00&lt;00:00, 1078.40it/s]
+Eval for Epoch 1: 100%|██████████| 8/8 [00:00&lt;00:00, 2125.99it/s]
+Epoch 2: 100%|██████████| 391/391 [00:00&lt;00:00, 1773.51it/s]
+Eval for Epoch 2: 100%|██████████| 8/8 [00:00&lt;00:00, 2160.48it/s]
+Epoch 3: 100%|██████████| 391/391 [00:00&lt;00:00, 1898.64it/s]
+Eval for Epoch 3: 100%|██████████| 8/8 [00:00&lt;00:00, 2364.82it/s]
+Epoch 4: 100%|██████████| 391/391 [00:00&lt;00:00, 1833.56it/s]
+Eval for Epoch 4: 100%|██████████| 8/8 [00:00&lt;00:00, 2501.64it/s]
+Epoch 5: 100%|██████████| 391/391 [00:00&lt;00:00, 1866.79it/s]
+Eval for Epoch 5: 100%|██████████| 8/8 [00:00&lt;00:00, 2497.72it/s]
+Epoch 6: 100%|██████████| 391/391 [00:00&lt;00:00, 1894.10it/s]
+Eval for Epoch 6: 100%|██████████| 8/8 [00:00&lt;00:00, 2536.43it/s]
+Epoch 7: 100%|██████████| 391/391 [00:00&lt;00:00, 1820.81it/s]
+Eval for Epoch 7: 100%|██████████| 8/8 [00:00&lt;00:00, 2321.62it/s]
+Epoch 8: 100%|██████████| 391/391 [00:00&lt;00:00, 1812.95it/s]
+Eval for Epoch 8: 100%|██████████| 8/8 [00:00&lt;00:00, 2216.13it/s]
+Epoch 9: 100%|██████████| 391/391 [00:00&lt;00:00, 1850.20it/s]
+Eval for Epoch 9: 100%|██████████| 8/8 [00:00&lt;00:00, 2144.19it/s]
+Epoch 10: 100%|██████████| 391/391 [00:00&lt;00:00, 1726.98it/s]
+Eval for Epoch 10: 100%|██████████| 8/8 [00:00&lt;00:00, 1988.53it/s]
+Epoch 11: 100%|██████████| 391/391 [00:00&lt;00:00, 1843.58it/s]
+Eval for Epoch 11: 100%|██████████| 8/8 [00:00&lt;00:00, 2372.34it/s]
+Epoch 12: 100%|██████████| 391/391 [00:00&lt;00:00, 1937.58it/s]
+Eval for Epoch 12: 100%|██████████| 8/8 [00:00&lt;00:00, 2176.74it/s]
+Epoch 13: 100%|██████████| 391/391 [00:00&lt;00:00, 1879.44it/s]
+Eval for Epoch 13: 100%|██████████| 8/8 [00:00&lt;00:00, 2098.07it/s]
+Epoch 14: 100%|██████████| 391/391 [00:00&lt;00:00, 1823.50it/s]
+Eval for Epoch 14: 100%|██████████| 8/8 [00:00&lt;00:00, 2228.49it/s]
+Epoch 15: 100%|██████████| 391/391 [00:00&lt;00:00, 1814.96it/s]
+Eval for Epoch 15: 100%|██████████| 8/8 [00:00&lt;00:00, 2388.05it/s]
+Epoch 16: 100%|██████████| 391/391 [00:00&lt;00:00, 1929.18it/s]
+Eval for Epoch 16: 100%|██████████| 8/8 [00:00&lt;00:00, 2444.23it/s]
+Epoch 17: 100%|██████████| 391/391 [00:00&lt;00:00, 1933.52it/s]
+Eval for Epoch 17: 100%|██████████| 8/8 [00:00&lt;00:00, 2436.07it/s]
+Epoch 18: 100%|██████████| 391/391 [00:00&lt;00:00, 1750.25it/s]
+Eval for Epoch 18: 100%|██████████| 8/8 [00:00&lt;00:00, 2216.13it/s]
+Epoch 19: 100%|██████████| 391/391 [00:00&lt;00:00, 1726.80it/s]
+Eval for Epoch 19: 100%|██████████| 8/8 [00:00&lt;00:00, 2460.90it/s]
+Epoch 20: 100%|██████████| 391/391 [00:00&lt;00:00, 1876.11it/s]
+Eval for Epoch 20: 100%|██████████| 8/8 [00:00&lt;00:00, 2527.45it/s]
+</code></pre>
+<p><a href="https://api.wandb.ai/links/michaelyliu6-none/zm4pnu86">https://api.wandb.ai/links/michaelyliu6-none/zm4pnu86</a></p>
+<h2 id="sampling">Sampling<a hidden class="anchor" aria-hidden="true" href="#sampling">#</a></h2>
+<img src="/assets/images/references/sampling.png" alt="Sampling">
+<figcaption><code>Algorithm 2</code> in <a href="https://arxiv.org/pdf/2006.11239#page=4">Denoising Diffusion Probabilistic Models</a></figcaption>
+<p>Line 1 - Start with a sample from a standard Gaussian</p>
+<p>Line 2 - Iteratively step backwards towards the original image with no noise</p>
+<p>Line 3 - Calculate the denoised image</p>
+<p>Line 6 - Return the denoised final image</p>
+<p>Ror the early steps (high t), we make big changes since the image is very noisy. At later steps (low t), we make smaller, more precise adjustments as we get closer to the final image.</p>
+<p>Note that in Line 3 we are adding a small amount of noise (scaled by $\beta_t$) to maintains the Markov chain properties. However, the release of <a href="https://arxiv.org/pdf/2010.02502">DDIM (Denoiseing Diffusion Implicit Models)</a> showed that you could remove random noise term during sampling entirely, making the process determinisitc. This led to faster sampling while maintaining good quality. Most interestingly, because DDIM is deterministic, you can smoothly interpolate between two images in the latent space. The intermediate images maintain semantic meaning (e.g., interpolating between a cat and dog image will show meaningful blends of features)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sample</span>(model: ToyDiffuser, n_samples: int, return_all_steps: bool <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>) <span style="color:#f92672">-&gt;</span> Union[t<span style="color:#f92672">.</span>Tensor, list[t<span style="color:#f92672">.</span>Tensor]]:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Sample, following Algorithm 2 in the DDPM paper
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    model: The trained noise-predictor
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    n_samples: The number of samples to generate
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    return_all_steps: if true, return a list of the reconstructed tensors generated at each step, rather than just the final reconstructed image tensor.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    out: shape (B, C, H, W), the denoised images
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    schedule <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>noise_schedule
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">assert</span> schedule <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    model<span style="color:#f92672">.</span>eval()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    shape <span style="color:#f92672">=</span> (n_samples, <span style="color:#f92672">*</span>model<span style="color:#f92672">.</span>img_shape)
+</span></span><span style="display:flex;"><span>    B, C, H, W <span style="color:#f92672">=</span> shape
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>randn(shape, device<span style="color:#f92672">=</span>schedule<span style="color:#f92672">.</span>device) <span style="color:#75715e"># Line 1: initalize a sample from a standard Gaussian</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> return_all_steps:
+</span></span><span style="display:flex;"><span>        all_steps <span style="color:#f92672">=</span> [(x<span style="color:#f92672">.</span>cpu()<span style="color:#f92672">.</span>clone())]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> step <span style="color:#f92672">in</span> tqdm(reversed(range(<span style="color:#ae81ff">0</span>, len(schedule))), total<span style="color:#f92672">=</span>len(schedule)): <span style="color:#75715e"># Line 2</span>
+</span></span><span style="display:flex;"><span>        num_steps <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>full((n_samples,), fill_value<span style="color:#f92672">=</span>step, device<span style="color:#f92672">=</span>schedule<span style="color:#f92672">.</span>device)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> step <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>: <span style="color:#75715e"># Line 3: add a random sample of noise except for the last iteration</span>
+</span></span><span style="display:flex;"><span>            sigma <span style="color:#f92672">=</span> schedule<span style="color:#f92672">.</span>beta(step)
+</span></span><span style="display:flex;"><span>            noise_term <span style="color:#f92672">=</span> sigma <span style="color:#f92672">*</span> t<span style="color:#f92672">.</span>randn_like(x)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            noise_term <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        pred <span style="color:#f92672">=</span> model(x, num_steps) <span style="color:#75715e"># predict what the noise add was at $t$</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        pred_scale <span style="color:#f92672">=</span> schedule<span style="color:#f92672">.</span>beta(step) <span style="color:#f92672">/</span> ((<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> schedule<span style="color:#f92672">.</span>alpha_bar(step))<span style="color:#f92672">.</span>sqrt()) <span style="color:#75715e"># how much do we scale our preidction</span>
+</span></span><span style="display:flex;"><span>        denoised_scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">/</span> schedule<span style="color:#f92672">.</span>alpha(step)<span style="color:#f92672">.</span>sqrt() <span style="color:#75715e"># adjust for the total time</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Line 4:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Remove the predicted noise from our current sample</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Scale the results according to the noise level</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># add some random noise (except for step 0)</span>
+</span></span><span style="display:flex;"><span>        x <span style="color:#f92672">=</span> denoised_scale <span style="color:#f92672">*</span> (x <span style="color:#f92672">-</span> pred_scale <span style="color:#f92672">*</span> pred) <span style="color:#f92672">+</span> noise_term
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> return_all_steps: <span style="color:#75715e"># log x at intermediate steps</span>
+</span></span><span style="display:flex;"><span>            all_steps<span style="color:#f92672">.</span>append(x<span style="color:#f92672">.</span>cpu()<span style="color:#f92672">.</span>clone()) 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Line 6: Return final x or all intermediate steps</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> return_all_steps: 
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> all_steps
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> x
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>compiled_model <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>compile(model)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Generating images: &#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> t<span style="color:#f92672">.</span>inference_mode():
+</span></span><span style="display:flex;"><span>    samples <span style="color:#f92672">=</span> sample(compiled_model, <span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>images <span style="color:#f92672">=</span> [denormalize_img(s)<span style="color:#f92672">.</span>cpu() <span style="color:#66d9ef">for</span> s <span style="color:#f92672">in</span> samples]
+</span></span><span style="display:flex;"><span>plot_images(t<span style="color:#f92672">.</span>stack(images))
+</span></span></code></pre></div><pre><code>Generating images: 
+
+
+100%|██████████| 100/100 [00:04&lt;00:00, 22.55it/s]
+</code></pre>
+<p><img alt="png" loading="lazy" src="/assets/images/part1_toy_model_files/part1_toy_model_46_2.png"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>compiled_model <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>compile(model)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Printing sequential denoising&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> t<span style="color:#f92672">.</span>inference_mode():
+</span></span><span style="display:flex;"><span>    samples <span style="color:#f92672">=</span> sample(model, <span style="color:#ae81ff">1</span>, return_all_steps<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>images <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>titles <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i, s <span style="color:#f92672">in</span> enumerate(samples):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> i <span style="color:#f92672">%</span> (len(samples) <span style="color:#f92672">//</span> <span style="color:#ae81ff">20</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>        images<span style="color:#f92672">.</span>append(denormalize_img(s[<span style="color:#ae81ff">0</span>]))
+</span></span><span style="display:flex;"><span>        titles<span style="color:#f92672">.</span>append(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Step </span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> len(images) <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>:
+</span></span><span style="display:flex;"><span>            plot_images(t<span style="color:#f92672">.</span>stack(images), titles)    
+</span></span><span style="display:flex;"><span>            images <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>            titles <span style="color:#f92672">=</span> []
+</span></span></code></pre></div><pre><code>Printing sequential denoising
+
+
+100%|██████████| 100/100 [00:00&lt;00:00, 14755.69it/s]
+</code></pre>
+<p><img alt="png" loading="lazy" src="/assets/images/part1_toy_model_files/part1_toy_model_47_2.png"></p>
+<p><img alt="png" loading="lazy" src="/assets/images/part1_toy_model_files/part1_toy_model_47_3.png"></p>
+<p><img alt="png" loading="lazy" src="/assets/images/part1_toy_model_files/part1_toy_model_47_4.png"></p>
+<p><img alt="png" loading="lazy" src="/assets/images/part1_toy_model_files/part1_toy_model_47_5.png"></p>
+<p><img alt="png" loading="lazy" src="/assets/images/part1_toy_model_files/part1_toy_model_47_6.png"></p>
+<p><img alt="png" loading="lazy" src="/assets/images/part1_toy_model_files/part1_toy_model_47_7.png"></p>
+<p><img alt="png" loading="lazy" src="/assets/images/part1_toy_model_files/part1_toy_model_47_8.png"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sample</span>(self, shape, device, ddim_steps<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, eta<span style="color:#f92672">=</span><span style="color:#ae81ff">0.0</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Generate samples using DDIM.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Args:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        shape: Shape of the output tensor (e.g., [batch_size, channels, height, width]).
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        device: Device to run the sampling on (e.g., &#39;cuda&#39; or &#39;cpu&#39;).
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        ddim_steps: Number of sampling steps (if None, defaults to self.timesteps).
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        eta: Controls the degree of stochasticity (0 = deterministic).
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Returns:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Generated samples.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    ddim_steps <span style="color:#f92672">=</span> ddim_steps <span style="color:#f92672">or</span> self<span style="color:#f92672">.</span>timesteps
+</span></span><span style="display:flex;"><span>    x_t <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>randn(shape, device<span style="color:#f92672">=</span>device)  <span style="color:#75715e"># Start from pure Gaussian noise</span>
+</span></span><span style="display:flex;"><span>    step_size <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>timesteps <span style="color:#f92672">//</span> ddim_steps
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, self<span style="color:#f92672">.</span>timesteps, step_size):
+</span></span><span style="display:flex;"><span>        t <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>timesteps <span style="color:#f92672">-</span> i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        t_next <span style="color:#f92672">=</span> max(t <span style="color:#f92672">-</span> step_size, <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        t_tensor <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>full((shape[<span style="color:#ae81ff">0</span>],), t, device<span style="color:#f92672">=</span>device, dtype<span style="color:#f92672">=</span>torch<span style="color:#f92672">.</span>long)
+</span></span><span style="display:flex;"><span>        t_next_tensor <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>full((shape[<span style="color:#ae81ff">0</span>],), t_next, device<span style="color:#f92672">=</span>device, dtype<span style="color:#f92672">=</span>torch<span style="color:#f92672">.</span>long)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        predicted_noise <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>model(x_t, t_tensor)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Compute the deterministic step</span>
+</span></span><span style="display:flex;"><span>        mean <span style="color:#f92672">=</span> (self<span style="color:#f92672">.</span>sqrt_alpha_cumprod[t_next] <span style="color:#f92672">*</span> x_t <span style="color:#f92672">-</span> self<span style="color:#f92672">.</span>sqrt_one_minus_alpha_cumprod[t_next] <span style="color:#f92672">*</span> predicted_noise) <span style="color:#f92672">/</span> self<span style="color:#f92672">.</span> sqrt_alpha_cumprod[t]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> eta <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> t <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Add noise for stochasticity</span>
+</span></span><span style="display:flex;"><span>            noise <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>randn_like(x_t)
+</span></span><span style="display:flex;"><span>            variance <span style="color:#f92672">=</span> eta <span style="color:#f92672">*</span> torch<span style="color:#f92672">.</span>sqrt(self<span style="color:#f92672">.</span>sqrt_one_minus_alpha_cumprod[t_next])
+</span></span><span style="display:flex;"><span>            x_t <span style="color:#f92672">=</span> mean <span style="color:#f92672">+</span> variance <span style="color:#f92672">*</span> noise
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            x_t <span style="color:#f92672">=</span> mean
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> x_t
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sample</span>(model: ToyDiffuser, n_samples: int, return_all_steps: bool <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>) <span style="color:#f92672">-&gt;</span> Union[t<span style="color:#f92672">.</span>Tensor, list[t<span style="color:#f92672">.</span>Tensor]]:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Sample, following Algorithm 2 in the DDPM paper
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    model: The trained noise-predictor
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    n_samples: The number of samples to generate
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    return_all_steps: if true, return a list of the reconstructed tensors generated at each step, rather than just the final reconstructed image tensor.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    out: shape (B, C, H, W), the denoised images
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    schedule <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>noise_schedule
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">assert</span> schedule <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    model<span style="color:#f92672">.</span>eval()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    shape <span style="color:#f92672">=</span> (n_samples, <span style="color:#f92672">*</span>model<span style="color:#f92672">.</span>img_shape)
+</span></span><span style="display:flex;"><span>    B, C, H, W <span style="color:#f92672">=</span> shape
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>randn(shape, device<span style="color:#f92672">=</span>schedule<span style="color:#f92672">.</span>device) <span style="color:#75715e"># Line 1: initalize a sample from a standard Gaussian</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> return_all_steps:
+</span></span><span style="display:flex;"><span>        all_steps <span style="color:#f92672">=</span> [(x<span style="color:#f92672">.</span>cpu()<span style="color:#f92672">.</span>clone())]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> step <span style="color:#f92672">in</span> tqdm(reversed(range(<span style="color:#ae81ff">0</span>, len(schedule))), total<span style="color:#f92672">=</span>len(schedule)): <span style="color:#75715e"># Line 2</span>
+</span></span><span style="display:flex;"><span>        num_steps <span style="color:#f92672">=</span> t<span style="color:#f92672">.</span>full((n_samples,), fill_value<span style="color:#f92672">=</span>step, device<span style="color:#f92672">=</span>schedule<span style="color:#f92672">.</span>device)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> step <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>: <span style="color:#75715e"># Line 3: add a random sample of noise except for the last iteration</span>
+</span></span><span style="display:flex;"><span>            sigma <span style="color:#f92672">=</span> schedule<span style="color:#f92672">.</span>beta(step)
+</span></span><span style="display:flex;"><span>            noise_term <span style="color:#f92672">=</span> sigma <span style="color:#f92672">*</span> t<span style="color:#f92672">.</span>randn_like(x)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            noise_term <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        pred <span style="color:#f92672">=</span> model(x, num_steps) <span style="color:#75715e"># predict what the noise add was at $t$</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        pred_scale <span style="color:#f92672">=</span> schedule<span style="color:#f92672">.</span>beta(step) <span style="color:#f92672">/</span> ((<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> schedule<span style="color:#f92672">.</span>alpha_bar(step))<span style="color:#f92672">.</span>sqrt()) <span style="color:#75715e"># how much do we scale our preidction</span>
+</span></span><span style="display:flex;"><span>        denoised_scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">/</span> schedule<span style="color:#f92672">.</span>alpha(step)<span style="color:#f92672">.</span>sqrt() <span style="color:#75715e"># adjust for the total time</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Line 4:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Remove the predicted noise from our current sample</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Scale the results according to the noise level</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># add some random noise (except for step 0)</span>
+</span></span><span style="display:flex;"><span>        x <span style="color:#f92672">=</span> denoised_scale <span style="color:#f92672">*</span> (x <span style="color:#f92672">-</span> pred_scale <span style="color:#f92672">*</span> pred) <span style="color:#f92672">+</span> noise_term
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> return_all_steps: <span style="color:#75715e"># log x at intermediate steps</span>
+</span></span><span style="display:flex;"><span>            all_steps<span style="color:#f92672">.</span>append(x<span style="color:#f92672">.</span>cpu()<span style="color:#f92672">.</span>clone()) 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Line 6: Return final x or all intermediate steps</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> return_all_steps: 
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> all_steps
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> x
+</span></span></code></pre></div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/my-first-post/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>My First Post</span>
+  </a>
+</nav>
+
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share My First Post on x"
+            href="https://x.com/intent/tweet/?text=My%20First%20Post&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fpart1_toy_model%2f&amp;hashtags=">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share My First Post on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fpart1_toy_model%2f&amp;title=My%20First%20Post&amp;summary=My%20First%20Post&amp;source=http%3a%2f%2flocalhost%3a1313%2fposts%2fpart1_toy_model%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share My First Post on reddit"
+            href="https://reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fpart1_toy_model%2f&title=My%20First%20Post">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share My First Post on facebook"
+            href="https://facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fposts%2fpart1_toy_model%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share My First Post on whatsapp"
+            href="https://api.whatsapp.com/send?text=My%20First%20Post%20-%20http%3a%2f%2flocalhost%3a1313%2fposts%2fpart1_toy_model%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share My First Post on telegram"
+            href="https://telegram.me/share/url?text=My%20First%20Post&amp;url=http%3a%2f%2flocalhost%3a1313%2fposts%2fpart1_toy_model%2f">
+            <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share My First Post on ycombinator"
+            href="https://news.ycombinator.com/submitlink?t=My%20First%20Post&u=http%3a%2f%2flocalhost%3a1313%2fposts%2fpart1_toy_model%2f">
+            <svg version="1.1" xml:space="preserve" width="30px" height="30px" viewBox="0 0 512 512" fill="currentColor"
+                xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+                <path
+                    d="M449.446 0C483.971 0 512 28.03 512 62.554L512 449.446C512 483.97 483.97 512 449.446 512L62.554 512C28.03 512 0 483.97 0 449.446L0 62.554C0 28.03 28.029 0 62.554 0L449.446 0ZM183.8767 87.9921H121.8427L230.6673 292.4508V424.0079H281.3328V292.4508L390.1575 87.9921H328.1233L256 238.2489z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2024 <a href="http://localhost:1313/">Michael&#39;s AI Blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
