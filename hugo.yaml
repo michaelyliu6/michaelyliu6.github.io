@@ -22,8 +22,6 @@ markup:
             - \)
         enable: true
 
-
-
 params:
     defaultTheme: auto
     ShowReadingTime: true
@@ -38,7 +36,7 @@ params:
     profileMode:
         enabled: true
         title: "Michael Liu"
-        subtitle: "Your blog description here"
+        subtitle: "Welcome to my blog"
         # imageUrl: "#"
         # imageTitle: "my image"
         buttons:

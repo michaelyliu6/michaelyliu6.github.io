@@ -131,15 +131,15 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">My First Post
+    <h2 class="entry-hint-parent">Toy Diffusion Model (WIP)
     </h2>
   </header>
   <div class="entry-content">
-    <p>Introduction Hi there! My name is Michael Liu. werweljrnweljkrn
-</p>
+    <p>Set Up import os import time from dataclasses import dataclass from functools import reduce from operator import mul from typing import Any, Optional, Union import matplotlib.pyplot as plt import torch as t import torch.nn as nn import torch.nn.functional as F from einops import rearrange, repeat from einops.layers.torch import Rearrange from torch.utils.data import DataLoader, TensorDataset from tqdm import tqdm import wandb import tests.toy_model_tests torch_device = &#39;cuda&#39; if t.cuda.is_available() else &#34;cpu&#34; # mps not supported Helper Functions def plot_images(imgs: t.Tensor, titles: Optional[list[str]] = None) -&gt; None: n_images = imgs.shape[0] fig, axes = plt.subplots(1, n_images, figsize=(5*n_images, 5)) # Convert axes to array if there&#39;s only one image if n_images == 1: axes = [axes] for i in range(n_images): img = rearrange(imgs[i], &#34;c h w -&gt; h w c&#34;) axes[i].imshow(img.numpy()) if titles and i &lt; len(titles): axes[i].set_title(titles[i]) axes[i].axis(&#39;off&#39;) # This removes the axes for cleaner visualization plt.tight_layout() # Adjusts spacing between subplots plt.show() def log_images( img: t.Tensor, noised: t.Tensor, noise: t.Tensor, noise_pred: t.Tensor, reconstructed: t.Tensor, num_images: int = 3, ) -&gt; list[wandb.Image]: &#34;&#34;&#34; Convert tensors to a format suitable for logging to Weights and Biases. Returns an image with the ground truth in the upper row, and model reconstruction on the bottom row. Left is the noised image, middle is noise, and reconstructed image is in the rightmost column. &#34;&#34;&#34; actual = t.cat((noised, noise, img), dim=-1) pred = t.cat((noised, noise_pred, reconstructed), dim=-1) log_img = t.cat((actual, pred), dim=-2) images = [wandb.Image(i) for i in log_img[:num_images]] return images Introduction Section 2: Background in Denoising Diffusion Probabilistic Models Equation 1: Reverse Process $p$ is a probability density function that represents the reverse process, the process of adding noise.
+...</p>
   </div>
-  <footer class="entry-footer"><span title='2024-01-14 07:07:07 +0100 +0100'>January 14, 2024</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to My First Post" href="http://localhost:1313/posts/my-first-post/"></a>
+  <footer class="entry-footer"><span title='2024-12-14 07:07:07 +0100 +0100'>December 14, 2024</span>&nbsp;·&nbsp;22 min</footer>
+  <a class="entry-link" aria-label="post link to Toy Diffusion Model (WIP)" href="http://localhost:1313/posts/part1_toy_model/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -148,11 +148,11 @@
     </h2>
   </header>
   <div class="entry-content">
-    <p>Set Up import os import time from dataclasses import dataclass from functools import reduce from operator import mul from typing import Any, Optional, Union import matplotlib.pyplot as plt import torch as t import torch.nn as nn import torch.nn.functional as F from einops import rearrange, repeat from einops.layers.torch import Rearrange from torch.utils.data import DataLoader, TensorDataset from tqdm import tqdm import wandb import tests.toy_model_tests torch_device = &#39;cuda&#39; if t.cuda.is_available() else &#34;cpu&#34; # mps not supported Helper Functions def plot_images(imgs: t.Tensor, titles: Optional[list[str]] = None) -&gt; None: n_images = imgs.shape[0] fig, axes = plt.subplots(1, n_images, figsize=(5*n_images, 5)) # Convert axes to array if there&#39;s only one image if n_images == 1: axes = [axes] for i in range(n_images): img = rearrange(imgs[i], &#34;c h w -&gt; h w c&#34;) axes[i].imshow(img.numpy()) if titles and i &lt; len(titles): axes[i].set_title(titles[i]) axes[i].axis(&#39;off&#39;) # This removes the axes for cleaner visualization plt.tight_layout() # Adjusts spacing between subplots plt.show() def log_images( img: t.Tensor, noised: t.Tensor, noise: t.Tensor, noise_pred: t.Tensor, reconstructed: t.Tensor, num_images: int = 3, ) -&gt; list[wandb.Image]: &#34;&#34;&#34; Convert tensors to a format suitable for logging to Weights and Biases. Returns an image with the ground truth in the upper row, and model reconstruction on the bottom row. Left is the noised image, middle is noise, and reconstructed image is in the rightmost column. &#34;&#34;&#34; actual = t.cat((noised, noise, img), dim=-1) pred = t.cat((noised, noise_pred, reconstructed), dim=-1) log_img = t.cat((actual, pred), dim=-2) images = [wandb.Image(i) for i in log_img[:num_images]] return images Introduction Section 2: Background in Denoising Diffusion Probabilistic Models Equation 1: Reverse Process $p$ is a probability density function that represents the reverse process, the process of adding noise.
-...</p>
+    <p>Introduction Hi there! My name is Michael Liu.
+</p>
   </div>
-  <footer class="entry-footer"><span title='2024-01-14 07:07:07 +0100 +0100'>January 14, 2024</span>&nbsp;·&nbsp;22 min</footer>
-  <a class="entry-link" aria-label="post link to My First Post" href="http://localhost:1313/posts/part1_toy_model/"></a>
+  <footer class="entry-footer"><span title='2024-01-14 07:07:07 +0100 +0100'>January 14, 2024</span>&nbsp;·&nbsp;1 min</footer>
+  <a class="entry-link" aria-label="post link to My First Post" href="http://localhost:1313/posts/my-first-post/"></a>
 </article>
     </main>
     
