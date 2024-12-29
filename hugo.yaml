@@ -67,7 +67,6 @@ permissions:
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: true
@@ -78,17 +77,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: true  # Fetch Hugo themes (if used)
-          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+          submodules: true
+          fetch-depth: 0
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
           hugo-version: 'latest'
-          extended: true    # If you're using SCSS/SASS
+          extended: true
 
       - name: Build
-        run: hugo --minify
+        run: |
+          hugo --minify
+          touch public/.nojekyll  # Create .nojekyll file
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
