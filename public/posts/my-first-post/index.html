@@ -11,7 +11,7 @@
 Hi there! My name is Michael Liu.">
 <meta name="author" content="">
 <link rel="canonical" href="http://localhost:1313/posts/my-first-post/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.0d25d2b0333d5bd695d505034b6c0cab4a9c9d18ecabde96466b357003c4ed8c.css" integrity="sha256-DSXSsDM9W9aV1QUDS2wMq0qcnRjsq96WRms1cAPE7Yw=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.39f803d1efc85e18f705456c77a9c8d63d93894b28fcb06fd80f4d014f783ed3.css" integrity="sha256-OfgD0e/IXhj3BUVsd6nI1j2TiUso/LBv2A9NAU94PtM=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
@@ -57,15 +57,30 @@ Hi there! My name is Michael Liu.">
 
     </style>
 </noscript>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <script>
-  MathJax = {
-    tex: {
-      displayMath: [['\\[', '\\]'], ['$$', '$$']],  
-      inlineMath: [['$', '$']]                  
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$']],
+    displayMath: [['\\[', '\\]'], ['$$', '$$']],
+    processEscapes: true,
+    processEnvironments: true
+  },
+  options: {
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  },
+  startup: {
+    pageReady: () => {
+      return MathJax.startup.defaultPageReady().then(() => {
+        console.log('MathJax initial typesetting complete');
+      });
     }
-  };
+  },
+  chtml: {
+    fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2'
+  }
+};
 </script>
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
 </head>
 
