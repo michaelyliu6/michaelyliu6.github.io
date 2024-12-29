@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Michael&#39;s AI Blog</title>
+    <title>myliu6.ai</title>
     <link>http://localhost:1313/</link>
-    <description>Recent content on Michael&#39;s AI Blog</description>
+    <description>Recent content on myliu6.ai</description>
     <generator>Hugo -- 0.140.0</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 14 Jan 2024 07:07:07 +0100</lastBuildDate>
