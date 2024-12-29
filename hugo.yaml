@@ -21,7 +21,8 @@ markup:
           - - \(
             - \)
         enable: true
-  
+
+
 
 params:
     defaultTheme: auto
@@ -31,6 +32,8 @@ params:
     ShowBreadCrumbs: true
     ShowCodeCopyButtons: true
     math: true
+    ShowToc: true
+    TocOpen: true
     
     profileMode:
         enabled: true

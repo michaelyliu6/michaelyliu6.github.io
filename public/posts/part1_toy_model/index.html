@@ -192,7 +192,55 @@ $p$ is a probability density function that represents the reverse process, the p
     <div class="post-meta"><span title='2024-01-14 07:07:07 +0100 +0100'>January 14, 2024</span>&nbsp;·&nbsp;22 min
 
 </div>
-  </header> 
+  </header> <div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#set-up" aria-label="Set Up">Set Up</a></li>
+                <li>
+                    <a href="#helper-functions" aria-label="Helper Functions">Helper Functions</a></li>
+                <li>
+                    <a href="#introduction" aria-label="Introduction">Introduction</a><ul>
+                        
+                <li>
+                    <a href="#equation-1-reverse-process" aria-label="Equation 1: Reverse Process">Equation 1: Reverse Process</a></li>
+                <li>
+                    <a href="#equation-2-forwarddiffusion-process" aria-label="Equation 2: Forward/Diffusion Process">Equation 2: Forward/Diffusion Process</a></li></ul>
+                </li>
+                <li>
+                    <a href="#creating-dataset" aria-label="Creating dataset">Creating dataset</a></li>
+                <li>
+                    <a href="#normalization" aria-label="Normalization">Normalization</a></li>
+                <li>
+                    <a href="#variance-schedule" aria-label="Variance schedule">Variance schedule</a></li>
+                <li>
+                    <a href="#forward-q-function" aria-label="Forward (q) function">Forward (q) function</a><ul>
+                        
+                <li>
+                    <a href="#forward-q-function-equation-2" aria-label="Forward (q) function: Equation 2">Forward (q) function: Equation 2</a></li>
+                <li>
+                    <a href="#forward-q-function-equation-4" aria-label="Forward (q) function: Equation 4">Forward (q) function: Equation 4</a></li></ul>
+                </li>
+                <li>
+                    <a href="#noise-schedule" aria-label="Noise Schedule">Noise Schedule</a></li>
+                <li>
+                    <a href="#reconstruct" aria-label="Reconstruct">Reconstruct</a></li>
+                <li>
+                    <a href="#toy-diffusion-model-definition" aria-label="Toy Diffusion Model Definition">Toy Diffusion Model Definition</a></li>
+                <li>
+                    <a href="#training" aria-label="Training">Training</a></li>
+                <li>
+                    <a href="#sampling" aria-label="Sampling">Sampling</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
   <div class="post-content"><h2 id="set-up">Set Up<a hidden class="anchor" aria-hidden="true" href="#set-up">#</a></h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> os
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> time
