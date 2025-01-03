@@ -33,17 +33,25 @@ params:
     ShowToc: true
     TocOpen: true
     
-    profileMode:
-        enabled: true
-        title: "Michael Liu"
-        subtitle: "Welcome to my blog"
-        # imageUrl: "#"
-        # imageTitle: "my image"
-        buttons:
-            - name: Blog
-              url: posts
-            - name: About
-              url: about
+    homeInfoParams:
+      Title: Welcome to my blog 👋
+      Content: >
+        Hi there! This is Michael Liu. I am a software engineer that is interested in AI safety and alignment, exploring the frontier of AI, and building AI systems that are beneficial to society.
+        <br><br>
+
+
+        Please feel free to reach out to me if you have any questions or want to chat.
+        
+
+    socialIcons: # optional
+      - name: "GitHub"
+        url: "https://github.com/michaelyliu6"
+      - name: "LinkedIn"
+        url: "https://www.linkedin.com/in/michael-liu-a14932197/"
+      - name: "Twitter"
+        url: "https://x.com/michaelyliu6"
+      - name: "BuyMeACoffee"
+        url: "https://buymeacoffee.com/myliu6"
 
 menu:
     main:
