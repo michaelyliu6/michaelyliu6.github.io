@@ -48,12 +48,13 @@ params:
         url: "https://github.com/michaelyliu6"
       - name: "LinkedIn"
         url: "https://www.linkedin.com/in/michael-liu-a14932197/"
+      - name: "Email"
+        url: "mailto:michaelyliu6@gmail.com"   
       - name: "Twitter"
-        url: "https://x.com/michaelyliu6"
+        url: "https://x.com/michaelyliu6"   
       - name: "BuyMeACoffee"
         url: "https://buymeacoffee.com/myliu6"
-      - name: "Email"
-        url: "mailto:michaelyliu6@gmail.com"
+
 
 menu:
     main:
