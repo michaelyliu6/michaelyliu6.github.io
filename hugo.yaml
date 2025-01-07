@@ -52,6 +52,8 @@ params:
         url: "https://x.com/michaelyliu6"
       - name: "BuyMeACoffee"
         url: "https://buymeacoffee.com/myliu6"
+      - name: "Email"
+        url: "mailto:michaelyliu6@gmail.com"
 
 menu:
     main:
