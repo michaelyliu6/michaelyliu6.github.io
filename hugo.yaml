@@ -52,6 +52,8 @@ params:
         url: "mailto:michaelyliu6@gmail.com"   
       - name: "Twitter"
         url: "https://x.com/michaelyliu6"   
+      - name: "RSS"
+        url: "/index.xml"
       - name: "BuyMeACoffee"
         url: "https://buymeacoffee.com/myliu6"
 
