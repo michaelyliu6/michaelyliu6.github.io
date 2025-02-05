@@ -15,24 +15,25 @@
       <guid>http://localhost:1313/posts/ml-papers/</guid>
       <description>&lt;h1 id=&#34;ai-alignment&#34;&gt;AI Alignment&lt;/h1&gt;
 &lt;h2 id=&#34;constitutional-classifiers-defending-against-universal-jailbreaks-across-thousands-of-hours-of-red-teaming&#34;&gt;Constitutional Classifiers: Defending against Universal Jailbreaks across Thousands of Hours of Red Teaming&lt;/h2&gt;
-&lt;p&gt;By Anthropic (Jan 2025) &lt;a href=&#34;https://arxiv.org/pdf/2501.18837&#34;&gt;https://arxiv.org/pdf/2501.18837&lt;/a&gt;
+&lt;p&gt;Anthropic (Jan 2025) &lt;a href=&#34;https://arxiv.org/pdf/2501.18837&#34;&gt;https://arxiv.org/pdf/2501.18837&lt;/a&gt;
 &lt;img src=&#34;http://localhost:1313/assets/images/ml-papers/constitutional-classifiers.png&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;alignment-faking-in-large-language-models&#34;&gt;Alignment Faking in Large Language Models&lt;/h2&gt;
-&lt;p&gt;By Anthropic (Dec 2024) &lt;a href=&#34;https://arxiv.org/pdf/2412.14093&#34;&gt;https://arxiv.org/pdf/2412.14093&lt;/a&gt;
+&lt;p&gt;Anthropic (Dec 2024) &lt;a href=&#34;https://arxiv.org/pdf/2412.14093&#34;&gt;https://arxiv.org/pdf/2412.14093&lt;/a&gt;
 &lt;img src=&#34;http://localhost:1313/assets/images/ml-papers/alignment-faking.png&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;constitutional-ai-harmlessness-from-ai-feedback&#34;&gt;Constitutional AI: Harmlessness from AI Feedback&lt;/h2&gt;
-&lt;p&gt;By Anthropic (Dec 2022) &lt;a href=&#34;https://arxiv.org/pdf/2212.08073&#34;&gt;https://arxiv.org/pdf/2212.08073&lt;/a&gt;
+&lt;p&gt;Anthropic (Dec 2022) &lt;a href=&#34;https://arxiv.org/pdf/2212.08073&#34;&gt;https://arxiv.org/pdf/2212.08073&lt;/a&gt;
 &lt;img src=&#34;http://localhost:1313/assets/images/ml-papers/constitutional-ai.png&#34;&gt;&lt;/p&gt;
-&lt;h1 id=&#34;reasoning&#34;&gt;Reasoning&lt;/h1&gt;
+&lt;h1 id=&#34;pre-training&#34;&gt;Pre-training&lt;/h1&gt;
+&lt;h2 id=&#34;deepseek-v2-a-strong-economical-and-efficient-mixture-of-experts-language-model&#34;&gt;DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model&lt;/h2&gt;
+&lt;p&gt;DeepSeek (June 2024) &lt;a href=&#34;https://arxiv.org/pdf/2405.04434&#34;&gt;https://arxiv.org/pdf/2405.04434&lt;/a&gt;
+&lt;img src=&#34;http://localhost:1313/assets/images/ml-papers/deepseek-v2.png&#34;&gt;&lt;/p&gt;
+&lt;h1 id=&#34;reinforcement-learning&#34;&gt;Reinforcement Learning&lt;/h1&gt;
 &lt;h2 id=&#34;deepseek-r1-incentivizing-reasoning-capability-in-llms-via-reinforcement-learning&#34;&gt;DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning&lt;/h2&gt;
-&lt;p&gt;By DeepSeek (Jan 2025) &lt;a href=&#34;https://arxiv.org/pdf/2501.12948&#34;&gt;https://arxiv.org/pdf/2501.12948&lt;/a&gt;
+&lt;p&gt;DeepSeek (Jan 2025) &lt;a href=&#34;https://arxiv.org/pdf/2501.12948&#34;&gt;https://arxiv.org/pdf/2501.12948&lt;/a&gt;
 &lt;img src=&#34;http://localhost:1313/assets/images/ml-papers/deepseek-r1.png&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;deepseekmath-pushing-the-limits-of-mathematical-reasoning-in-open-language-models&#34;&gt;DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models&lt;/h2&gt;
-&lt;p&gt;By DeepSeek (Apr 2024) &lt;a href=&#34;https://arxiv.org/pdf/2401.06066&#34;&gt;https://arxiv.org/pdf/2401.06066&lt;/a&gt;
-&lt;img src=&#34;http://localhost:1313/assets/images/ml-papers/grpo.png&#34;&gt;&lt;/p&gt;
-&lt;h1 id=&#34;reinforcement-learning&#34;&gt;Reinforcement Learning&lt;/h1&gt;
-&lt;h2 id=&#34;playing-atari-with-deep-reinforcement-learning&#34;&gt;Playing Atari with Deep Reinforcement Learning&lt;/h2&gt;
-&lt;p&gt;By DeepMind (December 2013) &lt;a href=&#34;https://arxiv.org/pdf/1312.5602&#34;&gt;https://arxiv.org/pdf/1312.5602&lt;/a&gt;&lt;/p&gt;</description>
+&lt;p&gt;DeepSeek (Apr 2024) &lt;a href=&#34;https://arxiv.org/pdf/2401.06066&#34;&gt;https://arxiv.org/pdf/2401.06066&lt;/a&gt;
+&lt;img src=&#34;http://localhost:1313/assets/images/ml-papers/grpo.png&#34;&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>Toy Diffusion Model (WIP)</title>
@@ -108,6 +109,52 @@
       <guid>http://localhost:1313/posts/my-first-post/</guid>
       <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;Hi there! My name is Michael Liu.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/posts/gpt2-to-deepseekv3/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/gpt2-to-deepseekv3/</guid>
+      <description>&lt;h1 id=&#34;table-of-contents&#34;&gt;Table of Contents&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#model-architecture&#34;&gt;Model Architecture&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#inference&#34;&gt;Inference&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;{
+    &amp;#34;vocab_size&amp;#34;: 129280,
+    &amp;#34;dim&amp;#34;: 7168,
+    &amp;#34;inter_dim&amp;#34;: 18432,
+    &amp;#34;moe_inter_dim&amp;#34;: 2048,
+    &amp;#34;n_layers&amp;#34;: 61,
+    &amp;#34;n_dense_layers&amp;#34;: 3,
+    &amp;#34;n_heads&amp;#34;: 128,
+    &amp;#34;n_routed_experts&amp;#34;: 256,
+    &amp;#34;n_shared_experts&amp;#34;: 1,
+    &amp;#34;n_activated_experts&amp;#34;: 8,
+    &amp;#34;n_expert_groups&amp;#34;: 8,
+    &amp;#34;n_limited_groups&amp;#34;: 4,
+    &amp;#34;route_scale&amp;#34;: 2.5,
+    &amp;#34;score_func&amp;#34;: &amp;#34;sigmoid&amp;#34;,
+    &amp;#34;q_lora_rank&amp;#34;: 1536,
+    &amp;#34;kv_lora_rank&amp;#34;: 512,
+    &amp;#34;qk_nope_head_dim&amp;#34;: 128,
+    &amp;#34;qk_rope_head_dim&amp;#34;: 64,
+    &amp;#34;v_head_dim&amp;#34;: 128,
+    &amp;#34;dtype&amp;#34;: &amp;#34;fp8&amp;#34;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&#34;model-arguments&#34;&gt;Model Arguments&lt;/h1&gt;
+&lt;h1 id=&#34;mla&#34;&gt;MLA&lt;/h1&gt;
+&lt;h1 id=&#34;deepseekmoe&#34;&gt;DeepSeekMoE&lt;/h1&gt;
+&lt;h1 id=&#34;rms-norm&#34;&gt;RMS Norm&lt;/h1&gt;
+&lt;h1 id=&#34;model-parallelism&#34;&gt;Model Parallelism&lt;/h1&gt;
+&lt;h1 id=&#34;quantization&#34;&gt;Quantization&lt;/h1&gt;
+&lt;h1 id=&#34;positional-embeddings&#34;&gt;Positional Embeddings&lt;/h1&gt;
+&lt;h2 id=&#34;rotary-positional-embeddings&#34;&gt;Rotary Positional Embeddings&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://blog.eleuther.ai/rotary-embeddings/&#34;&gt;https://blog.eleuther.ai/rotary-embeddings/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;There have been many schemas for encoding positional information into transformers that each have their own tradeoffs. For example, GPT-2 used learned absolute positional embeddings, which are very simple, but fail to generalize to longer sequences and do not encode particularly meaningful information (absolute positions don&amp;rsquo;t give information about the structure of language). On the other hand, relative positional embeddings like the one used in T5&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

@@ -1,75 +1,9 @@
 +++
-title = 'Toy Diffusion Model (WIP)'
+title = 'Toy Diffusion Model'
 date = 2024-12-14T07:07:07+01:00
 draft = false
 +++
 
-
-## Set Up
-
-
-```python
-import os
-import time
-from dataclasses import dataclass
-from functools import reduce
-from operator import mul
-from typing import Any, Optional, Union
-import matplotlib.pyplot as plt
-import torch as t
-import torch.nn as nn
-import torch.nn.functional as F
-from einops import rearrange, repeat
-from einops.layers.torch import Rearrange
-from torch.utils.data import DataLoader, TensorDataset
-from tqdm import tqdm
-import wandb
-import tests.toy_model_tests
-
-torch_device = 'cuda' if t.cuda.is_available() else "cpu" # mps not supported 
-```
-
-## Helper Functions
-
-
-```python
-def plot_images(imgs: t.Tensor, titles: Optional[list[str]] = None) -> None:
-    n_images = imgs.shape[0]
-    fig, axes = plt.subplots(1, n_images, figsize=(5*n_images, 5))
-    
-    # Convert axes to array if there's only one image
-    if n_images == 1:
-        axes = [axes]
-    
-    for i in range(n_images):
-        img = rearrange(imgs[i], "c h w -> h w c")
-        axes[i].imshow(img.numpy())
-        if titles and i < len(titles):
-            axes[i].set_title(titles[i])
-        axes[i].axis('off')  # This removes the axes for cleaner visualization
-    
-    plt.tight_layout()  # Adjusts spacing between subplots
-    plt.show()
-
-def log_images(
-    img: t.Tensor,
-    noised: t.Tensor,
-    noise: t.Tensor,
-    noise_pred: t.Tensor,
-    reconstructed: t.Tensor,
-    num_images: int = 3,
-) -> list[wandb.Image]:
-    """
-    Convert tensors to a format suitable for logging to Weights and Biases. 
-    Returns an image with the ground truth in the upper row, and model reconstruction on the bottom row. 
-    Left is the noised image, middle is noise, and reconstructed image is in the rightmost column.
-    """
-    actual = t.cat((noised, noise, img), dim=-1)
-    pred = t.cat((noised, noise_pred, reconstructed), dim=-1)
-    log_img = t.cat((actual, pred), dim=-2)
-    images = [wandb.Image(i) for i in log_img[:num_images]]
-    return images
-```
 
 ## Introduction
 
