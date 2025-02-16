@@ -150,7 +150,7 @@ window.MathJax = {
     <h1 class="post-title entry-hint-parent">
       Training Language Models with Reinforcement Learning from Human Feedback
     </h1>
-    <div class="post-meta"><span title='2024-01-14 07:07:07 +0100 +0100'>January 14, 2024</span>&nbsp;·&nbsp;10 min
+    <div class="post-meta"><span title='2024-01-14 07:07:07 +0100 +0100'>January 14, 2024</span>&nbsp;·&nbsp;12 min
 
 </div>
   </header> <aside id="toc-container" class="toc-container wide">
@@ -172,6 +172,8 @@ window.MathJax = {
                 <li>
                     <a href="#ppo-learning-phase" aria-label="PPO Learning Phase">PPO Learning Phase</a><ul>
                         
+                <li>
+                    <a href="#the-interplay-of-objective-terms-a-tug-of-war" aria-label="The Interplay of Objective Terms: A Tug-of-War">The Interplay of Objective Terms: A Tug-of-War</a></li>
                 <li>
                     <a href="#ppo-algorithm-high-level" aria-label="PPO Algorithm (High-Level)">PPO Algorithm (High-Level)</a>
                 </li>
@@ -394,6 +396,34 @@ This loss ensures the critic accurately estimates state values.</li>
 </ul>
 <p>The core idea of PPO is to constrain the policy update using the <code>clip</code> function in the $L^{CLIP}$ term. This function clips the probability ratio $r_t(\theta)$ to the range $[1-\epsilon, 1+\epsilon]$. This clipping prevents the new policy from moving too far away from the old policy in a single update. The $L^{CLIP}$ term takes the minimum of the unclipped and clipped objectives.</p>
 <p>The added KL divergence term, $\beta KL(\pi_\theta(\cdot|x) || \pi_{ref}(\cdot|x))$, acts as a regularizer. The value loss, $V^{loss}$ ensures the critic accurately estimates state values. The entropy bonus $H$ encourages exploration.</p>
+<h3 id="the-interplay-of-objective-terms-a-tug-of-war">The Interplay of Objective Terms: A Tug-of-War<a hidden class="anchor" aria-hidden="true" href="#the-interplay-of-objective-terms-a-tug-of-war">#</a></h3>
+<p>It&rsquo;s crucial to understand that the PPO objective function is maximized as a <em>whole</em>.  The terms work together, and sometimes against each other, to find the optimal policy.  A helpful analogy is a tug-of-war with three teams:</p>
+<ul>
+<li>
+<p><strong>Team Reward (L<sup>CLIP</sup>):</strong> This is the strongest team. It pulls the policy towards generating high-quality text that aligns with human preferences, as measured by the reward model.  A positive advantage in L<sup>CLIP</sup> means the generated text is good; a negative advantage means it&rsquo;s bad. This is the primary force driving the LLM to learn the desired behavior.</p>
+</li>
+<li>
+<p><strong>Team Reference (-β * KL):</strong> This team pulls the policy towards generating text that is coherent and grammatically correct, similar to the original pre-trained LLM (the reference policy).  It prevents the policy from drifting too far from the reference model&rsquo;s general language understanding.  A large KL divergence means the current policy is very different from the reference policy, which is penalized.</p>
+</li>
+<li>
+<p><strong>Team Entropy (η * H):</strong> This team pulls the policy towards generating diverse and exploratory text.  It encourages the model to try a wider range of tokens, preventing it from getting stuck in local optima.  However, this team is weaker than Team Reward.</p>
+</li>
+<li>
+<p><strong>Team Critic (V<sup>loss</sup>):</strong> While not directly involved in the tug of war, this team ensures that advantages are calculated correctly.</p>
+</li>
+</ul>
+<p>The final position of the rope (the LLM&rsquo;s learned policy) is determined by the balance of forces between these teams.  If the entropy bonus (Team Entropy) were the only factor, the model would generate random gibberish.  However, the other two teams (Reward and Reference) counteract this:</p>
+<ul>
+<li>If the model generates nonsensical text, Team Reward will pull strongly in the <em>opposite</em> direction (negative advantage), because the reward model will give low scores.</li>
+<li>If the model strays too far from coherent language, Team Reference will also pull strongly in the opposite direction (large KL divergence).</li>
+</ul>
+<p>The optimization process finds an equilibrium point where the forces are balanced.  The result is a policy that generates text that is:</p>
+<ol>
+<li><strong>High-quality</strong> (according to the reward model).</li>
+<li><strong>Coherent and grammatically correct</strong> (similar to the reference model).</li>
+<li><strong>Reasonably diverse</strong> (due to the entropy bonus).</li>
+</ol>
+<p>The hyperparameters (β, γ, and η) control the relative strengths of the teams. Tuning these hyperparameters is crucial for achieving the desired balance between exploration, exploitation, and adherence to the reference model.</p>
 <p>Typically, PPO performs multiple epochs of optimization on the collected data, using mini-batches to improve sample efficiency and reduce variance. The performance of PPO can be sensitive to the choice of hyperparameters, which often require tuning based on the specific task.</p>
 <h3 id="ppo-algorithm-high-level">PPO Algorithm (High-Level)<a hidden class="anchor" aria-hidden="true" href="#ppo-algorithm-high-level">#</a></h3>
 <p>Here&rsquo;s a simplified, high-level overview of the PPO algorithm:</p>
