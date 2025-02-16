@@ -1,7 +1,7 @@
 +++
 title = 'Toy Diffusion Model'
 date = 2024-12-14T07:07:07+01:00
-draft = false
+draft = true
 +++
 
 

@@ -6,155 +6,18 @@
     <description>Recent content on myliu6.ai</description>
     <generator>Hugo -- 0.140.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 14 Dec 2024 07:07:07 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 14 Jan 2024 07:07:07 +0100</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>ML Papers</title>
-      <link>http://localhost:1313/posts/ml-papers/</link>
-      <pubDate>Sat, 14 Dec 2024 07:07:07 +0100</pubDate>
-      <guid>http://localhost:1313/posts/ml-papers/</guid>
-      <description>&lt;h1 id=&#34;ai-alignment&#34;&gt;AI Alignment&lt;/h1&gt;
-&lt;h2 id=&#34;constitutional-classifiers-defending-against-universal-jailbreaks-across-thousands-of-hours-of-red-teaming&#34;&gt;Constitutional Classifiers: Defending against Universal Jailbreaks across Thousands of Hours of Red Teaming&lt;/h2&gt;
-&lt;p&gt;Anthropic (Jan 2025) &lt;a href=&#34;https://arxiv.org/pdf/2501.18837&#34;&gt;https://arxiv.org/pdf/2501.18837&lt;/a&gt;
-&lt;img src=&#34;http://localhost:1313/assets/images/ml-papers/constitutional-classifiers.png&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;alignment-faking-in-large-language-models&#34;&gt;Alignment Faking in Large Language Models&lt;/h2&gt;
-&lt;p&gt;Anthropic (Dec 2024) &lt;a href=&#34;https://arxiv.org/pdf/2412.14093&#34;&gt;https://arxiv.org/pdf/2412.14093&lt;/a&gt;
-&lt;img src=&#34;http://localhost:1313/assets/images/ml-papers/alignment-faking.png&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;constitutional-ai-harmlessness-from-ai-feedback&#34;&gt;Constitutional AI: Harmlessness from AI Feedback&lt;/h2&gt;
-&lt;p&gt;Anthropic (Dec 2022) &lt;a href=&#34;https://arxiv.org/pdf/2212.08073&#34;&gt;https://arxiv.org/pdf/2212.08073&lt;/a&gt;
-&lt;img src=&#34;http://localhost:1313/assets/images/ml-papers/constitutional-ai.png&#34;&gt;&lt;/p&gt;
-&lt;h1 id=&#34;pre-training&#34;&gt;Pre-training&lt;/h1&gt;
-&lt;h2 id=&#34;deepseek-v2-a-strong-economical-and-efficient-mixture-of-experts-language-model&#34;&gt;DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model&lt;/h2&gt;
-&lt;p&gt;DeepSeek (June 2024) &lt;a href=&#34;https://arxiv.org/pdf/2405.04434&#34;&gt;https://arxiv.org/pdf/2405.04434&lt;/a&gt;
-&lt;img src=&#34;http://localhost:1313/assets/images/ml-papers/deepseek-v2.png&#34;&gt;&lt;/p&gt;
-&lt;h1 id=&#34;reinforcement-learning&#34;&gt;Reinforcement Learning&lt;/h1&gt;
-&lt;h2 id=&#34;deepseek-r1-incentivizing-reasoning-capability-in-llms-via-reinforcement-learning&#34;&gt;DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning&lt;/h2&gt;
-&lt;p&gt;DeepSeek (Jan 2025) &lt;a href=&#34;https://arxiv.org/pdf/2501.12948&#34;&gt;https://arxiv.org/pdf/2501.12948&lt;/a&gt;
-&lt;img src=&#34;http://localhost:1313/assets/images/ml-papers/deepseek-r1.png&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;deepseekmath-pushing-the-limits-of-mathematical-reasoning-in-open-language-models&#34;&gt;DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models&lt;/h2&gt;
-&lt;p&gt;DeepSeek (Apr 2024) &lt;a href=&#34;https://arxiv.org/pdf/2401.06066&#34;&gt;https://arxiv.org/pdf/2401.06066&lt;/a&gt;
-&lt;img src=&#34;http://localhost:1313/assets/images/ml-papers/grpo.png&#34;&gt;&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Toy Diffusion Model (WIP)</title>
-      <link>http://localhost:1313/posts/part1_toy_model/</link>
-      <pubDate>Sat, 14 Dec 2024 07:07:07 +0100</pubDate>
-      <guid>http://localhost:1313/posts/part1_toy_model/</guid>
-      <description>&lt;h2 id=&#34;set-up&#34;&gt;Set Up&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; os
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; time
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; dataclasses &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; dataclass
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; functools &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; reduce
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; operator &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; mul
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; typing &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Any, Optional, Union
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; matplotlib.pyplot &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; plt
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; torch &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; t
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; torch.nn &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; nn
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; torch.nn.functional &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; F
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; einops &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; rearrange, repeat
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; einops.layers.torch &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; Rearrange
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; torch.utils.data &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; DataLoader, TensorDataset
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; tqdm &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; tqdm
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; wandb
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; tests.toy_model_tests
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;torch_device &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;cuda&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; t&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;cuda&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;is_available() &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;cpu&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# mps not supported &lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;helper-functions&#34;&gt;Helper Functions&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;plot_images&lt;/span&gt;(imgs: t&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Tensor, titles: Optional[list[str]] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;None&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;None&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    n_images &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; imgs&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;shape[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;]
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    fig, axes &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;subplots(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, n_images, figsize&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;n_images, &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;))
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# Convert axes to array if there&amp;#39;s only one image&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; n_images &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        axes &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [axes]
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; range(n_images):
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        img &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; rearrange(imgs[i], &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;c h w -&amp;gt; h w c&amp;#34;&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        axes[i]&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;imshow(img&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;numpy())
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; titles &lt;span style=&#34;color:#f92672&#34;&gt;and&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; len(titles):
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            axes[i]&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;set_title(titles[i])
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        axes[i]&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;axis(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;off&amp;#39;&lt;/span&gt;)  &lt;span style=&#34;color:#75715e&#34;&gt;# This removes the axes for cleaner visualization&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;tight_layout()  &lt;span style=&#34;color:#75715e&#34;&gt;# Adjusts spacing between subplots&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    plt&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;show()
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;log_images&lt;/span&gt;(
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    img: t&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Tensor,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    noised: t&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Tensor,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    noise: t&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Tensor,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    noise_pred: t&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Tensor,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    reconstructed: t&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Tensor,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    num_images: int &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; list[wandb&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Image]:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    Convert tensors to a format suitable for logging to Weights and Biases. 
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    Returns an image with the ground truth in the upper row, and model reconstruction on the bottom row. 
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    Left is the noised image, middle is noise, and reconstructed image is in the rightmost column.
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;    &amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    actual &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; t&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;cat((noised, noise, img), dim&lt;span style=&#34;color:#f92672&#34;&gt;=-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    pred &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; t&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;cat((noised, noise_pred, reconstructed), dim&lt;span style=&#34;color:#f92672&#34;&gt;=-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    log_img &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; t&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;cat((actual, pred), dim&lt;span style=&#34;color:#f92672&#34;&gt;=-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    images &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [wandb&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;Image(i) &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; log_img[:num_images]]
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; images
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
-&lt;img src=&#34;http://localhost:1313/assets/images/references/paper_background.png&#34; alt=&#34;Paper Background&#34;&gt;
-&lt;figcaption&gt;&lt;code&gt;Section 2: Background&lt;/code&gt; in &lt;a href=&#34;https://arxiv.org/pdf/2006.11239#page=2&#34;&gt;Denoising Diffusion Probabilistic Models&lt;/a&gt;&lt;/figcaption&gt;
-&lt;h3 id=&#34;equation-1-reverse-process&#34;&gt;Equation 1: Reverse Process&lt;/h3&gt;
-&lt;p&gt;$p$ is a &lt;strong&gt;probability density function&lt;/strong&gt; that represents the &lt;strong&gt;reverse&lt;/strong&gt; process, the process of adding noise.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>My First Post</title>
-      <link>http://localhost:1313/posts/my-first-post/</link>
+      <title>Training Language Models with Reinforcement Learning from Human Feedback</title>
+      <link>http://localhost:1313/posts/rl-in-llms/</link>
       <pubDate>Sun, 14 Jan 2024 07:07:07 +0100</pubDate>
-      <guid>http://localhost:1313/posts/my-first-post/</guid>
-      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;Hi there! My name is Michael Liu.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title></title>
-      <link>http://localhost:1313/posts/gpt2-to-deepseekv3/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/gpt2-to-deepseekv3/</guid>
-      <description>&lt;h1 id=&#34;table-of-contents&#34;&gt;Table of Contents&lt;/h1&gt;
+      <guid>http://localhost:1313/posts/rl-in-llms/</guid>
+      <description>&lt;p&gt;Reinforcement Learning from Human Feedback (RLHF) is a technique used to fine-tune large language models (LLMs) to better align with human preferences. It involves training a reward model based on human feedback and then using reinforcement learning to optimize the LLM&amp;rsquo;s policy to maximize the reward.&lt;/p&gt;
+&lt;p&gt;This process generally involves three key steps:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#model-architecture&#34;&gt;Model Architecture&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#inference&#34;&gt;Inference&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;{
-    &amp;#34;vocab_size&amp;#34;: 129280,
-    &amp;#34;dim&amp;#34;: 7168,
-    &amp;#34;inter_dim&amp;#34;: 18432,
-    &amp;#34;moe_inter_dim&amp;#34;: 2048,
-    &amp;#34;n_layers&amp;#34;: 61,
-    &amp;#34;n_dense_layers&amp;#34;: 3,
-    &amp;#34;n_heads&amp;#34;: 128,
-    &amp;#34;n_routed_experts&amp;#34;: 256,
-    &amp;#34;n_shared_experts&amp;#34;: 1,
-    &amp;#34;n_activated_experts&amp;#34;: 8,
-    &amp;#34;n_expert_groups&amp;#34;: 8,
-    &amp;#34;n_limited_groups&amp;#34;: 4,
-    &amp;#34;route_scale&amp;#34;: 2.5,
-    &amp;#34;score_func&amp;#34;: &amp;#34;sigmoid&amp;#34;,
-    &amp;#34;q_lora_rank&amp;#34;: 1536,
-    &amp;#34;kv_lora_rank&amp;#34;: 512,
-    &amp;#34;qk_nope_head_dim&amp;#34;: 128,
-    &amp;#34;qk_rope_head_dim&amp;#34;: 64,
-    &amp;#34;v_head_dim&amp;#34;: 128,
-    &amp;#34;dtype&amp;#34;: &amp;#34;fp8&amp;#34;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&#34;model-arguments&#34;&gt;Model Arguments&lt;/h1&gt;
-&lt;h1 id=&#34;mla&#34;&gt;MLA&lt;/h1&gt;
-&lt;h1 id=&#34;deepseekmoe&#34;&gt;DeepSeekMoE&lt;/h1&gt;
-&lt;h1 id=&#34;rms-norm&#34;&gt;RMS Norm&lt;/h1&gt;
-&lt;h1 id=&#34;model-parallelism&#34;&gt;Model Parallelism&lt;/h1&gt;
-&lt;h1 id=&#34;quantization&#34;&gt;Quantization&lt;/h1&gt;
-&lt;h1 id=&#34;positional-embeddings&#34;&gt;Positional Embeddings&lt;/h1&gt;
-&lt;h2 id=&#34;rotary-positional-embeddings&#34;&gt;Rotary Positional Embeddings&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://blog.eleuther.ai/rotary-embeddings/&#34;&gt;https://blog.eleuther.ai/rotary-embeddings/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;There have been many schemas for encoding positional information into transformers that each have their own tradeoffs. For example, GPT-2 used learned absolute positional embeddings, which are very simple, but fail to generalize to longer sequences and do not encode particularly meaningful information (absolute positions don&amp;rsquo;t give information about the structure of language). On the other hand, relative positional embeddings like the one used in T5&lt;/p&gt;</description>
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Supervised Fine-tuning (SFT):&lt;/strong&gt; An initial language model is fine-tuned on a dataset of high-quality demonstrations, where the model learns to imitate the provided examples.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

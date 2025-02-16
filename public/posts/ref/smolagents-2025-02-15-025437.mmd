@@ -1,0 +1,138 @@
+flowchart LR
+ subgraph subGraph0["User Interaction"]
+        B("smolagent CLI/webagent CLI/Python API")
+        A["User Input/Task"]
+        C{"Agent Initialization"}
+  end
+ subgraph subGraph1["Agent Initialization"]
+        D["Tools"]
+        E["Models"]
+        F["Managed Agents"]
+        G["Code Execution Environment"]
+        H["Prompt Templates"]
+        I["Callbacks"]
+  end
+ subgraph subGraph2["Agent Memory"]
+        N["Memory (memory.py)"]
+  end
+ subgraph subGraph3["Core Agent Logic (agents.py)"]
+        J(["MultiStepAgent"])
+        K(["CodeAgent"])
+        L(["ToolCallingAgent"])
+        M{"ReAct Loop"}
+        O["Planning (agents.py)"]
+        subGraph2
+  end
+ subgraph subGraph4["Models (models.py)"]
+        E1("Hugging Face Inference API")
+        E2("Local Transformers Pipeline")
+        E3["(LiteLLM (OpenAI, Anthropic, etc.))"]
+        E4("OpenAI Compatible Server")
+        E5("Azure OpenAI Service")
+        E6("Local mlx-lm models")
+        E1A["Hugging Face Hub"]
+        E3A["Various LLM Providers"]
+  end
+ subgraph subGraph5["Tools (tools.py, default_tools.py)"]
+        D1["Custom Tools"]
+        D2["DuckDuckGoSearchTool"]
+        D3["PythonInterpreterTool"]
+        D4["FinalAnswerTool"]
+        D5["VisitWebpageTool"]
+        D6["SpeechToTextTool"]
+        D7["UserInputTool"]
+        D8["Load from Hub/MCP"]
+        D1A["User-Defined Functions"]
+  end
+ subgraph subGraph6["Code Execution Environment"]
+        G1("Restricted Python Interpreter")
+        G2("E2B Sandbox")
+  end
+ subgraph subGraph7["Prompt Templates (prompts/)"]
+        H1("code_agent.yaml")
+        H2("toolcalling_agent.yaml")
+  end
+ subgraph subGraph8["Monitoring (monitoring.py)"]
+        I1["Telemetry Backend (e.g., Phoenix, Langfuse)"]
+  end
+ subgraph subGraph9["Gradio UI (gradio_ui.py)"]
+        Z("Interactive Web Interface")
+  end
+ subgraph examples["examples"]
+  end
+    A --> B
+    B --> C
+    C -- "tools=[...]" --> D
+    C -- "model=..." --> E
+    C -- "managed_agents=[...]" --> F
+    C -- "additional_authorized_imports=[...]" --> G
+    C -- "system_prompt=..." --> H
+    C -- "step_callbacks=[...]" --> I
+    J -- Inherits --> K & L
+    K -- Generates Python Code --> G
+    L -- Generates JSON Tool Calls --> G
+    K -- "agent.run()" --> M
+    L -- "agent.run()" --> M
+    M -- Uses Memory --> N
+    M -- Calls Model --> E
+    M -- Calls Tools --> D
+    M -- Planning (optional) --> O
+    N -- Stores: Steps, Logs, Images, Audio --> N
+    E -- HfApiModel --> E1
+    E -- TransformersModel --> E2
+    E -- LiteLLMModel --> E3
+    E -- OpenAIServerModel --> E4
+    E -- AzureOpenAIServerModel --> E5
+    E -- MLXModel --> E6
+    E1 -.-> E1A
+    E3 -.-> E3A
+    D -- Tool Class --> D1
+    D -- @tool Decorator --> D1
+    D -- "Built-in Tools" --> D2 & D3 & D4 & D5 & D6 & D7
+    D -- ToolCollection --> D8
+    D1 -.-> D1A
+    G -- "LocalPythonExecutor (local_python_executor.py)" --> G1
+    G -- "E2BExecutor (e2b_executor.py)" --> G2
+    G1 -- Security Restrictions --> G1
+    G2 -- Remote & Isolated --> G2
+    H --> H1 & H2
+    H1 -- Defines System Prompt for CodeAgent --> K
+    H2 -- Defines System Prompt for ToolCallingAgent --> L
+    I -- OpenTelemetry --> I1
+    B -- GradioUI --> Z
+    Z -- Displays Agent Logs & Steps --> Z
+
+     D:::tool
+     E:::model
+     F:::agent
+     G:::execution
+     H:::prompt
+     J:::agent
+     K:::agent
+     L:::agent
+     E1:::model
+     E2:::model
+     E3:::model
+     E4:::model
+     E5:::model
+     E6:::model
+     D1:::tool
+     D2:::tool
+     D3:::tool
+     D4:::tool
+     D5:::tool
+     D6:::tool
+     D7:::tool
+     D8:::tool
+     G1:::execution
+     G2:::execution
+     H1:::prompt
+     H2:::prompt
+    classDef agent fill:#f9f,stroke:#333,stroke-width:2px
+    classDef model fill:#ccf,stroke:#333,stroke-width:2px
+    classDef tool fill:#cfc,stroke:#333,stroke-width:2px
+    classDef execution fill:#ffc,stroke:#333,stroke-width:2px
+    classDef prompt fill:#fcc,stroke:#333,stroke-width:2px
+    style subGraph0 fill:#FFFFFF
+
+

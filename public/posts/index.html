@@ -10,8 +10,8 @@
 <meta name="description" content="Posts - myliu6.ai">
 <meta name="author" content="">
 <link rel="canonical" href="http://localhost:1313/posts/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.12c572bd8cf5fc79f4b84ef336e644548293f890af32734794c9d96d581f05a2.css" integrity="sha256-EsVyvYz1/Hn0uE7zNuZEVIKT&#43;JCvMnNHlMnZbVgfBaI=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.a9a9e2f624fa0b323db78bf0ffd7bc7fcc522faa15853304a9b59d39094c50bd.css" integrity="sha256-qani9iT6CzI9t4vw/9e8f8xSL6oVhTMEqbWdOQlMUL0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/%3Clink%20/%20abs%20url%3E">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
 <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
@@ -82,11 +82,8 @@ window.MathJax = {
 </script>
 <script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
-
-
-
-<script defer src="/js/toc.js"></script>
-
+    <link rel="stylesheet" href="/css/custom.css">
+    <script src="/js/zoom.js"></script> 
 </head>
 
 <body class="list" id="top">
@@ -151,40 +148,17 @@ window.MathJax = {
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">ML Papers
+    <h2 class="entry-hint-parent">Training Language Models with Reinforcement Learning from Human Feedback
     </h2>
   </header>
   <div class="entry-content">
-    <p>AI Alignment Constitutional Classifiers: Defending against Universal Jailbreaks across Thousands of Hours of Red Teaming Anthropic (Jan 2025) https://arxiv.org/pdf/2501.18837 Alignment Faking in Large Language Models Anthropic (Dec 2024) https://arxiv.org/pdf/2412.14093 Constitutional AI: Harmlessness from AI Feedback Anthropic (Dec 2022) https://arxiv.org/pdf/2212.08073 Pre-training DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model DeepSeek (June 2024) https://arxiv.org/pdf/2405.04434 Reinforcement Learning DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning DeepSeek (Jan 2025) https://arxiv.org/pdf/2501.12948 DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models DeepSeek (Apr 2024) https://arxiv.org/pdf/2401.06066 ...</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-12-14 07:07:07 +0100 +0100'>December 14, 2024</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to ML Papers" href="http://localhost:1313/posts/ml-papers/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Toy Diffusion Model (WIP)
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Set Up import os import time from dataclasses import dataclass from functools import reduce from operator import mul from typing import Any, Optional, Union import matplotlib.pyplot as plt import torch as t import torch.nn as nn import torch.nn.functional as F from einops import rearrange, repeat from einops.layers.torch import Rearrange from torch.utils.data import DataLoader, TensorDataset from tqdm import tqdm import wandb import tests.toy_model_tests torch_device = &#39;cuda&#39; if t.cuda.is_available() else &#34;cpu&#34; # mps not supported Helper Functions def plot_images(imgs: t.Tensor, titles: Optional[list[str]] = None) -&gt; None: n_images = imgs.shape[0] fig, axes = plt.subplots(1, n_images, figsize=(5*n_images, 5)) # Convert axes to array if there&#39;s only one image if n_images == 1: axes = [axes] for i in range(n_images): img = rearrange(imgs[i], &#34;c h w -&gt; h w c&#34;) axes[i].imshow(img.numpy()) if titles and i &lt; len(titles): axes[i].set_title(titles[i]) axes[i].axis(&#39;off&#39;) # This removes the axes for cleaner visualization plt.tight_layout() # Adjusts spacing between subplots plt.show() def log_images( img: t.Tensor, noised: t.Tensor, noise: t.Tensor, noise_pred: t.Tensor, reconstructed: t.Tensor, num_images: int = 3, ) -&gt; list[wandb.Image]: &#34;&#34;&#34; Convert tensors to a format suitable for logging to Weights and Biases. Returns an image with the ground truth in the upper row, and model reconstruction on the bottom row. Left is the noised image, middle is noise, and reconstructed image is in the rightmost column. &#34;&#34;&#34; actual = t.cat((noised, noise, img), dim=-1) pred = t.cat((noised, noise_pred, reconstructed), dim=-1) log_img = t.cat((actual, pred), dim=-2) images = [wandb.Image(i) for i in log_img[:num_images]] return images Introduction Section 2: Background in Denoising Diffusion Probabilistic Models Equation 1: Reverse Process $p$ is a probability density function that represents the reverse process, the process of adding noise.
+    <p>Reinforcement Learning from Human Feedback (RLHF) is a technique used to fine-tune large language models (LLMs) to better align with human preferences. It involves training a reward model based on human feedback and then using reinforcement learning to optimize the LLM’s policy to maximize the reward.
+This process generally involves three key steps:
+Supervised Fine-tuning (SFT): An initial language model is fine-tuned on a dataset of high-quality demonstrations, where the model learns to imitate the provided examples.
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2024-12-14 07:07:07 +0100 +0100'>December 14, 2024</span>&nbsp;·&nbsp;22 min</footer>
-  <a class="entry-link" aria-label="post link to Toy Diffusion Model (WIP)" href="http://localhost:1313/posts/part1_toy_model/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">My First Post
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Introduction Hi there! My name is Michael Liu.
-</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-01-14 07:07:07 +0100 +0100'>January 14, 2024</span>&nbsp;·&nbsp;1 min</footer>
-  <a class="entry-link" aria-label="post link to My First Post" href="http://localhost:1313/posts/my-first-post/"></a>
+  <footer class="entry-footer"><span title='2024-01-14 07:07:07 +0100 +0100'>January 14, 2024</span>&nbsp;·&nbsp;10 min</footer>
+  <a class="entry-link" aria-label="post link to Training Language Models with Reinforcement Learning from Human Feedback" href="http://localhost:1313/posts/rl-in-llms/"></a>
 </article>
     </main>
     

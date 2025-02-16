@@ -57,6 +57,15 @@ params:
       - name: "BuyMeACoffee"
         url: "https://buymeacoffee.com/myliu6"
 
+    assets:
+        disableHLJS: true
+        favicon: "<link / abs url>"
+    
+    customCSS:
+        - "/css/custom.css"
+    
+    customJS:
+        - "/js/zoom.js"
 
 menu:
     main:

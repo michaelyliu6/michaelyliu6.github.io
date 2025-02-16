@@ -15,42 +15,12 @@ Inference
 Conclusion
 
 Introduction
-{
-    &#34;vocab_size&#34;: 129280,
-    &#34;dim&#34;: 7168,
-    &#34;inter_dim&#34;: 18432,
-    &#34;moe_inter_dim&#34;: 2048,
-    &#34;n_layers&#34;: 61,
-    &#34;n_dense_layers&#34;: 3,
-    &#34;n_heads&#34;: 128,
-    &#34;n_routed_experts&#34;: 256,
-    &#34;n_shared_experts&#34;: 1,
-    &#34;n_activated_experts&#34;: 8,
-    &#34;n_expert_groups&#34;: 8,
-    &#34;n_limited_groups&#34;: 4,
-    &#34;route_scale&#34;: 2.5,
-    &#34;score_func&#34;: &#34;sigmoid&#34;,
-    &#34;q_lora_rank&#34;: 1536,
-    &#34;kv_lora_rank&#34;: 512,
-    &#34;qk_nope_head_dim&#34;: 128,
-    &#34;qk_rope_head_dim&#34;: 64,
-    &#34;v_head_dim&#34;: 128,
-    &#34;dtype&#34;: &#34;fp8&#34;
-}
-Model Arguments
-MLA
-DeepSeekMoE
-RMS Norm
-Model Parallelism
-Quantization
-Positional Embeddings
-Rotary Positional Embeddings
-https://blog.eleuther.ai/rotary-embeddings/
-There have been many schemas for encoding positional information into transformers that each have their own tradeoffs. For example, GPT-2 used learned absolute positional embeddings, which are very simple, but fail to generalize to longer sequences and do not encode particularly meaningful information (absolute positions don&rsquo;t give information about the structure of language). On the other hand, relative positional embeddings like the one used in T5">
+DeepSeek has quickly become a household name after their release of DeepSeek-R1 model which caused dramatic sell off of NVIDIA stock, causing its value to drop by roughly 17% in one trading session, erasing $593 billion in market value, a record one-day loss for any company on Wall Street (Reuters).
+The intended audience of this post is someone who has a solid understanding of Deep Learning and GPT2.">
 <meta name="author" content="">
 <link rel="canonical" href="http://localhost:1313/posts/gpt2-to-deepseekv3/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.25f6c6380f14f06ae2a82b7824e55ad721b70f595eb732fd37c287678a1a78f1.css" integrity="sha256-JfbGOA8U8GriqCt4JOVa1yG3D1letzL9N8KHZ4oaePE=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.a9a9e2f624fa0b323db78bf0ffd7bc7fcc522faa15853304a9b59d39094c50bd.css" integrity="sha256-qani9iT6CzI9t4vw/9e8f8xSL6oVhTMEqbWdOQlMUL0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/%3Clink%20/%20abs%20url%3E">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
 <link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
@@ -120,6 +90,8 @@ window.MathJax = {
 </script>
 <script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
+    <link rel="stylesheet" href="/css/custom.css">
+    <script src="/js/zoom.js"></script> 
 </head>
 
 <body class="" id="top">
@@ -183,7 +155,7 @@ window.MathJax = {
     <h1 class="post-title entry-hint-parent">
       
     </h1>
-    <div class="post-meta">1 min
+    <div class="post-meta">12 min
 
 </div>
   </header> <aside id="toc-container" class="toc-container wide">
@@ -199,18 +171,6 @@ window.MathJax = {
                 <li>
                     <a href="#introduction" aria-label="Introduction">Introduction</a></li>
                 <li>
-                    <a href="#model-arguments" aria-label="Model Arguments">Model Arguments</a></li>
-                <li>
-                    <a href="#mla" aria-label="MLA">MLA</a></li>
-                <li>
-                    <a href="#deepseekmoe" aria-label="DeepSeekMoE">DeepSeekMoE</a></li>
-                <li>
-                    <a href="#rms-norm" aria-label="RMS Norm">RMS Norm</a></li>
-                <li>
-                    <a href="#model-parallelism" aria-label="Model Parallelism">Model Parallelism</a></li>
-                <li>
-                    <a href="#quantization" aria-label="Quantization">Quantization</a></li>
-                <li>
                     <a href="#positional-embeddings" aria-label="Positional Embeddings">Positional Embeddings</a><ul>
                         
                 <li>
@@ -219,7 +179,49 @@ window.MathJax = {
                     <a href="#yarn" aria-label="Yarn">Yarn</a></li></ul>
                 </li>
                 <li>
-                    <a href="#mla-multi-head-latent-attention" aria-label="MLA (Multi-Head Latent Attention)">MLA (Multi-Head Latent Attention)</a>
+                    <a href="#rms-norm" aria-label="RMS Norm">RMS Norm</a></li>
+                <li>
+                    <a href="#mla-multi-head-latent-attention" aria-label="MLA (Multi-Head Latent Attention)">MLA (Multi-Head Latent Attention)</a></li>
+                <li>
+                    <a href="#deepseekmoe" aria-label="DeepSeekMoE">DeepSeekMoE</a><ul>
+                        
+                <li>
+                    <a href="#fine-grained-experts" aria-label="Fine-Grained Experts">Fine-Grained Experts</a></li>
+                <li>
+                    <a href="#shared-experts" aria-label="Shared Experts">Shared Experts</a></li>
+                <li>
+                    <a href="#auxiliary-loss-free-load-balancing" aria-label="Auxiliary-Loss-Free Load Balancing">Auxiliary-Loss-Free Load Balancing</a><ul>
+                        
+                <li>
+                    <a href="#full-equation" aria-label="Full Equation">Full Equation</a></li></ul>
+                </li>
+                <li>
+                    <a href="#node-limiting-routing" aria-label="Node-Limiting Routing">Node-Limiting Routing</a></li>
+                <li>
+                    <a href="#implementation" aria-label="Implementation">Implementation</a><ul>
+                        
+                <li>
+                    <a href="#complementary-sequence-wise-auxiliary-loss" aria-label="Complementary Sequence-Wise Auxiliary Loss">Complementary Sequence-Wise Auxiliary Loss</a></li></ul>
+                </li>
+                <li>
+                    <a href="#node-limited-routing" aria-label="Node-Limited Routing">Node-Limited Routing</a></li>
+                <li>
+                    <a href="#gate-implementation" aria-label="Gate Implementation">Gate Implementation</a></li>
+                <li>
+                    <a href="#mixture-of-experts-implementation" aria-label="Mixture of Experts Implementation">Mixture of Experts Implementation</a></li>
+                <li>
+                    <a href="#gate" aria-label="Gate">Gate</a></li>
+                <li>
+                    <a href="#parallelization" aria-label="Parallelization">Parallelization</a></li>
+                <li>
+                    <a href="#fp8-training" aria-label="FP8 Training">FP8 Training</a></li>
+                <li>
+                    <a href="#deepseekmoe-inference" aria-label="DeepSeekMoE Inference">DeepSeekMoE Inference</a></li></ul>
+                </li>
+                <li>
+                    <a href="#model-parallelism" aria-label="Model Parallelism">Model Parallelism</a></li>
+                <li>
+                    <a href="#quantization" aria-label="Quantization">Quantization</a>
                 </li>
             </ul>
         </div>
@@ -294,41 +296,311 @@ window.MathJax = {
 <li><a href="#conclusion">Conclusion</a></li>
 </ol>
 <h1 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h1>
-<pre tabindex="0"><code>{
-    &#34;vocab_size&#34;: 129280,
-    &#34;dim&#34;: 7168,
-    &#34;inter_dim&#34;: 18432,
-    &#34;moe_inter_dim&#34;: 2048,
-    &#34;n_layers&#34;: 61,
-    &#34;n_dense_layers&#34;: 3,
-    &#34;n_heads&#34;: 128,
-    &#34;n_routed_experts&#34;: 256,
-    &#34;n_shared_experts&#34;: 1,
-    &#34;n_activated_experts&#34;: 8,
-    &#34;n_expert_groups&#34;: 8,
-    &#34;n_limited_groups&#34;: 4,
-    &#34;route_scale&#34;: 2.5,
-    &#34;score_func&#34;: &#34;sigmoid&#34;,
-    &#34;q_lora_rank&#34;: 1536,
-    &#34;kv_lora_rank&#34;: 512,
-    &#34;qk_nope_head_dim&#34;: 128,
-    &#34;qk_rope_head_dim&#34;: 64,
-    &#34;v_head_dim&#34;: 128,
-    &#34;dtype&#34;: &#34;fp8&#34;
-}
-</code></pre><h1 id="model-arguments">Model Arguments<a hidden class="anchor" aria-hidden="true" href="#model-arguments">#</a></h1>
-<h1 id="mla">MLA<a hidden class="anchor" aria-hidden="true" href="#mla">#</a></h1>
-<h1 id="deepseekmoe">DeepSeekMoE<a hidden class="anchor" aria-hidden="true" href="#deepseekmoe">#</a></h1>
-<h1 id="rms-norm">RMS Norm<a hidden class="anchor" aria-hidden="true" href="#rms-norm">#</a></h1>
-<h1 id="model-parallelism">Model Parallelism<a hidden class="anchor" aria-hidden="true" href="#model-parallelism">#</a></h1>
-<h1 id="quantization">Quantization<a hidden class="anchor" aria-hidden="true" href="#quantization">#</a></h1>
+<p>DeepSeek has quickly become a household name after their release of DeepSeek-R1 model which caused dramatic sell off of NVIDIA stock, causing its value to drop by roughly 17% in one trading session, erasing $593 billion in market value, a record one-day loss for any company on Wall Street (<a href="https://www.reuters.com/technology/chinas-deepseek-sets-off-ai-market-rout-2025-01-27/">Reuters</a>).</p>
+<p>The intended audience of this post is someone who has a solid understanding of Deep Learning and GPT2.</p>
+<p>My favorite guides to GPT2:</p>
+<ul>
+<li>Andrej Karpathy&rsquo;s nanoGPT <a href="https://youtu.be/l8pRSuU81PU?si=CJfTSaAWVYtBSYkM">https://youtu.be/l8pRSuU81PU?si=CJfTSaAWVYtBSYkM</a></li>
+<li>ARENA - <a href="https://arena-chapter1-transformer-interp.streamlit.app/%5B1.1%5D_Transformer_from_Scratch">https://arena-chapter1-transformer-interp.streamlit.app/[1.1]_Transformer_from_Scratch</a></li>
+<li>Neel Nanda&rsquo;s Transformer Walkthrough Youtube series (<a href="https://youtu.be/bOYE6E8JrtU?si=CPbjtpRWJ0xji3t9">part1</a>/<a href="https://youtu.be/dsjUDacBw8o?si=ZWT0X_irEqgUH423">part2</a>) -</li>
+<li><a href="https://jalammar.github.io/illustrated-transformer/">https://jalammar.github.io/illustrated-transformer/</a> (very satisfying visual explanations)</li>
+</ul>
 <h1 id="positional-embeddings">Positional Embeddings<a hidden class="anchor" aria-hidden="true" href="#positional-embeddings">#</a></h1>
 <h2 id="rotary-positional-embeddings">Rotary Positional Embeddings<a hidden class="anchor" aria-hidden="true" href="#rotary-positional-embeddings">#</a></h2>
-<p><a href="https://blog.eleuther.ai/rotary-embeddings/">https://blog.eleuther.ai/rotary-embeddings/</a></p>
-<p>There have been many schemas for encoding positional information into transformers that each have their own tradeoffs. For example, GPT-2 used learned absolute positional embeddings, which are very simple, but fail to generalize to longer sequences and do not encode particularly meaningful information (absolute positions don&rsquo;t give information about the structure of language). On the other hand, relative positional embeddings like the one used in T5</p>
+<p>GPT-2 used learned absolute positional embeddings, which are very simple to implement, but fail to generalize since they do not encode particularly meaningful information. For example, when humans read text, do we care to if <em>this</em> word is the 8256th exact word in the text? Or do we care about its relationship to the words around it? The absolute position rarely matters for the meaning - what matters is how words relate to each other. On the other hand, many relative positional embeddings, such as the one used in T5, require maintaining explicit $N\times N$ relative position matrices which are very expensive.</p>
+<p>Additionally, GPT-2&rsquo;s positional embeddings, the model would generate a separate positional embeddings vector and <strong>add</strong> it with our token embeddings. By summing two vectors, we are <strong>polluting</strong> the semantic information with positional information. Instead, we need a way to encoding the positional information without affecting interference with the token embeddings. We can do this by switching from <strong>adding</strong> to <strong>multiplying</strong>.</p>
+<p><strong>Rotary Positional Embeddings (RoPE)</strong> aims to solve these issues with a principled, easy to implement, and generally-applicable method for relative embedding method.</p>
+<p>First, let&rsquo;s review how the attention layers use positional embeddings to pass information between tokens:</p>
+$$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$<p>In the attention layer, the input is projected into $Q$, $K$, and $V$ vectors. The amount of influence one token has to another token is determined by the $QK^T$ dot product. The $QK$ circuit shown above in purple represents one circuit from the $QK^T$ dot product.</p>
+<p>The formula for dot product can be represented as:</p>
+$$\vec{a} \cdot \vec{b} = |\vec{a}||\vec{b}|\cos(\theta)$$<p>The key insight the formula reveals is that we can change the result of the dot product by rotating the vectors.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">precompute_freqs_cis</span>(args: ModelArgs) <span style="color:#f92672">-&gt;</span> torch<span style="color:#f92672">.</span>Tensor:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Precomputes frequency-based complex exponential values for rotary positional embeddings.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Args:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        args (ModelArgs): Model arguments containing positional embedding parameters.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Returns:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        torch.Tensor: Precomputed complex exponential values for positional embeddings.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    dim <span style="color:#f92672">=</span> args<span style="color:#f92672">.</span>qk_rope_head_dim
+</span></span><span style="display:flex;"><span>    seqlen <span style="color:#f92672">=</span> args<span style="color:#f92672">.</span>max_seq_len
+</span></span><span style="display:flex;"><span>    base <span style="color:#f92672">=</span> args<span style="color:#f92672">.</span>rope_theta
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    freqs <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.0</span> <span style="color:#f92672">/</span> (base <span style="color:#f92672">**</span> (torch<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">0</span>, dim, <span style="color:#ae81ff">2</span>, dtype<span style="color:#f92672">=</span>torch<span style="color:#f92672">.</span>float32) <span style="color:#f92672">/</span> dim)) <span style="color:#75715e"># (dim // 2,)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    t <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>arange(seqlen) <span style="color:#75715e"># (seqlen,)</span>
+</span></span><span style="display:flex;"><span>    freqs <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>outer(t, freqs) <span style="color:#75715e"># (seqlen, dim // 2)</span>
+</span></span><span style="display:flex;"><span>    freqs_cis <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>polar(torch<span style="color:#f92672">.</span>ones_like(freqs), freqs) <span style="color:#75715e"># (seqlen, dim // 2)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> freqs_cis
+</span></span></code></pre></div><p>References:</p>
+<ul>
+<li><a href="https://blog.eleuther.ai/rotary-embeddings/">https://blog.eleuther.ai/rotary-embeddings/</a></li>
+<li><a href="https://fleetwood.dev/posts/you-could-have-designed-SOTA-positional-encoding">https://fleetwood.dev/posts/you-could-have-designed-SOTA-positional-encoding</a></li>
+</ul>
 <h2 id="yarn">Yarn<a hidden class="anchor" aria-hidden="true" href="#yarn">#</a></h2>
 <p><a href="https://arxiv.org/pdf/2309.00071">https://arxiv.org/pdf/2309.00071</a></p>
+<h1 id="rms-norm">RMS Norm<a hidden class="anchor" aria-hidden="true" href="#rms-norm">#</a></h1>
 <h1 id="mla-multi-head-latent-attention">MLA (Multi-Head Latent Attention)<a hidden class="anchor" aria-hidden="true" href="#mla-multi-head-latent-attention">#</a></h1>
+<p>Since the Multi-Head Attention was first introduced in &ldquo;Attention is All You Need&rdquo; in 2017, it has prove to be a general purpose architecture that is expressive (in the forward pass), optimizable (via backpropogation and gradient descent), and efficient (high parallelism compute graph) (<a href="https://x.com/karpathy/status/1582807367988654081">See Karpathy Tweet</a>), while remaining largely the same as when it was first released. However, one of the main issues with Multi-Head Attention that remains is that generations for long sequence lengths become memory bound by the Key-Value (KV) cache which limits inference efficiency.</p>
+<details>
+<summary>Recap: What is the Key-Value (KV) cache?</summary>
+<p>LLMs generate text one token at a time, in a process called autoregressive generation. The output at each step becomes part of the input for the next step. Every time the model generates a new token, it re-calculates values from previous iterations which is extremely wasteful, especially for longer context lengths. The biggest bottleneck for long context is the attention mechanism because the cost of its pairwise comparisons between tokens scale quadratically $O(n^2)$ with sequence length. The KV cache address this issue by caching Keys and Values from previous iterations.</p>
+<p><img alt="KV Cache" loading="lazy" src="ref/kv-cache.png"></p>
+<hr>
+</details>
+<p>Multi-Head Latent Attention (MLA) was one of the major breakthroughs made by DeepSeek, first introduced in the <a href="https://arxiv.org/pdf/2405.04434">DeepSeek-V2</a> paper. This novel attention implementation was designed to drastically cut down on the memory, the main bottleneck in the transformer architecture, by reducing the size of the KV cache. Other methods have also been tried such as Multi-Query Attention (MQA) and Grouped-Query Attention (GQA), but have not shown strong performance.</p>
+<h1 id="deepseekmoe">DeepSeekMoE<a hidden class="anchor" aria-hidden="true" href="#deepseekmoe">#</a></h1>
+<p>DeepSeek&rsquo;s Mixture of Experts (MoE) architecture known as <a href="https://arxiv.org/pdf/2401.06066"><strong>DeepSeekMoE</strong></a> replaces the traditional dense MLP layers, like the ones used in GPT-2. The idea of the MoE architecture is to compose a <strong>system of separate expert networks</strong> that are each responsible for handling a different region of the input space, and then using a <strong>gating network</strong> to determine which experts to activate and to weigh the contributions of each of the activated experts to the final output.</p>
+<p>Compared to dense MLP/Feed-Forward layers, sparse MoE layers are beneficial for several key reasons:</p>
+<ol>
+<li><strong>Computational Efficiency</strong> - MoE models can achieve better performance while drastically reducing computational cost at inference by only activating a subset of their parameters instead of all of the parameters.</li>
+<li><strong>Specialization and Modularity</strong> - Expert Networks become specialized for different types of inputs or tasks which allows models to develop deep competences in multiple domains without experts interfering with each other&rsquo;s learning.</li>
+<li><strong>Scaling Benefits</strong> - Compute scales with the number of active parameters, not total parameters. Therefore, MoE layers allow models to scale to much larger parameter counts without proportionally increasing compute costs.</li>
+</ol>
+<p>While there were open source LLMs that used the MoE architecture, such as in Mixtral&rsquo;s <a href="https://arxiv.org/pdf/2401.04088">Mixture of Experts</a>, most of the frontier open source models were based around Llama (up to Llama 3.2 as of DeepSeek-V3&rsquo;s release) and still used dense MLP/Feed-Forward layers. DeepSeek-V3 made key innovations that addressed common issues in traditional MoE architectures such as routing instability and collapse, load imbalance, communication overhead, etc.</p>
+<p align="center">
+  <img src="ref/DeepSeekMoE.png" alt="DeepSeekMoE">
+</p>
+<p align="center"><em>Figure 1: DeepSeekMoE Architecture Overview</em></p>
+<h2 id="fine-grained-experts">Fine-Grained Experts<a hidden class="anchor" aria-hidden="true" href="#fine-grained-experts">#</a></h2>
+<p>When there are only a limited/small number of experts, each expert needs to cover a wide range of knowledge with many diverse concepts. As a result, each expert holds vastly different types of knowledge, which makes it difficult to cleanly select the best experts to use for each token. However, if we had a large number of experts, knowledge could be better decomposed, leading to a more focused knowledge distribution across experts.</p>
+<p>DeepSeekMoE addresses this issue with <strong>Fine-Grained</strong> experts which enable more flexible and adaptable complication of activated experts. For example, as shown in the figure above,</p>
+<h2 id="shared-experts">Shared Experts<a hidden class="anchor" aria-hidden="true" href="#shared-experts">#</a></h2>
+<p>In conventional Mixture of Experts architectures (shown above as <code>Subfigure (a)</code>), experts may need to learn some common knowledge or information. This means that many experts are likely to converge in storing shared knowledge in their parameters, resulting in redundancies. Shared experts (shown above as <code>Subfigure (c)</code>) address this problem by dedicating a subset of experts to always activated, regardless of the router module.</p>
+<h2 id="auxiliary-loss-free-load-balancing">Auxiliary-Loss-Free Load Balancing<a hidden class="anchor" aria-hidden="true" href="#auxiliary-loss-free-load-balancing">#</a></h2>
+<p>Mixture of Experts models are much harder to train compared to conventional dense MLP/FeedForward model because of the extra complexity of load balancing experts. An unbalanced expert load leads to routing collapse (when a small subset of experts handles a disproportionately large amount of the workload) which results in underutilized parameters, limiting model diversity and capability. Common solutions rely on the use of an auxiliary loss (an additional loss function added to the primary loss function) to avoid an unbalanced load of experts. However, this approach hurts model performance by conflicting with the primary next token prediction loss function and hyperparameter sensitivity of the auxiliary loss weighting factor hyperparameter.</p>
+<p>Instead, DeepSeek-V3 pioneers an auxiliary-loss-free load balancing strategy to ensure load balancing by introducing a bias term $b_i$ for each expert. This bias term is added to the the original affinity scores $s_{i,t}$ which is used in top-$K$ routing:</p>
+$$
+\begin{align}
+    g^{\prime}_{i,t} & = \begin{cases} 
+    s_{i,t}, & s_{i,t} + b_i \in \operatorname{Topk} (\{ s_{j, t} + b_j | 1 \leq j \leq N_r \}, K_{r}), \\
+    0, & \text{otherwise}.
+    \end{cases}
+\end{align}
+$$<p>where:</p>
+<ul>
+<li>$g^{\prime}_{i,t}$ is the routing weight for expert $i$ and token $t$</li>
+<li>$s_{i,t}$ is the raw routing for expert $i$ and token $t$</li>
+<li>$b_i$ is the bias term for expert $i$ used for load balancing</li>
+<li>$N_r$ is the total number of routed experts (256 in the 671B model)</li>
+<li>$K_r$ is the number of experts to activate per token (8 in the 671B model)</li>
+</ul>
+<h3 id="full-equation">Full Equation<a hidden class="anchor" aria-hidden="true" href="#full-equation">#</a></h3>
+$$
+\begin{align}
+    \mathbf{h}_{t}^{\prime} & = \mathbf{u}_{t} + \sum_{i=1}^{N_{s}} {\operatorname{FFN}^{(s)}_{i}\left( \mathbf{u}_{t} \right)} + \sum_{i=1}^{N_r} {g_{i,t} \operatorname{FFN}^{(r)}_{i}\left( \mathbf{u}_{t} \right)}, \\
+    g_{i,t} & = \frac{g^{\prime}_{i,t}}{\sum_{j=1}^{N_r} g^{\prime}_{j,t}}, \\
+        g^{\prime}_{i,t} & = \begin{cases} 
+    s_{i,t}, & s_{i,t} + b_i \in \operatorname{Topk} (\{ s_{j, t} + b_j | 1 \leq j \leq N_r \}, K_{r}), \\
+    0, & \text{otherwise}.
+    \end{cases} \\
+    s_{i,t} & = \operatorname{Sigmoid} \left( {\mathbf{u}_{t}}^{T} \mathbf{e}_{i} \right),
+\end{align}
+$$<p>where:</p>
+<ul>
+<li>$\mathbf{h}_{t}^{\prime}$ is the output of the MoE layer for token $t$</li>
+<li>$\mathbf{u}_{t}$ is the normalized residual stream for token $t$</li>
+<li>$\operatorname{FFN}^{(s)}_{i}$ is the $i$-th shared expert feed-forward network</li>
+<li>$\operatorname{FFN}^{(r)}_{i}$ is the $i$-th router expert feed-forward network</li>
+<li>$N_r$ is the number of routed experts (256 in the 671B model)</li>
+<li>$g_{i,t}$ is the normalized routing weight for expert $i$ and token $t$</li>
+<li>$g^{\prime}_{i,t}$ is the unnormalized routing weight, only non-zero for top-k experts</li>
+<li>$K_r$ is the number of activated experts per token (8 in the 671B model)</li>
+<li>$s_{i,t}$ is the raw routing score from the sigmoid gate</li>
+<li>$\mathbf{e}_{i}$ is the learned routing parameters for expert $i$</li>
+</ul>
+<h2 id="node-limiting-routing">Node-Limiting Routing<a hidden class="anchor" aria-hidden="true" href="#node-limiting-routing">#</a></h2>
+<h2 id="implementation">Implementation<a hidden class="anchor" aria-hidden="true" href="#implementation">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Gate</span>(nn<span style="color:#f92672">.</span>Module):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Gating mechanism for routing inputs in a mixture-of-experts (MoE) model.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Attributes:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        dim (int): Dimensionality of input features.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        topk (int): Number of top experts activated for each input.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        n_groups (int): Number of groups for routing.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        topk_groups (int): Number of groups to route inputs to.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        route_scale (float): Scaling factor for routing weights.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        weight (torch.nn.Parameter): Learnable weights for the gate.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        bias (torch.nn.Parameter): Optional bias term for the gate.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, args: ModelArgs):
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Initializes the Gate module.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Args:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            args (ModelArgs): Model arguments containing gating parameters.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        super()<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># (--- Hyperparameter ---)#</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>dim <span style="color:#f92672">=</span> args<span style="color:#f92672">.</span>dim <span style="color:#75715e"># 7168 </span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>topk <span style="color:#f92672">=</span> args<span style="color:#f92672">.</span>n_activated_experts <span style="color:#75715e"># 8</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>n_groups <span style="color:#f92672">=</span> args<span style="color:#f92672">.</span>n_expert_groups <span style="color:#75715e"># 8</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>topk_groups <span style="color:#f92672">=</span> args<span style="color:#f92672">.</span>n_limited_groups <span style="color:#75715e"># 4</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>route_scale <span style="color:#f92672">=</span> args<span style="color:#f92672">.</span>route_scale <span style="color:#75715e"># 2.5</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># (--- Routing Parameters ---)#</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>weight <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>Parameter(torch<span style="color:#f92672">.</span>empty(args<span style="color:#f92672">.</span>n_routed_experts, args<span style="color:#f92672">.</span>dim)) <span style="color:#75715e"># (256, 7168)</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>bias <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>Parameter(torch<span style="color:#f92672">.</span>empty(args<span style="color:#f92672">.</span>n_routed_experts)) <span style="color:#75715e"># (256)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, x: torch<span style="color:#f92672">.</span>Tensor) <span style="color:#f92672">-&gt;</span> Tuple[torch<span style="color:#f92672">.</span>Tensor, torch<span style="color:#f92672">.</span>Tensor]:
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Forward pass for the gating mechanism.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Args:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            x (torch.Tensor): Input tensor.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Returns:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            Tuple[torch.Tensor, torch.Tensor]: Routing weights and selected expert indices.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># (--- 1. Compute routing scores ---)#</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># (batch_size * seq_len, n_dim) @ (n_dim, n_routed_experts) = (batch_size * seq_len, n_routed_experts)</span>
+</span></span><span style="display:flex;"><span>        scores <span style="color:#f92672">=</span> linear(x, self<span style="color:#f92672">.</span>weight) <span style="color:#75715e">#  (batch_size * seq_len, 256 routed experts)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Apply sigmoid score function and add bias term</span>
+</span></span><span style="display:flex;"><span>        scores <span style="color:#f92672">=</span> scores<span style="color:#f92672">.</span>sigmoid()
+</span></span><span style="display:flex;"><span>        original_scores <span style="color:#f92672">=</span> scores
+</span></span><span style="display:flex;"><span>        scores <span style="color:#f92672">=</span> scores <span style="color:#f92672">+</span> self<span style="color:#f92672">.</span>bias
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#(--- 2. Mask scores not in top k groups ---)#</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Reshape into groups </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># (batch_size * seq_len, n_groups, n_routed_experts)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># (batch_size * seq_len, 8 GPU nodes, 32 experts)</span>
+</span></span><span style="display:flex;"><span>        scores <span style="color:#f92672">=</span> scores<span style="color:#f92672">.</span>view(x<span style="color:#f92672">.</span>size(<span style="color:#ae81ff">0</span>), self<span style="color:#f92672">.</span>n_groups, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># (batch_size * seq_len, n_groups); (batch_size * seq_len, 8 groups)</span>
+</span></span><span style="display:flex;"><span>        group_scores <span style="color:#f92672">=</span> scores<span style="color:#f92672">.</span>topk(<span style="color:#ae81ff">2</span>, dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>)[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>sum(dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>) <span style="color:#75715e"># sum of top 2 scores from each group </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Select indices of top k GPU nodes (4 nodes)</span>
+</span></span><span style="display:flex;"><span>        indices <span style="color:#f92672">=</span> group_scores<span style="color:#f92672">.</span>topk(self<span style="color:#f92672">.</span>topk_groups, dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>)[<span style="color:#ae81ff">1</span>] <span style="color:#75715e">#(batch_size * seq_len, 4 groups)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Apply mask to keep only experts from selected nodes</span>
+</span></span><span style="display:flex;"><span>        mask <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>zeros_like(scores[<span style="color:#f92672">...</span>, <span style="color:#ae81ff">0</span>])<span style="color:#f92672">.</span>scatter_(<span style="color:#ae81ff">1</span>, indices, <span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>        scores <span style="color:#f92672">=</span> (scores <span style="color:#f92672">*</span> mask<span style="color:#f92672">.</span>unsqueeze(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>))<span style="color:#f92672">.</span>flatten(<span style="color:#ae81ff">1</span>) <span style="color:#75715e"># (batch_size * seq_len, 256 routed experts)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Select indices of top k experts (8 experts)</span>
+</span></span><span style="display:flex;"><span>        indices <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>topk(scores, self<span style="color:#f92672">.</span>topk, dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>)[<span style="color:#ae81ff">1</span>] <span style="color:#75715e"># (batch_size * seq_len, 8 experts)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Gather routing weights for top k experts (8 experts)</span>
+</span></span><span style="display:flex;"><span>        weights <span style="color:#f92672">=</span> original_scores<span style="color:#f92672">.</span>gather(<span style="color:#ae81ff">1</span>, indices) <span style="color:#75715e"># (batch_size * seq_len, 8 experts)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Normalize routing weights for larger models</span>
+</span></span><span style="display:flex;"><span>        weights <span style="color:#f92672">/=</span> weights<span style="color:#f92672">.</span>sum(dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>, keepdim<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Scale routing weights by route_scale</span>
+</span></span><span style="display:flex;"><span>        weights <span style="color:#f92672">*=</span> self<span style="color:#f92672">.</span>route_scale <span style="color:#75715e"># (batch_size * seq_len, 8 experts)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> weights<span style="color:#f92672">.</span>type_as(x), indices
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MoE</span>(nn<span style="color:#f92672">.</span>Module):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Mixture-of-Experts (MoE) module.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Attributes:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        dim (int): Dimensionality of input features.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        n_routed_experts (int): Total number of experts in the model.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        n_local_experts (int): Number of experts handled locally in distributed systems.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        n_activated_experts (int): Number of experts activated for each input.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        gate (nn.Module): Gating mechanism to route inputs to experts.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        experts (nn.ModuleList): List of expert modules.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        shared_experts (nn.Module): Shared experts applied to all inputs.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, args: ModelArgs):
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Initializes the MoE module.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Args:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            args (ModelArgs): Model arguments containing MoE parameters.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        super()<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># (--- Model Dimensions ---)#</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>dim <span style="color:#f92672">=</span> args<span style="color:#f92672">.</span>dim
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">assert</span> args<span style="color:#f92672">.</span>n_routed_experts <span style="color:#f92672">%</span> world_size <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>n_routed_experts <span style="color:#f92672">=</span> args<span style="color:#f92672">.</span>n_routed_experts <span style="color:#75715e"># 256</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>n_local_experts <span style="color:#f92672">=</span> args<span style="color:#f92672">.</span>n_routed_experts <span style="color:#f92672">//</span> world_size
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>n_activated_experts <span style="color:#f92672">=</span> args<span style="color:#f92672">.</span>n_activated_experts <span style="color:#75715e"># 8</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>experts_start_idx <span style="color:#f92672">=</span> rank <span style="color:#f92672">*</span> self<span style="color:#f92672">.</span>n_local_experts
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>experts_end_idx <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>experts_start_idx <span style="color:#f92672">+</span> self<span style="color:#f92672">.</span>n_local_experts
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># (--- Routing Gate ---)#</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>gate <span style="color:#f92672">=</span> Gate(args)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># (--- Routed and Shared Experts ---)#</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>experts <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>ModuleList([Expert(args<span style="color:#f92672">.</span>dim, args<span style="color:#f92672">.</span>moe_inter_dim) <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>experts_start_idx <span style="color:#f92672">&lt;=</span> i <span style="color:#f92672">&lt;</span> self<span style="color:#f92672">.</span>experts_end_idx <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>                                      <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(self<span style="color:#f92672">.</span>n_routed_experts)])
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>shared_experts <span style="color:#f92672">=</span> MLP(args<span style="color:#f92672">.</span>dim, args<span style="color:#f92672">.</span>n_shared_experts <span style="color:#f92672">*</span> args<span style="color:#f92672">.</span>moe_inter_dim)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, x: torch<span style="color:#f92672">.</span>Tensor) <span style="color:#f92672">-&gt;</span> torch<span style="color:#f92672">.</span>Tensor:
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Forward pass for the MoE module.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Args:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            x (torch.Tensor): Input tensor.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Returns:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            torch.Tensor: Output tensor after expert routing and computation.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        shape <span style="color:#f92672">=</span> x<span style="color:#f92672">.</span>size()
+</span></span><span style="display:flex;"><span>        x <span style="color:#f92672">=</span> x<span style="color:#f92672">.</span>view(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, self<span style="color:#f92672">.</span>dim) <span style="color:#75715e"># Flatten input tensor to (batch_size * seq_len, n_dim)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#(--- 1. Gate ---)#     </span>
+</span></span><span style="display:flex;"><span>        weights, indices <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>gate(x) <span style="color:#75715e"># (batch_size * seq_len, 8 experts), (batch_size * seq_len, 8 experts)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#(--- 2. Apply Experts ---)#</span>
+</span></span><span style="display:flex;"><span>        y <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>zeros_like(x) <span style="color:#75715e"># (batch_size * seq_len, n_dim)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Count how many tokens selected each expert (e.g., for 671B model with 256 routed experts,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># returns a list of 256 integers where counts[i] = number of tokens that selected expert i)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># (batch_size * seq_len, 256 routed experts)</span>
+</span></span><span style="display:flex;"><span>        counts <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>bincount(indices<span style="color:#f92672">.</span>flatten(), minlength<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>n_routed_experts)<span style="color:#f92672">.</span>tolist()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(self<span style="color:#f92672">.</span>experts_start_idx, self<span style="color:#f92672">.</span>experts_end_idx): <span style="color:#75715e"># model parallelism</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Skip experts not within top k experts</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> counts[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>: 
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            expert <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>experts[i]
+</span></span><span style="display:flex;"><span>            idx, top <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>where(indices <span style="color:#f92672">==</span> i)
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            y[idx] <span style="color:#f92672">+=</span> expert(x[idx]) <span style="color:#f92672">*</span> weights[idx, top, <span style="color:#66d9ef">None</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#(--- 3. Apply Shared Experts ---)#</span>
+</span></span><span style="display:flex;"><span>        z <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>shared_experts(x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#(--- 4. Gather Results from All GPUs ---)#</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> world_size <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>            dist<span style="color:#f92672">.</span>all_reduce(y)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># (--- 5. Sum results from routed experts and shared experts and reshape back to residual stream dimension ---)#</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> (y <span style="color:#f92672">+</span> z)<span style="color:#f92672">.</span>view(shape) 
+</span></span></code></pre></div><h3 id="complementary-sequence-wise-auxiliary-loss">Complementary Sequence-Wise Auxiliary Loss<a hidden class="anchor" aria-hidden="true" href="#complementary-sequence-wise-auxiliary-loss">#</a></h3>
+$$
+\begin{align}
+    \mathcal{L}_{\mathrm{Bal}} & = \alpha \sum_{i=1}^{N_r}{f_i P_i}, \\
+    f_i = \frac{N_r}{K_r T} \sum_{t=1}^{T} \mathbb{1} & \left( s_{i,t} \in \operatorname{Topk} ( \{ s_{j, t} | 1 \leq j \leq N_r \}, K_{r} ) \right), \\
+    s^{\prime}_{i,t} & = \frac{s_{i,t}}{\sum_{j=1}^{N_r} s_{j,t}}, \\
+    P_i & = \frac{1}{T} \sum_{t=1}^{T}{s^{\prime}_{i,t}},
+\end{align}
+$$<p>In DeepSeek-V3&rsquo;s full 671B parameter model, each MoE layer has a total of 256 expert, but only 8 of the experts are activated per token.</p>
+<h2 id="node-limited-routing">Node-Limited Routing<a hidden class="anchor" aria-hidden="true" href="#node-limited-routing">#</a></h2>
+<p>Ensure that each token will be sent to at most M nodes, which are selected according to the sum of the highest activated experts / total</p>
+<h2 id="gate-implementation">Gate Implementation<a hidden class="anchor" aria-hidden="true" href="#gate-implementation">#</a></h2>
+<h2 id="mixture-of-experts-implementation">Mixture of Experts Implementation<a hidden class="anchor" aria-hidden="true" href="#mixture-of-experts-implementation">#</a></h2>
+<p>Links</p>
+<ul>
+<li><a href="https://huggingface.co/blog/moe#making-moes-go-brrr">https://huggingface.co/blog/moe#making-moes-go-brrr</a></li>
+</ul>
+<h2 id="gate">Gate<a hidden class="anchor" aria-hidden="true" href="#gate">#</a></h2>
+<h2 id="parallelization">Parallelization<a hidden class="anchor" aria-hidden="true" href="#parallelization">#</a></h2>
+<h2 id="fp8-training">FP8 Training<a hidden class="anchor" aria-hidden="true" href="#fp8-training">#</a></h2>
+<h2 id="deepseekmoe-inference">DeepSeekMoE Inference<a hidden class="anchor" aria-hidden="true" href="#deepseekmoe-inference">#</a></h2>
+<h1 id="model-parallelism">Model Parallelism<a hidden class="anchor" aria-hidden="true" href="#model-parallelism">#</a></h1>
+<h1 id="quantization">Quantization<a hidden class="anchor" aria-hidden="true" href="#quantization">#</a></h1>
 
 
   </div>
@@ -336,13 +608,6 @@ window.MathJax = {
   <footer class="post-footer">
     <ul class="post-tags">
     </ul>
-<nav class="paginav">
-  <a class="prev" href="http://localhost:1313/posts/my-first-post/">
-    <span class="title">« Prev</span>
-    <br>
-    <span>My First Post</span>
-  </a>
-</nav>
 
 
 <ul class="share-buttons">
