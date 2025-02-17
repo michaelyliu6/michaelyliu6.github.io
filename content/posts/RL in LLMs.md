@@ -1,9 +1,9 @@
 +++
 title = 'Training Language Models with Reinforcement Learning from Human Feedback'
-date = 2024-01-14T07:07:07+01:00
+date = 2024-02-15T07:07:07+01:00
 draft = false
 ShowToc = true
-TocOpen = false
+TocOpen = true
 +++
 
 Reinforcement Learning from Human Feedback (RLHF) is a technique used to fine-tune large language models (LLMs) to better align with human preferences. It involves training a reward model based on human feedback and then using reinforcement learning to optimize the LLM's policy to maximize the reward.
