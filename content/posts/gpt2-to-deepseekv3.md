@@ -1,5 +1,5 @@
 +++
-title = 'Toy Diffusion Model'
+title = 'Understanding Modern LLM Architectures with DeepSeek-V3'
 date = 2024-12-14T07:07:07+01:00
 draft = true
 +++

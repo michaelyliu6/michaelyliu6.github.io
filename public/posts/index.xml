@@ -6,8 +6,72 @@
     <description>Recent content in Posts on myliu6.ai</description>
     <generator>Hugo -- 0.140.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 15 Feb 2024 07:07:07 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 14 Dec 2024 07:07:07 +0100</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ML Papers</title>
+      <link>http://localhost:1313/posts/ml-papers/</link>
+      <pubDate>Sat, 14 Dec 2024 07:07:07 +0100</pubDate>
+      <guid>http://localhost:1313/posts/ml-papers/</guid>
+      <description>&lt;h1 id=&#34;ai-alignment&#34;&gt;AI Alignment&lt;/h1&gt;
+&lt;h2 id=&#34;constitutional-classifiers-defending-against-universal-jailbreaks-across-thousands-of-hours-of-red-teaming&#34;&gt;Constitutional Classifiers: Defending against Universal Jailbreaks across Thousands of Hours of Red Teaming&lt;/h2&gt;
+&lt;p&gt;Anthropic (Jan 2025) &lt;a href=&#34;https://arxiv.org/pdf/2501.18837&#34;&gt;https://arxiv.org/pdf/2501.18837&lt;/a&gt;
+&lt;img src=&#34;http://localhost:1313/assets/images/ml-papers/constitutional-classifiers.png&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;alignment-faking-in-large-language-models&#34;&gt;Alignment Faking in Large Language Models&lt;/h2&gt;
+&lt;p&gt;Anthropic (Dec 2024) &lt;a href=&#34;https://arxiv.org/pdf/2412.14093&#34;&gt;https://arxiv.org/pdf/2412.14093&lt;/a&gt;
+&lt;img src=&#34;http://localhost:1313/assets/images/ml-papers/alignment-faking.png&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;constitutional-ai-harmlessness-from-ai-feedback&#34;&gt;Constitutional AI: Harmlessness from AI Feedback&lt;/h2&gt;
+&lt;p&gt;Anthropic (Dec 2022) &lt;a href=&#34;https://arxiv.org/pdf/2212.08073&#34;&gt;https://arxiv.org/pdf/2212.08073&lt;/a&gt;
+&lt;img src=&#34;http://localhost:1313/assets/images/ml-papers/constitutional-ai.png&#34;&gt;&lt;/p&gt;
+&lt;h1 id=&#34;pre-training&#34;&gt;Pre-training&lt;/h1&gt;
+&lt;h2 id=&#34;deepseek-v2-a-strong-economical-and-efficient-mixture-of-experts-language-model&#34;&gt;DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model&lt;/h2&gt;
+&lt;p&gt;DeepSeek (June 2024) &lt;a href=&#34;https://arxiv.org/pdf/2405.04434&#34;&gt;https://arxiv.org/pdf/2405.04434&lt;/a&gt;
+&lt;img src=&#34;http://localhost:1313/assets/images/ml-papers/deepseek-v2.png&#34;&gt;&lt;/p&gt;
+&lt;h1 id=&#34;reinforcement-learning&#34;&gt;Reinforcement Learning&lt;/h1&gt;
+&lt;h2 id=&#34;deepseek-r1-incentivizing-reasoning-capability-in-llms-via-reinforcement-learning&#34;&gt;DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning&lt;/h2&gt;
+&lt;p&gt;DeepSeek (Jan 2025) &lt;a href=&#34;https://arxiv.org/pdf/2501.12948&#34;&gt;https://arxiv.org/pdf/2501.12948&lt;/a&gt;
+&lt;img src=&#34;http://localhost:1313/assets/images/ml-papers/deepseek-r1.png&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;deepseekmath-pushing-the-limits-of-mathematical-reasoning-in-open-language-models&#34;&gt;DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models&lt;/h2&gt;
+&lt;p&gt;DeepSeek (Apr 2024) &lt;a href=&#34;https://arxiv.org/pdf/2401.06066&#34;&gt;https://arxiv.org/pdf/2401.06066&lt;/a&gt;
+&lt;img src=&#34;http://localhost:1313/assets/images/ml-papers/grpo.png&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Toy Diffusion Model</title>
+      <link>http://localhost:1313/posts/part1_toy_model/</link>
+      <pubDate>Sat, 14 Dec 2024 07:07:07 +0100</pubDate>
+      <guid>http://localhost:1313/posts/part1_toy_model/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;img src=&#34;http://localhost:1313/assets/images/references/paper_background.png&#34; alt=&#34;Paper Background&#34;&gt;
+&lt;figcaption&gt;&lt;code&gt;Section 2: Background&lt;/code&gt; in &lt;a href=&#34;https://arxiv.org/pdf/2006.11239#page=2&#34;&gt;Denoising Diffusion Probabilistic Models&lt;/a&gt;&lt;/figcaption&gt;
+&lt;h3 id=&#34;equation-1-reverse-process&#34;&gt;Equation 1: Reverse Process&lt;/h3&gt;
+&lt;p&gt;$p$ is a &lt;strong&gt;probability density function&lt;/strong&gt; that represents the &lt;strong&gt;reverse&lt;/strong&gt; process, the process of adding noise.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s start with the notation $p(x_T) = N(x_T; 0, I)$. $N$ is a normal distribution. $0$ is the mean (centered at zero). $I$ is the identity matrix representing the covariance (meaning that elements are independent with unit variance). It describes the distribution of completely random noise, which is the starting point $x_T$.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Understanding Modern LLM Architectures with DeepSeek-V3</title>
+      <link>http://localhost:1313/posts/gpt2-to-deepseekv3/</link>
+      <pubDate>Sat, 14 Dec 2024 07:07:07 +0100</pubDate>
+      <guid>http://localhost:1313/posts/gpt2-to-deepseekv3/</guid>
+      <description>&lt;h1 id=&#34;table-of-contents&#34;&gt;Table of Contents&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#model-architecture&#34;&gt;Model Architecture&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#inference&#34;&gt;Inference&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;DeepSeek has quickly become a household name after their release of DeepSeek-R1 model which caused dramatic sell off of NVIDIA stock, causing its value to drop by roughly 17% in one trading session, erasing $593 billion in market value, a record one-day loss for any company on Wall Street (&lt;a href=&#34;https://www.reuters.com/technology/chinas-deepseek-sets-off-ai-market-rout-2025-01-27/&#34;&gt;Reuters&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;The intended audience of this post is someone who has a solid understanding of Deep Learning and GPT2.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>AI Alignment</title>
+      <link>http://localhost:1313/posts/alignment/</link>
+      <pubDate>Thu, 15 Feb 2024 07:07:07 +0100</pubDate>
+      <guid>http://localhost:1313/posts/alignment/</guid>
+      <description>&lt;h2 id=&#34;capabilities-and-alignment&#34;&gt;Capabilities and Alignment&lt;/h2&gt;
+&lt;p&gt;The field of AI safety, there is an important distinction between &lt;strong&gt;capabilities evaluations&lt;/strong&gt; and &lt;strong&gt;alignment evaluations&lt;/strong&gt;. &lt;strong&gt;Capabilities evaluations&lt;/strong&gt; measures the the capacity  (i.e. what the model &amp;ldquo;can&amp;rdquo; do), such as its proficiency at logical reasoning, coding, or writing. &lt;strong&gt;Alignment evaluations&lt;/strong&gt; measures the tendency for models to exhibit certain behaviors (i.e. what the model &amp;ldquo;wants&amp;rdquo; to do), such as being helpful, honest, and harmless, &lt;a href=&#34;https://en.wikipedia.org/wiki/Sycophancy&#34;&gt;sycophantic&lt;/a&gt;, or deceptive.&lt;/p&gt;
+&lt;p&gt;We can conceptualize different combinations of capabilities and alignment:&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Training Language Models with Reinforcement Learning from Human Feedback</title>
       <link>http://localhost:1313/posts/rlhf/</link>
@@ -18,6 +82,46 @@
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;Supervised Fine-tuning (SFT):&lt;/strong&gt; An initial language model is fine-tuned on a dataset of high-quality demonstrations, where the model learns to imitate the provided examples.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Agents</title>
+      <link>http://localhost:1313/posts/agents/</link>
+      <pubDate>Sun, 14 Jan 2024 07:07:07 +0100</pubDate>
+      <guid>http://localhost:1313/posts/agents/</guid>
+      <description>&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;http://localhost:1313/assets/images/agents/CodeAct.png&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;smolagents-httpsgithubcomhuggingfacesmolagents&#34;&gt;smolagents (&lt;a href=&#34;https://github.com/huggingface/smolagents&#34;&gt;https://github.com/huggingface/smolagents&lt;/a&gt;)&lt;/h2&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;http://localhost:1313/assets/images/agents/smolAgents-GAIA-benchmark.png&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>DeepSeek-VL2</title>
+      <link>http://localhost:1313/posts/deepseek-vl2/</link>
+      <pubDate>Sun, 14 Jan 2024 07:07:07 +0100</pubDate>
+      <guid>http://localhost:1313/posts/deepseek-vl2/</guid>
+      <description>&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;ref/DeepSeek-VLM2.png&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;b&lt;/code&gt;: Batch size&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;T&lt;/code&gt;: Original text sequence length&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;T&#39;&lt;/code&gt;: Text sequence length + image tokens&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;max_n_images&lt;/code&gt;: Maximum number of images&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;H, W&lt;/code&gt;: Original image height/width&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;h, w&lt;/code&gt;: Cropped image height/width&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;num_patches&lt;/code&gt;: Number of patches (Vision Encoder)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;embed_dim&lt;/code&gt;: Vision Encoder embedding dimension&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;D&lt;/code&gt;: Language model embedding dimension&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;num_tiles&lt;/code&gt;: Total number of image tiles&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;prefix_tokens&lt;/code&gt;: Number of class tokens&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;vlm-architecture&#34;&gt;VLM Architecture&lt;/h3&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;ref/DeepSeek-VLM-arch2.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s break down the full autoregressive workflow of DeepSeek-VL2, step-by-step, in words. This will cover both the initial processing of the prompt (which can be optimized with incremental prefilling) and the subsequent token-by-token generation.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>My First Post</title>
+      <link>http://localhost:1313/posts/my-first-post/</link>
+      <pubDate>Sun, 14 Jan 2024 07:07:07 +0100</pubDate>
+      <guid>http://localhost:1313/posts/my-first-post/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Hi there! My name is Michael Liu.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
