@@ -10,9 +10,9 @@
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Training Language Models with Reinforcement Learning from Human Feedback</title>
-      <link>http://localhost:1313/posts/rl-in-llms/</link>
+      <link>http://localhost:1313/posts/rlhf/</link>
       <pubDate>Thu, 15 Feb 2024 07:07:07 +0100</pubDate>
-      <guid>http://localhost:1313/posts/rl-in-llms/</guid>
+      <guid>http://localhost:1313/posts/rlhf/</guid>
       <description>&lt;p&gt;Reinforcement Learning from Human Feedback (RLHF) is a technique used to fine-tune large language models (LLMs) to better align with human preferences. It involves training a reward model based on human feedback and then using reinforcement learning to optimize the LLM&amp;rsquo;s policy to maximize the reward.&lt;/p&gt;
 &lt;p&gt;This process generally involves three key steps:&lt;/p&gt;
 &lt;ol&gt;

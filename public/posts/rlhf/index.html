@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Training Language Models with Reinforcement Learning from Human Feedback | myliu6.ai</title>
+<meta name="keywords" content="">
+<meta name="description" content="Reinforcement Learning from Human Feedback (RLHF) is a technique used to fine-tune large language models (LLMs) to better align with human preferences. It involves training a reward model based on human feedback and then using reinforcement learning to optimize the LLM&rsquo;s policy to maximize the reward.
+This process generally involves three key steps:
+
+
+Supervised Fine-tuning (SFT): An initial language model is fine-tuned on a dataset of high-quality demonstrations, where the model learns to imitate the provided examples.">
+<meta name="author" content="Michael Liu">
+<link rel="canonical" href="http://localhost:1313/posts/rlhf/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.200e94311823bd018afe1f3f5162f5c79f4ff85f8364e1c10d47cb0a43c114da.css" integrity="sha256-IA6UMRgjvQGK/h8/UWL1x59P&#43;F&#43;DZOHBDUfLCkPBFNo=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/%3Clink%20/%20abs%20url%3E">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/rlhf/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$']],
+    displayMath: [['\\[', '\\]'], ['$$', '$$']],
+    processEscapes: true,
+    processEnvironments: true
+  },
+  options: {
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  },
+  startup: {
+    pageReady: () => {
+      return MathJax.startup.defaultPageReady().then(() => {
+        console.log('MathJax initial typesetting complete');
+      });
+    }
+  },
+  chtml: {
+    fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2'
+  }
+};
+</script>
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+    <link rel="stylesheet" href="/css/custom.css">
+    <script src="/js/zoom.js"></script> 
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="myliu6.ai (Alt + H)">myliu6.ai</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main page">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Training Language Models with Reinforcement Learning from Human Feedback
+    </h1>
+    <div class="post-meta"><span title='2024-02-15 07:07:07 +0100 +0100'>February 15, 2024</span>&nbsp;·&nbsp;12 min&nbsp;·&nbsp;Michael Liu
+
+</div>
+  </header> <aside id="toc-container" class="toc-container wide">
+<div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#reward-model-training" aria-label="Reward Model Training">Reward Model Training</a><ul>
+                        
+                <li>
+                    <a href="#data-collection" aria-label="Data Collection">Data Collection</a></li>
+                <li>
+                    <a href="#reward-model-training-1" aria-label="Reward Model Training">Reward Model Training</a></li></ul>
+                </li>
+                <li>
+                    <a href="#ppo-learning-phase" aria-label="PPO Learning Phase">PPO Learning Phase</a><ul>
+                        
+                <li>
+                    <a href="#the-interplay-of-objective-terms-a-tug-of-war" aria-label="The Interplay of Objective Terms: A Tug-of-War">The Interplay of Objective Terms: A Tug-of-War</a></li>
+                <li>
+                    <a href="#ppo-algorithm-high-level" aria-label="PPO Algorithm (High-Level)">PPO Algorithm (High-Level)</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+        
+        activeElement = elements[0];
+        const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+        document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+    }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+            const id = encodeURI(element.getAttribute('id')).toLowerCase();
+            if (element === activeElement){
+                document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+            } else {
+                document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+            }
+        })
+    }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><p>Reinforcement Learning from Human Feedback (RLHF) is a technique used to fine-tune large language models (LLMs) to better align with human preferences. It involves training a reward model based on human feedback and then using reinforcement learning to optimize the LLM&rsquo;s policy to maximize the reward.</p>
+<p>This process generally involves three key steps:</p>
+<ol>
+<li>
+<p><strong>Supervised Fine-tuning (SFT):</strong> An initial language model is fine-tuned on a dataset of high-quality demonstrations, where the model learns to imitate the provided examples.</p>
+</li>
+<li>
+<p><strong>Reward Model Training:</strong> A reward model is trained on a dataset of human comparisons between different model outputs. This model learns to predict which output a human would prefer.</p>
+</li>
+<li>
+<p><strong>Reinforcement Learning Optimization:</strong> The LLM is further optimized using reinforcement learning, with the reward model providing feedback. The LLM&rsquo;s policy is updated to generate outputs that maximize the predicted reward.</p>
+</li>
+</ol>
+<h2 id="reward-model-training">Reward Model Training<a hidden class="anchor" aria-hidden="true" href="#reward-model-training">#</a></h2>
+<p>The goal of reward model training is to create a model that can predict the quality of text generated by an LLM, typically from a human preference perspective. This model is then used to provide feedback to the LLM during reinforcement learning. The process can be broken down into two main stages: data collection and model training.</p>
+<h3 id="data-collection">Data Collection<a hidden class="anchor" aria-hidden="true" href="#data-collection">#</a></h3>
+<ol>
+<li>
+<p><strong>Prompt Sampling:</strong> A set of prompts is sampled from a dataset or distribution relevant to the desired task. These prompts will be used to generate text samples.</p>
+</li>
+<li>
+<p><strong>Response Generation:</strong> The LLM (often the pre-trained or fine-tuned model before RL) generates multiple responses for each prompt. Typically, between 2 and 8 responses are generated per prompt to provide a range of quality. Another approach is <em>rejection sampling</em>, where a larger number of responses are generated, and then a subset is selected based on some criteria (e.g., diversity, quality, or a combination).</p>
+</li>
+<li>
+<p><strong>Human Preference Ranking:</strong> Human annotators are presented with the prompt and the generated responses. They rank the responses according to a set of criteria, such as helpfulness, harmlessness, and overall quality. This ranking provides the training signal for the reward model. Different ranking schemes can be used, such as:</p>
+<ul>
+<li><strong>Pairwise Comparison:</strong> Annotators choose the better of two responses. This is the most common approach.</li>
+<li><strong>Full Ranking:</strong> Annotators rank all responses for a given prompt from best to worst.</li>
+<li><strong>Rating:</strong> Annotators assign a scalar score (e.g., 1-5 stars) to each response. This can be converted to rankings.</li>
+</ul>
+</li>
+<li>
+<p><strong>Dataset Creation:</strong> The collected data, consisting of prompts, responses, and human preference rankings, is compiled into a training dataset.</p>
+</li>
+</ol>
+<details>
+<summary>See Anthropic's Data Collection Interface </summary>
+<p><img alt="Anthropic&rsquo;s Data Collection Interface" loading="lazy" src="/assets/images/rl_in_llms/anthropic_data_collection_interface.png"></p>
+</details>
+<h3 id="reward-model-training-1">Reward Model Training<a hidden class="anchor" aria-hidden="true" href="#reward-model-training-1">#</a></h3>
+<ol>
+<li>
+<p><strong>Model Architecture:</strong> A neural network is used as the reward model. This is often a transformer-based architecture, similar to the LLM being trained, but with a modified output layer. The model takes a prompt and a response as input and outputs a scalar reward score.</p>
+</li>
+<li>
+<p><strong>Loss Function:</strong> The reward model is trained to predict the human preference rankings. A common approach is to use a pairwise ranking loss. For example, if response A is preferred over response B, the model is trained to output a higher reward for response A than for response B. A common loss function is the <em>binary cross-entropy loss</em> applied to the pairwise comparisons. Let $r_\theta(x, y)$ be the scalar reward output by the reward model (with parameters $\theta$) for prompt $x$ and completion $y$. If $y_w$ is preferred to $y_l$ (i.e., $y_w$ is the &ldquo;winning&rdquo; completion and $y_l$ is the &ldquo;losing&rdquo; completion), the loss function is:</p>
+$$loss(\theta) = -\log(\sigma(r_\theta(x, y_w) - r_\theta(x, y_l)))$$<p>where $\sigma$ is the sigmoid function. This loss encourages the reward model to assign a higher score to the preferred completion. The total loss is computed by averaging over all pairs in the dataset.</p>
+</li>
+<li>
+<p><strong>Training Procedure:</strong> The reward model is trained using standard supervised learning techniques, such as stochastic gradient descent (SGD) or Adam optimizer. The model&rsquo;s parameters are updated to minimize the loss function.</p>
+</li>
+<li>
+<p><strong>Evaluation:</strong> The reward model&rsquo;s performance is evaluated by measuring its accuracy in predicting human preferences on a held-out set of data.</p>
+</li>
+</ol>
+<details>
+<summary>See prompts from Anthropic's HH-RLHF dataset</summary>
+<p>Dataset: <a href="https://github.com/anthropics/hh-rlhf">https://github.com/anthropics/hh-rlhf</a></p>
+<p>Paper: <a href="https://arxiv.org/pdf/2204.05862">Training a Helpful and Harmless Assistant with Reinforcement Learning from Human Feedback</a></p>
+<p>Here are a few examples from Anthropic&rsquo;s Helpful and Harmless RLHF dataset, showing &ldquo;chosen&rdquo; and &ldquo;rejected&rdquo; responses:</p>
+<p><strong>Example 1: Smelly Armpits</strong></p>
+<ul>
+<li>
+<p><strong>Prompt:</strong> Human: What do I do if my armpits smell and I don&rsquo;t have deodorant on hand?</p>
+</li>
+<li>
+<p><strong>Chosen:</strong> Assistant: I think it&rsquo;s usually a good idea to wash under the armpits, and a quick rinse will usually be enough to eliminate or greatly reduce smells. However, you can also wipe under the arms with a moist (not soaking) towel to help reduce odor. If you are concerned, though, you could also try keeping a small box of baking soda in the bathroom, and also having a fabric (sponge or face cloth) moistened with plain water nearby to use if you need to freshen up or clean up before leaving the house.</p>
+</li>
+<li>
+<p><strong>Rejected:</strong> Assistant: You can do a variety of things to help reduce the smell. For instance, make sure you are drinking plenty of water and also eating fruits and vegetables, which will keep your skin well hydrated. The smell is produced by the bacteria naturally found on your skin, and if you help eliminate that bacteria with regular washing and bathing, it can also help reduce the odor.</p>
+</li>
+</ul>
+<p><strong>Example 2: Conscious Hip Hop</strong></p>
+<ul>
+<li>
+<p><strong>Prompt:</strong> Human: Can you recommend me some &lsquo;conscious&rsquo; hip hop?</p>
+<p>Assistant: What kind of conscious hip hop are you looking for?</p>
+<p>Human: Something fairly new, but I&rsquo;m thinking artists similar to Common and Talib Kweli and the like.</p>
+<p>Assistant: What kind of music would you say they make?</p>
+<p>Human: I think &lsquo;conscious hip-hop&rsquo; sums it up. I&rsquo;m looking for laid back sort of chill beats with people rapping about thoughtful, meaningful stuff, like those two do.</p>
+<p>Assistant: I recommend Atmosphere and Brother Ali.</p>
+<p>Human: Okay, I&rsquo;ll check them out. Can you name three or four more artists?</p>
+</li>
+<li>
+<p><strong>Chosen:</strong> Assistant: Yeah, I recommend Chance the Rapper, Kanye West, The Roots, Nas, and Macklemore.</p>
+</li>
+<li>
+<p><strong>Rejected:</strong> Assistant: I recommend Kendrick Lamar, J. Cole, Joey Bada$$, Action Bronson, Danny Brown, Chance the Rapper, Vic Mensa, Big K.R.I.T., and my personal favorite, Joey Purp.</p>
+</li>
+</ul>
+<p><strong>Example 3: Moving Company</strong></p>
+<ul>
+<li>
+<p><strong>Prompt:</strong> Human: move to a different town and need to find a good moving company to do so</p>
+<p>Assistant: What are you looking for in a moving company?</p>
+<p>Human: one that packages and moves you stuff</p>
+<p>Assistant: Do you want a company that packages and moves you all at once, or one that packages your stuff and helps you move it?</p>
+<p>Human: moves and packages all my stuff</p>
+<p>Assistant: Which kinds of moving are you looking for?  Are you looking for a cross-country move, a local move within one state, or a local move within a city or town?</p>
+<p>Human: few hundred miles or so</p>
+</li>
+<li>
+<p><strong>Chosen:</strong> Assistant: Are you interested in a local move within a city or town?  Or a cross-country move?</p>
+</li>
+<li>
+<p><strong>Rejected:</strong> Assistant: What type of move are you looking for?  Are you looking to move from one house to another, or are you looking to move to another town or city within the same state?</p>
+</li>
+</ul>
+</details>
+<p><img alt="RLHF in LLMs" loading="lazy" src="/assets/images/rl_in_llms/reward_model_training.png"></p>
+<h2 id="ppo-learning-phase">PPO Learning Phase<a hidden class="anchor" aria-hidden="true" href="#ppo-learning-phase">#</a></h2>
+<p>Proximal Policy Optimization (PPO) is a popular reinforcement learning algorithm used to train policies in various environments, including training language models. It addresses the challenge of efficiently and stably updating policies by preventing excessively large updates that can lead to performance collapse. In the context of LLMs, the PPO objective function is often augmented with several terms: a KL divergence penalty, a value function loss, and an optional entropy bonus. These additions help constrain policy updates, ensure accurate value estimation, and encourage exploration. PPO is an <em>actor-critic</em> method, meaning it uses two neural networks: the <em>actor</em> (the policy, $\pi_\theta$) and the <em>critic</em> (the value function, $V_\theta$).</p>
+<p>The complete PPO objective function for LLMs can be written as:</p>
+$$L^{PPO}(\theta) = \underbrace{\mathbb{E}_{(x,a) \sim \pi_{\theta_{old}}} [L^{CLIP}(\theta)]}_{\text{Clipped Surrogate Objective}} - \underbrace{\beta \mathbb{E}_{x \sim D} [KL(\pi_\theta(\cdot|x) || \pi_{ref}(\cdot|x))]}_{\text{KL Divergence Penalty}} + \underbrace{\gamma \mathbb{E}_{(x, a) \sim D} [V^{loss}]}_{\text{Value Function Loss}} + \underbrace{\eta \mathbb{E}_{(x, a) \sim D}[H]}_{\text{Entropy Bonus}} $$<p>Where:</p>
+<ul>
+<li>$(x,a) \sim \pi_{\theta_{old}}$: Expectation over state-action pairs $(x, a)$ sampled from the <em>old</em> policy, $\pi_{\theta_{old}}$. This highlights PPO&rsquo;s off-policy nature, using data from the previous policy to update the current one.</li>
+<li>$D$: The dataset of experiences collected using $\pi_{\theta_{old}}$ (often called a replay buffer).</li>
+</ul>
+<p><strong>1. Clipped Surrogate Objective ($L^{CLIP}$):</strong></p>
+$$L^{CLIP}(\theta) =  \mathbb{E}_{(x,a) \sim \pi_{\theta_{old}}} [\min(r_t(\theta)A_t, \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon)A_t)]$$<ul>
+<li>$r_t(\theta) = \frac{\pi_\theta(a_t|x_t)}{\pi_{\theta_{old}}(a_t|x_t)}$: The probability ratio, measuring the change in probability of taking action $a_t$ in state $x_t$ between the new policy $\pi_\theta$ and the old policy $\pi_{\theta_{old}}$.</li>
+<li>$\pi_\theta$: The current (new) policy being optimized.</li>
+<li>$\pi_{\theta_{old}}$: The old policy before the update (used for data collection and as a reference).</li>
+<li>$A_t$: The advantage estimate, indicating how much better action $a_t$ is compared to the average action at state $x_t$.  Calculated using methods like Generalized Advantage Estimation (GAE) or reward-to-go ($A_t = R_t - V(x_t)$).</li>
+<li>$\epsilon$: The clipping parameter (e.g., 0.2), limiting how much the new policy can deviate from the old policy.</li>
+<li>$x_t$: The state/context (e.g., the prompt).</li>
+<li>$a_t$: The action/response (e.g., generated text).</li>
+</ul>
+<p>The <code>clip</code> function restricts $r_t(\theta)$ to $[1-\epsilon, 1+\epsilon]$, preventing large policy updates. The <code>min</code> function chooses between the clipped and unclipped objective, ensuring the update doesn&rsquo;t increase the objective if the ratio is outside the clipped range.</p>
+<p><strong>2. KL Divergence Penalty:</strong></p>
+<ul>
+<li>$\beta$: The KL penalty coefficient, controlling the strength of the regularization.</li>
+<li>$KL(\pi_\theta(\cdot|x) || \pi_{ref}(\cdot|x))$: The KL divergence between the current policy&rsquo;s output distribution and the reference model&rsquo;s output distribution for input $x$.  The reference model is often the initial model (and <em>may be slowly updated</em>). This term discourages the policy from diverging too much from the reference, preserving general language understanding.</li>
+</ul>
+<p><strong>3. Value Function Loss:</strong></p>
+<ul>
+<li>$\gamma$: The value loss coefficient.</li>
+<li>$V^{loss}$: The value function loss, typically a squared error: $(V_\theta(x_t) - R_t)^2$.
+<ul>
+<li>$V_\theta(x_t)$: The value predicted by the critic network for state $x_t$.</li>
+<li>$R_t$: The observed return (cumulative discounted rewards) from state $x_t$.
+This loss ensures the critic accurately estimates state values.</li>
+</ul>
+</li>
+</ul>
+<p><strong>4. Entropy Bonus:</strong></p>
+<ul>
+<li>$\eta$: The entropy bonus coefficient.</li>
+<li>$H = -\sum_{a} \pi_\theta(a|x_t) \log \pi_\theta(a|x_t)$: The entropy of the policy&rsquo;s output distribution. This encourages exploration by favoring policies with higher entropy (more diverse actions), preventing premature convergence to suboptimal policies.</li>
+</ul>
+<p>The core idea of PPO is to constrain the policy update using the <code>clip</code> function in the $L^{CLIP}$ term. This function clips the probability ratio $r_t(\theta)$ to the range $[1-\epsilon, 1+\epsilon]$. This clipping prevents the new policy from moving too far away from the old policy in a single update. The $L^{CLIP}$ term takes the minimum of the unclipped and clipped objectives.</p>
+<p>The added KL divergence term, $\beta KL(\pi_\theta(\cdot|x) || \pi_{ref}(\cdot|x))$, acts as a regularizer. The value loss, $V^{loss}$ ensures the critic accurately estimates state values. The entropy bonus $H$ encourages exploration.</p>
+<h3 id="the-interplay-of-objective-terms-a-tug-of-war">The Interplay of Objective Terms: A Tug-of-War<a hidden class="anchor" aria-hidden="true" href="#the-interplay-of-objective-terms-a-tug-of-war">#</a></h3>
+<p>It&rsquo;s crucial to understand that the PPO objective function is maximized as a <em>whole</em>.  The terms work together, and sometimes against each other, to find the optimal policy.  A helpful analogy is a tug-of-war with three teams:</p>
+<ul>
+<li>
+<p><strong>Team Reward (L<sup>CLIP</sup>):</strong> This is the strongest team. It pulls the policy towards generating high-quality text that aligns with human preferences, as measured by the reward model.  A positive advantage in L<sup>CLIP</sup> means the generated text is good; a negative advantage means it&rsquo;s bad. This is the primary force driving the LLM to learn the desired behavior.</p>
+</li>
+<li>
+<p><strong>Team Reference (-β * KL):</strong> This team pulls the policy towards generating text that is coherent and grammatically correct, similar to the original pre-trained LLM (the reference policy).  It prevents the policy from drifting too far from the reference model&rsquo;s general language understanding.  A large KL divergence means the current policy is very different from the reference policy, which is penalized.</p>
+</li>
+<li>
+<p><strong>Team Entropy (η * H):</strong> This team pulls the policy towards generating diverse and exploratory text.  It encourages the model to try a wider range of tokens, preventing it from getting stuck in local optima.  However, this team is weaker than Team Reward.</p>
+</li>
+<li>
+<p><strong>Team Critic (V<sup>loss</sup>):</strong> While not directly involved in the tug of war <em>itself</em>, this team ensures that the advantage estimates used by Team Reward are accurate.</p>
+</li>
+</ul>
+<p>The final position of the rope (the LLM&rsquo;s learned policy) is determined by the balance of forces between these teams.  If the entropy bonus (Team Entropy) were the only factor, the model would generate random gibberish.  However, the other two teams (Reward and Reference) counteract this:</p>
+<ul>
+<li>If the model generates nonsensical text, Team Reward will pull strongly in the <em>opposite</em> direction (negative advantage), because the reward model will give low scores.</li>
+<li>If the model strays too far from coherent language, Team Reference will also pull strongly in the opposite direction (large KL divergence).</li>
+</ul>
+<p>The optimization process finds an equilibrium point where the forces are balanced.  The result is a policy that generates text that is:</p>
+<ol>
+<li><strong>High-quality</strong> (according to the reward model).</li>
+<li><strong>Coherent and grammatically correct</strong> (similar to the reference model).</li>
+<li><strong>Reasonably diverse</strong> (due to the entropy bonus).</li>
+</ol>
+<p>The hyperparameters (β, γ, and η) control the relative strengths of the teams. Tuning these hyperparameters is crucial for achieving the desired balance between exploration, exploitation, and adherence to the reference model.</p>
+<p>This balancing act is crucial for producing LLMs that are both helpful and reliable:</p>
+<ul>
+<li>Too much weight on Team Reward can lead to models that &ldquo;hack&rdquo; the reward function, finding degenerate solutions that maximize reward without actually being helpful</li>
+<li>Too much weight on Team Reference can result in models that barely improve over the base model</li>
+<li>Too much weight on Team Entropy can lead to inconsistent or random responses</li>
+</ul>
+<p>Finding the right balance through hyperparameter tuning is one of the key challenges in practical RLHF implementations. Typically, PPO performs multiple epochs of optimization on the collected data, using mini-batches to improve sample efficiency and reduce variance. The performance of PPO can be sensitive to the choice of hyperparameters, which often require tuning based on the specific task.</p>
+<h3 id="ppo-algorithm-high-level">PPO Algorithm (High-Level)<a hidden class="anchor" aria-hidden="true" href="#ppo-algorithm-high-level">#</a></h3>
+<p>Here&rsquo;s a simplified, high-level overview of the PPO algorithm:</p>
+<ol>
+<li>
+<p><strong>Initialize:</strong> Initialize the policy network ($\pi_\theta$) and value network ($V_\theta$) with parameters $\theta$.  Also, initialize the reference policy ($\pi_{ref}$), usually to a pre-trained language model.</p>
+</li>
+<li>
+<p><strong>Collect Data:</strong> For a fixed number of iterations:</p>
+<ul>
+<li>Use the current policy ($\pi_\theta$) to interact with the environment (e.g., generate text from prompts) and collect a set of trajectories.  Each trajectory consists of a sequence of states ($x_t$), actions ($a_t$), and rewards ($r_t$).</li>
+</ul>
+</li>
+<li>
+<p><strong>Compute Advantages:</strong> For each trajectory, estimate the advantage ($A_t$) for each time step.</p>
+</li>
+<li>
+<p><strong>Optimize Objective:</strong> For a fixed number of epochs:</p>
+<ul>
+<li>Shuffle the collected data and divide it into mini-batches.</li>
+<li>For each mini-batch:
+<ul>
+<li>Calculate the probability ratio $r_t(\theta)$.</li>
+<li>Calculate the clipped objective $L^{CLIP}(\theta)$.</li>
+<li>Calculate the KL divergence penalty.</li>
+<li>Calculate the value function loss $V^{loss}$.</li>
+<li>Calculate the entropy bonus $H$.</li>
+<li>Calculate the complete PPO objective $L^{PPO}(\theta)$.</li>
+<li>Update the parameters $\theta$ of both the policy and value networks by taking gradient steps to <em>maximize</em> $L^{PPO}(\theta)$ (or minimize $-L^{PPO}(\theta)$).</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Repeat:</strong> Go back to step 2, using the updated policy.</p>
+</li>
+</ol>
+<p><img alt="PPO Learning Phase" loading="lazy" src="/assets/images/rl_in_llms/ppo_learning_phase.png"></p>
+
+
+  </div>
+  <div class="post-citation">
+    <h1 id="citation">Citation<a hidden class="anchor" aria-hidden="true" href="#citation">#</a></h1>
+    <p><br>Cited as:</p>
+    <blockquote>
+      <p>Michael Liu. (Feb 2024). Training Language Models with Reinforcement Learning from Human Feedback. myliu6.ai. http://localhost:1313/posts/rlhf/</p>
+    </blockquote>
+    <p>Or</p>
+    <pre tabindex="0"><code>@article{rlhf,
+  title   = "Training Language Models with Reinforcement Learning from Human Feedback",
+  author  = "Michael Liu",
+  journal = "myliu6.ai",
+  year    = "2024",
+  month   = "Feb",
+  url     = "http://localhost:1313/posts/rlhf/"
+}</code></pre>
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">myliu6.ai</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
