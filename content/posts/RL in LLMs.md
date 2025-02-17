@@ -45,7 +45,7 @@ The goal of reward model training is to create a model that can predict the qual
 
 1.  **Model Architecture:** A neural network is used as the reward model. This is often a transformer-based architecture, similar to the LLM being trained, but with a modified output layer. The model takes a prompt and a response as input and outputs a scalar reward score.
 
-2.  **Loss Function:** The reward model is trained to predict the human preference rankings. A common approach is to use a pairwise ranking loss. For example, if response A is preferred over response B, the model is trained to output a higher reward for response A than for response B. A common loss function is the *cross-entropy loss* applied to the pairwise comparisons. Let $r_\theta(x, y)$ be the scalar reward output by the reward model (with parameters $\theta$) for prompt $x$ and completion $y$. If $y_w$ is preferred to $y_l$ (i.e., $y_w$ is the "winning" completion and $y_l$ is the "losing" completion), the loss function is:
+2.  **Loss Function:** The reward model is trained to predict the human preference rankings. A common approach is to use a pairwise ranking loss. For example, if response A is preferred over response B, the model is trained to output a higher reward for response A than for response B. A common loss function is the *binary cross-entropy loss* applied to the pairwise comparisons. Let $r_\theta(x, y)$ be the scalar reward output by the reward model (with parameters $\theta$) for prompt $x$ and completion $y$. If $y_w$ is preferred to $y_l$ (i.e., $y_w$ is the "winning" completion and $y_l$ is the "losing" completion), the loss function is:
 
     $$loss(\theta) = -\log(\sigma(r_\theta(x, y_w) - r_\theta(x, y_l)))$$
 
@@ -131,7 +131,7 @@ $$L^{PPO}(\theta) = \underbrace{\mathbb{E}_{(x,a) \sim \pi_{\theta_{old}}} [L^{C
 Where:
 
 *   $(x,a) \sim \pi_{\theta_{old}}$: Expectation over state-action pairs $(x, a)$ sampled from the *old* policy, $\pi_{\theta_{old}}$. This highlights PPO's off-policy nature, using data from the previous policy to update the current one.
-*   $D$: The replay buffer.
+*   $D$: The dataset of experiences collected using $\pi_{\theta_{old}}$ (often called a replay buffer).
 
 **1. Clipped Surrogate Objective ($L^{CLIP}$):**
 
@@ -179,7 +179,7 @@ It's crucial to understand that the PPO objective function is maximized as a *wh
 
 *   **Team Entropy (η * H):** This team pulls the policy towards generating diverse and exploratory text.  It encourages the model to try a wider range of tokens, preventing it from getting stuck in local optima.  However, this team is weaker than Team Reward.
 
-* **Team Critic (V<sup>loss</sup>):** While not directly involved in the tug of war, this team ensures that advantages are calculated correctly.
+* **Team Critic (V<sup>loss</sup>):** While not directly involved in the tug of war *itself*, this team ensures that the advantage estimates used by Team Reward are accurate.
 
 The final position of the rope (the LLM's learned policy) is determined by the balance of forces between these teams.  If the entropy bonus (Team Entropy) were the only factor, the model would generate random gibberish.  However, the other two teams (Reward and Reference) counteract this:
 
@@ -194,7 +194,12 @@ The optimization process finds an equilibrium point where the forces are balance
 
 The hyperparameters (β, γ, and η) control the relative strengths of the teams. Tuning these hyperparameters is crucial for achieving the desired balance between exploration, exploitation, and adherence to the reference model.
 
-Typically, PPO performs multiple epochs of optimization on the collected data, using mini-batches to improve sample efficiency and reduce variance. The performance of PPO can be sensitive to the choice of hyperparameters, which often require tuning based on the specific task.
+This balancing act is crucial for producing LLMs that are both helpful and reliable:
+- Too much weight on Team Reward can lead to models that "hack" the reward function, finding degenerate solutions that maximize reward without actually being helpful
+- Too much weight on Team Reference can result in models that barely improve over the base model
+- Too much weight on Team Entropy can lead to inconsistent or random responses
+
+Finding the right balance through hyperparameter tuning is one of the key challenges in practical RLHF implementations. Typically, PPO performs multiple epochs of optimization on the collected data, using mini-batches to improve sample efficiency and reduce variance. The performance of PPO can be sensitive to the choice of hyperparameters, which often require tuning based on the specific task.
 
 ### PPO Algorithm (High-Level)
 
