@@ -64,6 +64,21 @@
 &lt;p&gt;The intended audience of this post is someone who has a solid understanding of Deep Learning and GPT2.&lt;/p&gt;</description>
     </item>
     <item>
+      <title>About Me</title>
+      <link>http://localhost:1313/about/</link>
+      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/about/</guid>
+      <description>&lt;p&gt;Hi there! I&amp;rsquo;m Michael Liu, a software engineer passionate about AI safety and alignment. I&amp;rsquo;m dedicated to exploring the frontier of AI and building systems that benefit society.&lt;/p&gt;
+&lt;h2 id=&#34;my-focus-areas&#34;&gt;My Focus Areas&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;AI Safety &amp;amp; Alignment&lt;/strong&gt;: Working on ensuring AI systems behave reliably and align with human values&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Software Engineering&lt;/strong&gt;: Building robust and scalable systems&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Research&lt;/strong&gt;: Exploring cutting-edge developments in AI technology&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;connect-with-me&#34;&gt;Connect With Me&lt;/h2&gt;
+&lt;p&gt;Feel free to reach out through any of these channels:&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>AI Alignment</title>
       <link>http://localhost:1313/posts/alignment/</link>
       <pubDate>Thu, 15 Feb 2024 07:07:07 +0100</pubDate>
