@@ -113,6 +113,7 @@ Here are a few examples from Anthropic's Helpful and Harmless RLHF dataset, show
 *   **Chosen:** Assistant: Are you interested in a local move within a city or town?  Or a cross-country move?
 
 *   **Rejected:** Assistant: What type of move are you looking for?  Are you looking to move from one house to another, or are you looking to move to another town or city within the same state?
+
 </details>
 
 ![RLHF in LLMs](/assets/images/rl_in_llms/reward_model_training.png)
@@ -122,7 +123,7 @@ Here are a few examples from Anthropic's Helpful and Harmless RLHF dataset, show
 ## PPO Learning Phase
 
 
-Proximal Policy Optimization (PPO) is a popular reinforcement learning algorithm used to train policies in various environments, including training language models. It addresses the challenge of efficiently and stably updating policies by preventing excessively large updates that can lead to performance collapse. In the context of LLMs, the PPO objective function is often augmented with several terms: a KL divergence penalty, a value function loss, and an optional entropy bonus. These additions help constrain policy updates, ensure accurate value estimation, and encourage exploration. PPO is an *actor-critic* method, meaning it uses two neural networks: the *actor* (the policy, $\pi_\theta$) and the *critic* (the value function, $V_\theta$).
+Proximal Policy Optimization (PPO) is a popular reinforcement learning algorithm used to train policies in various environments (such as [OpenAI Five](https://openai.com/index/openai-five/)), including training language models. It addresses the challenge of efficiently and stably updating policies by preventing excessively large updates that can lead to performance collapse. In the context of LLMs, the PPO objective function is often augmented with several terms: a KL divergence penalty, a value function loss, and an optional entropy bonus. These additions help constrain policy updates, ensure accurate value estimation, and encourage exploration. PPO is an *actor-critic* method, meaning it uses two neural networks: the *actor* (the policy, $\pi_\theta$) and the *critic* (the value function, $V_\theta$).
 
 The complete PPO objective function for LLMs can be written as:
 

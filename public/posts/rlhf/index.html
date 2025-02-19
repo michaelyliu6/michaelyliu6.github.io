@@ -14,7 +14,7 @@ This process generally involves three key steps:
 Supervised Fine-tuning (SFT): An initial language model is fine-tuned on a dataset of high-quality demonstrations, where the model learns to imitate the provided examples.">
 <meta name="author" content="Michael Liu">
 <link rel="canonical" href="http://localhost:1313/posts/rlhf/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.280768857a0c129014629d0831d8b80075bf5046eeebfd8f98d9ec14ed367e56.css" integrity="sha256-KAdohXoMEpAUYp0IMdi4AHW/UEbu6/2PmNnsFO02flY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.ae03dc1363b0d274c8a5b8f4ef4b43ec376146d505cc14962ea16577e875c413.css" integrity="sha256-rgPcE2Ow0nTIpbj070tD7DdhRtUFzBSWLqFld&#43;h1xBM=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/%3Clink%20/%20abs%20url%3E">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
@@ -363,7 +363,7 @@ $$loss(\theta) = -\log(\sigma(r_\theta(x, y_w) - r_\theta(x, y_l)))$$<p>where $\
 </details>
 <p><img alt="RLHF in LLMs" loading="lazy" src="/assets/images/rl_in_llms/reward_model_training.png"></p>
 <h2 id="ppo-learning-phase">PPO Learning Phase<a hidden class="anchor" aria-hidden="true" href="#ppo-learning-phase">#</a></h2>
-<p>Proximal Policy Optimization (PPO) is a popular reinforcement learning algorithm used to train policies in various environments, including training language models. It addresses the challenge of efficiently and stably updating policies by preventing excessively large updates that can lead to performance collapse. In the context of LLMs, the PPO objective function is often augmented with several terms: a KL divergence penalty, a value function loss, and an optional entropy bonus. These additions help constrain policy updates, ensure accurate value estimation, and encourage exploration. PPO is an <em>actor-critic</em> method, meaning it uses two neural networks: the <em>actor</em> (the policy, $\pi_\theta$) and the <em>critic</em> (the value function, $V_\theta$).</p>
+<p>Proximal Policy Optimization (PPO) is a popular reinforcement learning algorithm used to train policies in various environments (such as <a href="https://openai.com/index/openai-five/">OpenAI Five</a>), including training language models. It addresses the challenge of efficiently and stably updating policies by preventing excessively large updates that can lead to performance collapse. In the context of LLMs, the PPO objective function is often augmented with several terms: a KL divergence penalty, a value function loss, and an optional entropy bonus. These additions help constrain policy updates, ensure accurate value estimation, and encourage exploration. PPO is an <em>actor-critic</em> method, meaning it uses two neural networks: the <em>actor</em> (the policy, $\pi_\theta$) and the <em>critic</em> (the value function, $V_\theta$).</p>
 <p>The complete PPO objective function for LLMs can be written as:</p>
 $$L^{PPO}(\theta) = \underbrace{\mathbb{E}_{(x,a) \sim \pi_{\theta_{old}}} [L^{CLIP}(\theta)]}_{\text{Clipped Surrogate Objective}} - \underbrace{\beta \mathbb{E}_{x \sim D} [KL(\pi_\theta(\cdot|x) || \pi_{ref}(\cdot|x))]}_{\text{KL Divergence Penalty}} + \underbrace{\gamma \mathbb{E}_{(x, a) \sim D} [V^{loss}]}_{\text{Value Function Loss}} + \underbrace{\eta \mathbb{E}_{(x, a) \sim D}[H]}_{\text{Entropy Bonus}} $$<p>Where:</p>
 <ul>
