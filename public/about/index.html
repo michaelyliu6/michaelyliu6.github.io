@@ -5,17 +5,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="noindex, nofollow">
-<title>About Me | myliu6.ai</title>
+<title>About Me | ML&#39;s Blog</title>
 <meta name="keywords" content="">
-<meta name="description" content="Hi there! I&rsquo;m Michael Liu, a software engineer passionate about AI safety and alignment. I&rsquo;m dedicated to exploring the frontier of AI and building systems that benefit society.
-My Focus Areas
-
-AI Safety &amp; Alignment: Working on ensuring AI systems behave reliably and align with human values
-Software Engineering: Building robust and scalable systems
-Research: Exploring cutting-edge developments in AI technology
-
-Connect With Me
-Feel free to reach out through any of these channels:">
+<meta name="description" content="Hi there! I&rsquo;m Michael Liu, a software engineer passionate about AI development and safety. I combine practical engineering experience with a deep interest in advancing AI technology in reliable and beneficial ways.
+I&rsquo;m currently seeking roles in AI development.
+Professional Background
+I most recently served as a Software Development Engineer II at Amazon Web Services (AWS), where I was a key member of the Data transfer Metering team. Our system processed 140 PB of data and $11 million in revenue daily, serving as a critical component of AWS&rsquo;s infrastructure. During my tenure, I:">
 <meta name="author" content="Michael Liu">
 <link rel="canonical" href="http://localhost:1313/about/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.ae03dc1363b0d274c8a5b8f4ef4b43ec376146d505cc14962ea16577e875c413.css" integrity="sha256-rgPcE2Ow0nTIpbj070tD7DdhRtUFzBSWLqFld&#43;h1xBM=" rel="preload stylesheet" as="style">
@@ -108,7 +103,7 @@ window.MathJax = {
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="myliu6.ai (Alt + H)">myliu6.ai</a>
+            <a href="http://localhost:1313/" accesskey="h" title="ML&#39;s Blog (Alt + H)">ML&#39;s Blog</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -162,16 +157,151 @@ window.MathJax = {
     <h1 class="post-title entry-hint-parent">
       About Me
     </h1>
-    <div class="post-meta"><span title='2024-02-17 00:00:00 +0000 UTC'>February 17, 2024</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Michael Liu
+    <div class="post-meta"><span title='2024-02-17 00:00:00 +0000 UTC'>February 17, 2024</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Michael Liu
 
 </div>
-  </header> 
-  <div class="post-content"><p>Hi there! I&rsquo;m Michael Liu, a software engineer passionate about AI safety and alignment. I&rsquo;m dedicated to exploring the frontier of AI and building systems that benefit society.</p>
-<h2 id="my-focus-areas">My Focus Areas<a hidden class="anchor" aria-hidden="true" href="#my-focus-areas">#</a></h2>
+  </header> <aside id="toc-container" class="toc-container wide">
+<div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#professional-background" aria-label="Professional Background">Professional Background</a></li>
+                <li>
+                    <a href="#current-learning-focus" aria-label="Current Learning Focus">Current Learning Focus</a></li>
+                <li>
+                    <a href="#what-im-current-working-on" aria-label="What I&rsquo;m current working on">What I&rsquo;m current working on</a></li>
+                <li>
+                    <a href="#my-favorite-resources" aria-label="My Favorite Resources">My Favorite Resources</a></li>
+                <li>
+                    <a href="#podcasts" aria-label="Podcasts">Podcasts</a><ul>
+                        
+                <li>
+                    <a href="#blogs--newsletters" aria-label="Blogs &amp; Newsletters">Blogs &amp; Newsletters</a></li>
+                <li>
+                    <a href="#learning-resources" aria-label="Learning Resources">Learning Resources</a></li></ul>
+                </li>
+                <li>
+                    <a href="#connect-with-me" aria-label="Connect With Me">Connect With Me</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+        
+        activeElement = elements[0];
+        const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+        document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+    }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+            const id = encodeURI(element.getAttribute('id')).toLowerCase();
+            if (element === activeElement){
+                document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+            } else {
+                document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+            }
+        })
+    }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><p>Hi there! I&rsquo;m Michael Liu, a software engineer passionate about AI development and safety. I combine practical engineering experience with a deep interest in advancing AI technology in reliable and beneficial ways.</p>
+<p>I&rsquo;m currently seeking roles in AI development.</p>
+<h2 id="professional-background">Professional Background<a hidden class="anchor" aria-hidden="true" href="#professional-background">#</a></h2>
+<p>I most recently served as a Software Development Engineer II at Amazon Web Services (AWS), where I was a key member of the Data transfer Metering team. Our system processed 140 PB of data and $11 million in revenue daily, serving as a critical component of AWS&rsquo;s infrastructure. During my tenure, I:</p>
 <ul>
-<li><strong>AI Safety &amp; Alignment</strong>: Working on ensuring AI systems behave reliably and align with human values</li>
-<li><strong>Software Engineering</strong>: Building robust and scalable systems</li>
-<li><strong>Research</strong>: Exploring cutting-edge developments in AI technology</li>
+<li>Led cross-team initiatives for automating AWS region builds</li>
+<li>Implemented storage optimizations resulting in ~600PB/month savings</li>
+<li>Maintained 24/7 system reliability through on-call rotations and incident response</li>
+<li>Mentored new team members and interns</li>
+</ul>
+<p>I hold a BS in Computer Science with a specialization in Machine Learning from the University of Maryland, College Park.</p>
+<!-- ## Technical Interests -->
+<!-- My current focus areas include:
+
+- **AI Development**: Working on model capabilities, pre-training and post-training techniques, and AI applications
+- **AI Safety & Interpretability**: Exploring areas such as induction heads, superposition, sparse autoencoders, and understanding neural networks beyond the black box approach
+- **Software Engineering**: Building robust and scalable systems with a focus on reliability and performance -->
+<h2 id="current-learning-focus">Current Learning Focus<a hidden class="anchor" aria-hidden="true" href="#current-learning-focus">#</a></h2>
+<p>I&rsquo;m currently deepening my expertise in:</p>
+<ul>
+<li><strong>Transformer Architecture &amp; Model Capabilities</strong>: Studying pre-training and post-training techniques to enhance model performance and reliability</li>
+<li><strong>Diffusion Models</strong>: Implementing and experimenting with image generation architectures</li>
+<li><strong>Reinforcement Learning</strong>: Building and training agent systems with a focus on practical applications</li>
+<li><strong>Model Interpretability</strong>: Exploring techniques like sparse autoencoders, induction heads, and superposition to better understand model behavior</li>
+</ul>
+<h2 id="what-im-current-working-on">What I&rsquo;m current working on<a hidden class="anchor" aria-hidden="true" href="#what-im-current-working-on">#</a></h2>
+<ul>
+<li>Advanced Large Language Model Agents</li>
+</ul>
+<h2 id="my-favorite-resources">My Favorite Resources<a hidden class="anchor" aria-hidden="true" href="#my-favorite-resources">#</a></h2>
+<h2 id="podcasts">Podcasts<a hidden class="anchor" aria-hidden="true" href="#podcasts">#</a></h2>
+<ul>
+<li>Dwarkesh Patel&rsquo;s Podcast - <a href="https://www.youtube.com/c/DwarkeshPatel">link</a></li>
+<li>Latent Space Podcast - <a href="https://www.youtube.com/@LatentSpacePod">link</a></li>
+</ul>
+<h3 id="blogs--newsletters">Blogs &amp; Newsletters<a hidden class="anchor" aria-hidden="true" href="#blogs--newsletters">#</a></h3>
+<ul>
+<li>The &ldquo;most important century&rdquo; blog post series by Holden Karnofsky - <a href="https://www.cold-takes.com/most-important-century/">link</a></li>
+<li>Anthropic&rsquo;s Alignment Science Blog - <a href="https://alignment.anthropic.com/">link</a></li>
+<li>Anthropic&rsquo;s Transformer Circuits Thread - <a href="https://transformer-circuits.pub/">link</a></li>
+<li>Gwern - <a href="https://www.gwern.net/">link</a></li>
+<li>Lillian Weng&rsquo;s Lil&rsquo; Log - <a href="https://lilianweng.github.io/">link</a></li>
+<li>AI News - <a href="https://buttondown.com/ainews/">link</a></li>
+<li>SemiAnalysis - <a href="https://www.semianalysis.com/">link</a></li>
+</ul>
+<h3 id="learning-resources">Learning Resources<a hidden class="anchor" aria-hidden="true" href="#learning-resources">#</a></h3>
+<ul>
+<li>ARENA - <a href="https://github.com/callummcdougall/ARENA_3.0">link</a></li>
+<li>Andrej Karpathy&rsquo;s Zero to Hero Series - <a href="https://karpathy.ai/zero-to-hero.html">link</a></li>
+<li>DeepLearning.AI specializations (short courses are not useful imo) - <a href="https://www.deeplearning.ai/">link</a></li>
 </ul>
 <h2 id="connect-with-me">Connect With Me<a hidden class="anchor" aria-hidden="true" href="#connect-with-me">#</a></h2>
 <p>Feel free to reach out through any of these channels:</p>
@@ -194,7 +324,7 @@ window.MathJax = {
     </main>
     
 <footer class="footer">
-        <span>&copy; 2025 <a href="http://localhost:1313/">myliu6.ai</a></span> · 
+        <span>&copy; 2025 <a href="http://localhost:1313/">ML&#39;s Blog</a></span> · 
 
     <span>
         Powered by

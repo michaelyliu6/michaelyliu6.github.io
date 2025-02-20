@@ -1,6 +1,6 @@
 baseURL: https://michaelyliu6.github.io
 languageCode: en-us
-title: myliu6.ai
+title: ML's Blog
 
 theme: ["PaperMod"]
 
@@ -34,9 +34,10 @@ params:
     TocOpen: true
     
     homeInfoParams:
-      Title: Welcome to my blog 👋
+      Title: Welcome to the ML Blog 👋
       Content: >
         Hi there! This is Michael Liu. I am a software engineer that is interested in AI safety and alignment, exploring the frontier of AI, and building AI systems that are beneficial to society.
+
         <br><br>
 
 

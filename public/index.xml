@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>myliu6.ai</title>
+    <title>ML&#39;s Blog</title>
     <link>http://localhost:1313/</link>
-    <description>Recent content on myliu6.ai</description>
+    <description>Recent content on ML&#39;s Blog</description>
     <generator>Hugo -- 0.140.0</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 14 Dec 2024 07:07:07 +0100</lastBuildDate>
@@ -68,15 +68,10 @@
       <link>http://localhost:1313/about/</link>
       <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/about/</guid>
-      <description>&lt;p&gt;Hi there! I&amp;rsquo;m Michael Liu, a software engineer passionate about AI safety and alignment. I&amp;rsquo;m dedicated to exploring the frontier of AI and building systems that benefit society.&lt;/p&gt;
-&lt;h2 id=&#34;my-focus-areas&#34;&gt;My Focus Areas&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;AI Safety &amp;amp; Alignment&lt;/strong&gt;: Working on ensuring AI systems behave reliably and align with human values&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Software Engineering&lt;/strong&gt;: Building robust and scalable systems&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Research&lt;/strong&gt;: Exploring cutting-edge developments in AI technology&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;connect-with-me&#34;&gt;Connect With Me&lt;/h2&gt;
-&lt;p&gt;Feel free to reach out through any of these channels:&lt;/p&gt;</description>
+      <description>&lt;p&gt;Hi there! I&amp;rsquo;m Michael Liu, a software engineer passionate about AI development and safety. I combine practical engineering experience with a deep interest in advancing AI technology in reliable and beneficial ways.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m currently seeking roles in AI development.&lt;/p&gt;
+&lt;h2 id=&#34;professional-background&#34;&gt;Professional Background&lt;/h2&gt;
+&lt;p&gt;I most recently served as a Software Development Engineer II at Amazon Web Services (AWS), where I was a key member of the Data transfer Metering team. Our system processed 140 PB of data and $11 million in revenue daily, serving as a critical component of AWS&amp;rsquo;s infrastructure. During my tenure, I:&lt;/p&gt;</description>
     </item>
     <item>
       <title>AI Alignment</title>
