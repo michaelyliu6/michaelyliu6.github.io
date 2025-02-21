@@ -143,6 +143,7 @@
 &lt;li&gt;Dwarkesh Patel - &lt;a href=&#34;https://www.youtube.com/c/DwarkeshPatel&#34;&gt;https://www.youtube.com/c/DwarkeshPatel&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Latent Space - &lt;a href=&#34;https://www.youtube.com/@LatentSpacePod&#34;&gt;https://www.youtube.com/@LatentSpacePod&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;80 000 hours - &lt;a href=&#34;https://www.youtube.com/@eightythousandhours&#34;&gt;https://www.youtube.com/@eightythousandhours&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Cognitive Revolution - &lt;a href=&#34;https://www.youtube.com/@CognitiveRevolutionPodcast&#34;&gt;https://www.youtube.com/@CognitiveRevolutionPodcast&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;ai-alignment-and-interpretability&#34;&gt;AI Alignment and Interpretability&lt;/h2&gt;
 &lt;ul&gt;
@@ -159,6 +160,7 @@
 &lt;ul&gt;
 &lt;li&gt;Reinforcement Learning by Richard S. Sutton and Andrew G. Barto - &lt;a href=&#34;https://www.andrew.cmu.edu/course/10-703/textbook/BartoSutton.pdf&#34;&gt;https://www.andrew.cmu.edu/course/10-703/textbook/BartoSutton.pdf&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;AlphaGo Documentary - &lt;a href=&#34;https://youtu.be/WXuK6gekU1Y?si=uuPxNmTrpUNwzPA5&#34;&gt;https://youtu.be/WXuK6gekU1Y?si=uuPxNmTrpUNwzPA5&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;RLHF Book - &lt;a href=&#34;https://rlhfbook.com/&#34;&gt;https://rlhfbook.com/&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;agents&#34;&gt;Agents&lt;/h2&gt;
 &lt;ul&gt;
@@ -180,6 +182,7 @@
 &lt;li&gt;vLLM - &lt;a href=&#34;https://github.com/vllm-project/vllm&#34;&gt;https://github.com/vllm-project/vllm&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;TensorRT - &lt;a href=&#34;https://github.com/NVIDIA/TensorRT&#34;&gt;https://github.com/NVIDIA/TensorRT&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2 id=&#34;heading&#34;&gt;&lt;/h2&gt;
 &lt;h2 id=&#34;blogs--newsletters&#34;&gt;Blogs &amp;amp; Newsletters&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Gwern - &lt;a href=&#34;https://www.gwern.net/&#34;&gt;https://www.gwern.net/&lt;/a&gt;&lt;/li&gt;
@@ -193,11 +196,17 @@
 &lt;li&gt;ARENA - &lt;a href=&#34;https://github.com/callummcdougall/ARENA_3.0&#34;&gt;https://github.com/callummcdougall/ARENA_3.0&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Neel Nanda&amp;rsquo;s Mechanistic Interpretability Walkthroughs - &lt;a href=&#34;https://www.youtube.com/@neelnanda2469&#34;&gt;https://www.youtube.com/@neelnanda2469&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Andrej Karpathy&amp;rsquo;s Zero to Hero Series - &lt;a href=&#34;https://karpathy.ai/zero-to-hero.html&#34;&gt;https://karpathy.ai/zero-to-hero.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;The Bitter Lesson - &lt;a href=&#34;http://www.incompleteideas.net/IncIdeas/BitterLesson.html&#34;&gt;http://www.incompleteideas.net/IncIdeas/BitterLesson.html&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Stanford CS25: V4 I Hyung Won Chung of OpenAI (2:05 - 15:18) - &lt;a href=&#34;https://youtu.be/orDKvo8h71o?si=oFd2l7YQzOoGat1q&#34;&gt;https://youtu.be/orDKvo8h71o?si=oFd2l7YQzOoGat1q&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Andrew Ng&amp;rsquo;s Career Advice / Reading Research Papers &lt;a href=&#34;https://youtu.be/733m6qBH-jI?si=OLaGzeqvuObpjl9H&#34;&gt;https://youtu.be/733m6qBH-jI?si=OLaGzeqvuObpjl9H&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;DeepLearning.AI specializations (short courses are skippable imo) - &lt;a href=&#34;https://www.deeplearning.ai/&#34;&gt;https://www.deeplearning.ai/&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;LeetCode:&lt;/p&gt;</description>
+&lt;h2 id=&#34;leetcode&#34;&gt;LeetCode:&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;NeetCode - &lt;a href=&#34;https://neetcode.io/&#34;&gt;https://neetcode.io/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;what-is-this-page&#34;&gt;What is this page?&lt;/h2&gt;
+&lt;p&gt;This is my personal collection of AI learning resources that I&amp;rsquo;ve found valuable in my journey. While it primarily serves as my digital garden of knowledge links, I&amp;rsquo;m sharing it publicly for two important reasons:&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
