@@ -31,6 +31,8 @@ hideCitation: true
 ## Agents
 - Advanced Large Language Model Agents: Berkley MOOC - https://llmagents-learning.org/sp25
 - smolagents - https://github.com/huggingface/smolagents
+- OpenHands - https://github.com/All-Hands-AI/OpenHands 
+- Must-Read Papers for the 8 Problems of Agents - https://www.latent.space/p/2024-agents
 
 ## Dataset curation
 - FineWeb - https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1
@@ -62,7 +64,7 @@ hideCitation: true
 - Andrew Ng's Career Advice / Reading Research Papers https://youtu.be/733m6qBH-jI?si=OLaGzeqvuObpjl9H
 - DeepLearning.AI specializations (short courses are skippable imo) - https://www.deeplearning.ai/
 
-## LeetCode:
+## LeetCode
 - NeetCode - https://neetcode.io/
 
 ## What is this page?
