@@ -34,9 +34,9 @@ params:
     TocOpen: true
     
     homeInfoParams:
-      Title: Welcome to the ML Blog 👋
+      Title: Welcome to the ML's Blog 👋
       Content: >
-        Hi there! This is Michael Liu. I am a software engineer that is interested in AI safety and alignment, exploring the frontier of AI, and building AI systems that are beneficial to society.
+        Hi there! Welcome to Michael Liu's Machine Learning Blog. I am a software engineer that is interested in AI safety and alignment, exploring the frontier of AI, and building AI systems that are beneficial to society.
 
         <br><br>
 
@@ -78,6 +78,10 @@ menu:
           name: Projects
           url: https://github.com/michaelyliu6
           weight: 15
+        - identifier: learning-resources
+          name: Learning Resources
+          url: /learning-resources/
+          weight: 17
         - identifier: about
           name: About
           url: /about/

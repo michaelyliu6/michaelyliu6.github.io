@@ -34,33 +34,15 @@ I hold a BS in Computer Science with a specialization in Machine Learning from t
 I'm currently deepening my expertise in:
 
 - **Transformer Architecture & Model Capabilities**: Studying pre-training and post-training techniques to enhance model performance and reliability
-- **Diffusion Models**: Implementing and experimenting with image generation architectures
+- **Diffusion Models**: Implementing and experimenting with image generation architectures (e.g. DDPM/DDIM, )
 - **Reinforcement Learning**: Building and training agent systems with a focus on practical applications
 - **Model Interpretability**: Exploring techniques like sparse autoencoders, induction heads, and superposition to better understand model behavior
 
 ## What I'm current working on
-- Advanced Large Language Model Agents 
-
-## My Favorite Resources
-
-## Podcasts
-- Dwarkesh Patel's Podcast - [link](https://www.youtube.com/c/DwarkeshPatel)
-- Latent Space Podcast - [link](https://www.youtube.com/@LatentSpacePod)
-
-### Blogs & Newsletters
-- The "most important century" blog post series by Holden Karnofsky - [link](https://www.cold-takes.com/most-important-century/)
-- Anthropic's Alignment Science Blog - [link](https://alignment.anthropic.com/)
-- Anthropic's Transformer Circuits Thread - [link](https://transformer-circuits.pub/)
-- Gwern - [link](https://www.gwern.net/)
-- Lillian Weng's Lil' Log - [link](https://lilianweng.github.io/)
-- AI News - [link](https://buttondown.com/ainews/)
-- SemiAnalysis - [link](https://www.semianalysis.com/)
+- Advanced Large Language Model Agents MOOC - https://llmagents-learning.org/sp25
 
 
-### Learning Resources 
-- ARENA - [link](https://github.com/callummcdougall/ARENA_3.0)
-- Andrej Karpathy's Zero to Hero Series - [link](https://karpathy.ai/zero-to-hero.html)
-- DeepLearning.AI specializations (short courses are not useful imo) - [link](https://www.deeplearning.ai/)
+
 
 ## Connect With Me
 

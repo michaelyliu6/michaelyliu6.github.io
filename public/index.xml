@@ -133,5 +133,71 @@
       <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;Hi there! My name is Michael Liu.&lt;/p&gt;</description>
     </item>
+    <item>
+      <title>Learning Resources</title>
+      <link>http://localhost:1313/learning-resources/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/learning-resources/</guid>
+      <description>&lt;h2 id=&#34;podcasts&#34;&gt;Podcasts&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Dwarkesh Patel - &lt;a href=&#34;https://www.youtube.com/c/DwarkeshPatel&#34;&gt;https://www.youtube.com/c/DwarkeshPatel&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Latent Space - &lt;a href=&#34;https://www.youtube.com/@LatentSpacePod&#34;&gt;https://www.youtube.com/@LatentSpacePod&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;80 000 hours - &lt;a href=&#34;https://www.youtube.com/@eightythousandhours&#34;&gt;https://www.youtube.com/@eightythousandhours&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;ai-alignment-and-interpretability&#34;&gt;AI Alignment and Interpretability&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;The &amp;ldquo;most important century&amp;rdquo; blog post series - &lt;a href=&#34;https://www.cold-takes.com/most-important-century&#34;&gt;https://www.cold-takes.com/most-important-century&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Anthropic&amp;rsquo;s Alignment Science Blog - &lt;a href=&#34;https://alignment.anthropic.com/&#34;&gt;https://alignment.anthropic.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Anthropic&amp;rsquo;s Transformer Circuits Thread - &lt;a href=&#34;https://transformer-circuits.pub/&#34;&gt;https://transformer-circuits.pub/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;LessWrong - &lt;a href=&#34;https://www.lesswrong.com/&#34;&gt;https://www.lesswrong.com/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;diffusion&#34;&gt;Diffusion&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;From Deep Learning Foundations to Stable Diffusion - &lt;a href=&#34;https://course.fast.ai/Lessons/part2.html&#34;&gt;https://course.fast.ai/Lessons/part2.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;reinforcement-learning&#34;&gt;Reinforcement Learning&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Reinforcement Learning by Richard S. Sutton and Andrew G. Barto - &lt;a href=&#34;https://www.andrew.cmu.edu/course/10-703/textbook/BartoSutton.pdf&#34;&gt;https://www.andrew.cmu.edu/course/10-703/textbook/BartoSutton.pdf&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;AlphaGo Documentary - &lt;a href=&#34;https://youtu.be/WXuK6gekU1Y?si=uuPxNmTrpUNwzPA5&#34;&gt;https://youtu.be/WXuK6gekU1Y?si=uuPxNmTrpUNwzPA5&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;agents&#34;&gt;Agents&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Advanced Large Language Model Agents: Berkley MOOC - &lt;a href=&#34;https://llmagents-learning.org/sp25&#34;&gt;https://llmagents-learning.org/sp25&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;smolagents - &lt;a href=&#34;https://github.com/huggingface/smolagents&#34;&gt;https://github.com/huggingface/smolagents&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;dataset-curation&#34;&gt;Dataset curation&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;FineWeb - &lt;a href=&#34;https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1&#34;&gt;https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;llm-training&#34;&gt;LLM Training&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;How to Scale Your Model: A Systems View of LLMs on TPUs - &lt;a href=&#34;https://jax-ml.github.io/scaling-book/&#34;&gt;https://jax-ml.github.io/scaling-book/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;The Ultra-Scale Playbook: Training LLMs on GPU Clusters - &lt;a href=&#34;https://huggingface.co/spaces/nanotron/ultrascale-playbook&#34;&gt;https://huggingface.co/spaces/nanotron/ultrascale-playbook&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;llm-inference&#34;&gt;LLM Inference&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;SGLang - &lt;a href=&#34;https://github.com/sgl-project/sglang&#34;&gt;https://github.com/sgl-project/sglang&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;vLLM - &lt;a href=&#34;https://github.com/vllm-project/vllm&#34;&gt;https://github.com/vllm-project/vllm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;TensorRT - &lt;a href=&#34;https://github.com/NVIDIA/TensorRT&#34;&gt;https://github.com/NVIDIA/TensorRT&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;blogs--newsletters&#34;&gt;Blogs &amp;amp; Newsletters&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Gwern - &lt;a href=&#34;https://www.gwern.net/&#34;&gt;https://www.gwern.net/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Lillian Weng&amp;rsquo;s Lil&amp;rsquo; Log - &lt;a href=&#34;https://lilianweng.github.io/&#34;&gt;https://lilianweng.github.io/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;SemiAnalysis - &lt;a href=&#34;https://www.semianalysis.com/&#34;&gt;https://www.semianalysis.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;AI News - &lt;a href=&#34;https://buttondown.com/ainews/&#34;&gt;https://buttondown.com/ainews/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Rohan&amp;rsquo;s Bytes - &lt;a href=&#34;https://rohanpaul.substack.com/&#34;&gt;https://rohanpaul.substack.com/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;essential-fundamentals&#34;&gt;Essential Fundamentals&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;ARENA - &lt;a href=&#34;https://github.com/callummcdougall/ARENA_3.0&#34;&gt;https://github.com/callummcdougall/ARENA_3.0&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Neel Nanda&amp;rsquo;s Mechanistic Interpretability Walkthroughs - &lt;a href=&#34;https://www.youtube.com/@neelnanda2469&#34;&gt;https://www.youtube.com/@neelnanda2469&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Andrej Karpathy&amp;rsquo;s Zero to Hero Series - &lt;a href=&#34;https://karpathy.ai/zero-to-hero.html&#34;&gt;https://karpathy.ai/zero-to-hero.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Stanford CS25: V4 I Hyung Won Chung of OpenAI (2:05 - 15:18) - &lt;a href=&#34;https://youtu.be/orDKvo8h71o?si=oFd2l7YQzOoGat1q&#34;&gt;https://youtu.be/orDKvo8h71o?si=oFd2l7YQzOoGat1q&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Andrew Ng&amp;rsquo;s Career Advice / Reading Research Papers &lt;a href=&#34;https://youtu.be/733m6qBH-jI?si=OLaGzeqvuObpjl9H&#34;&gt;https://youtu.be/733m6qBH-jI?si=OLaGzeqvuObpjl9H&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;DeepLearning.AI specializations (short courses are skippable imo) - &lt;a href=&#34;https://www.deeplearning.ai/&#34;&gt;https://www.deeplearning.ai/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;LeetCode:&lt;/p&gt;</description>
+    </item>
   </channel>
 </rss>

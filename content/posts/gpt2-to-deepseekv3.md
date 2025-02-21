@@ -384,8 +384,6 @@ In DeepSeek-V3's full 671B parameter model, each MoE layer has a total of 256 ex
 
 
 
-
-
 ## Node-Limited Routing
 
 Ensure that each token will be sent to at most M nodes, which are selected according to the sum of the highest activated experts / total 
