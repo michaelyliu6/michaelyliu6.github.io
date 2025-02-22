@@ -13,6 +13,7 @@ hideCitation: true
 - Latent Space - https://www.youtube.com/@LatentSpacePod
 - 80 000 hours - https://www.youtube.com/@eightythousandhours
 - Cognitive Revolution - https://www.youtube.com/@CognitiveRevolutionPodcast
+- All-In - https://www.youtube.com/@allin
 
 ## AI Alignment and Interpretability 
 - The "most important century" blog post series - https://www.cold-takes.com/most-important-century
@@ -68,7 +69,7 @@ hideCitation: true
 - NeetCode - https://neetcode.io/
 
 ## What is this page?
-This is my personal collection of AI learning resources that I've found valuable in my journey. While it primarily serves as my digital garden of knowledge links, I'm sharing it publicly for two important reasons:
+This is my personal collection of AI learning resources that I've found valuable in my journey. While it primarily serves as my digital garden of knowledge links (which I keep permanently bookmarked for easy reference), I'm sharing it publicly for two important reasons:
 
 1. To help me keep track of the vast and fascinating world of AI learning materials
 2. To democratize access to AI knowledge
@@ -77,6 +78,6 @@ I've often met people who seemed impossibly knowledgeable, only to realize later
 
 Fair warning: some of these resources can be a dense collection of resources. Each link here opens up its own universe of knowledge - some are living resources that grow daily, others are rabbit holes so deep they might never be fully explored. Rather than providing a structured curriculum, think of this as a map of intellectual wormholes - each one potentially leading to vast new territories of knowledge. Some resources might seem overwhelming at first, but that's intentional - they're meant to be reference points you can return to as you grow. This is also not an exhaustive list, but should help point you in the right direction. 
 
-While I maintain this primarily for my own reference, I hope it serves as a valuable resource for anyone interested in diving deep into AI development. Consider this a living document that grows and evolves with the field. 
+While I maintain this primarily for my own reference and keep it bookmarked for daily use, I hope it serves as a valuable resource for anyone interested in diving deep into AI development. Consider this a living document that grows and evolves with the field. 
 
-If there are any resources that you think deserve to be on this page, please reach out to me! 
+If there are any resources that you think deserve to be on this page, please reach out to me!
