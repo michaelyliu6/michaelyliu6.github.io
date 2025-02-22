@@ -236,7 +236,7 @@ window.MathJax = {
 </div>
   </header> <aside id="toc-container" class="toc-container wide">
 <div class="toc">
-    <details >
+    <details id="toc-details">
         <summary accesskey="c" title="(Alt + C)">
             <span class="details">Table of Contents</span>
         </summary>
@@ -275,9 +275,12 @@ window.MathJax = {
 <script>
     let activeElement;
     let elements;
+    let tocDetails;
+    
     window.addEventListener('DOMContentLoaded', function (event) {
         checkTocPosition();
-
+        
+        tocDetails = document.getElementById('toc-details');
         elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
         
         activeElement = elements[0];
@@ -314,11 +317,18 @@ window.MathJax = {
 
     function checkTocPosition() {
         const width = document.body.scrollWidth;
+        const tocContainer = document.getElementById("toc-container");
 
         if (width - main - (toc * 2) - (gap * 4) > 0) {
-            document.getElementById("toc-container").classList.add("wide");
+            tocContainer.classList.add("wide");
+            if (tocDetails) {
+                tocDetails.setAttribute('open', '');
+            }
         } else {
-            document.getElementById("toc-container").classList.remove("wide");
+            tocContainer.classList.remove("wide");
+            if (tocDetails) {
+                tocDetails.removeAttribute('open');
+            }
         }
     }
 
