@@ -2,8 +2,8 @@
 title = 'AI Alignment'
 date = 2024-02-15T07:07:07+01:00
 draft = true
-ShowToc = true
-TocOpen = false
+showToc = true
+TocOpen = true
 +++
 
 
@@ -23,6 +23,8 @@ As AI systems become increasingly powerful and autonomous, the potential risks a
 ## Sleeper Agents
 
 ## Reward Hacking
+
+## Specification Gaming
 
 ## Alignment Faking
 

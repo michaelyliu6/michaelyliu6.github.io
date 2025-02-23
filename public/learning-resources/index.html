@@ -280,10 +280,11 @@ window.MathJax = {
     let tocDetails;
     
     window.addEventListener('DOMContentLoaded', function (event) {
-        checkTocPosition();
-        
         tocDetails = document.getElementById('toc-details');
         elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+        
+        
+        checkTocPosition();
         
         activeElement = elements[0];
         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();

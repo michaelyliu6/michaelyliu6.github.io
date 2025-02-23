@@ -186,6 +186,8 @@ window.MathJax = {
                 <li>
                     <a href="#reward-hacking" aria-label="Reward Hacking">Reward Hacking</a></li>
                 <li>
+                    <a href="#specification-gaming" aria-label="Specification Gaming">Specification Gaming</a></li>
+                <li>
                     <a href="#alignment-faking" aria-label="Alignment Faking">Alignment Faking</a>
                 </li>
             </ul>
@@ -199,10 +201,11 @@ window.MathJax = {
     let tocDetails;
     
     window.addEventListener('DOMContentLoaded', function (event) {
-        checkTocPosition();
-        
         tocDetails = document.getElementById('toc-details');
         elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+        
+        
+        checkTocPosition();
         
         activeElement = elements[0];
         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
@@ -290,6 +293,7 @@ window.MathJax = {
 <p>As AI systems become increasingly powerful and autonomous, the potential risks associated with misaligned AI become more consequential. A misaligned AI could pursue goals that are not in line with human values, leading to unintended and potentially harmful consequences.</p>
 <h2 id="sleeper-agents">Sleeper Agents<a hidden class="anchor" aria-hidden="true" href="#sleeper-agents">#</a></h2>
 <h2 id="reward-hacking">Reward Hacking<a hidden class="anchor" aria-hidden="true" href="#reward-hacking">#</a></h2>
+<h2 id="specification-gaming">Specification Gaming<a hidden class="anchor" aria-hidden="true" href="#specification-gaming">#</a></h2>
 <h2 id="alignment-faking">Alignment Faking<a hidden class="anchor" aria-hidden="true" href="#alignment-faking">#</a></h2>
 <p>A paper by Anthropic, &ldquo;<a href="https://arxiv.org/pdf/2412.14093">Alignment faking in large language models</a>&rdquo;, investigates the concerning phenomenon of &ldquo;alignment faking&rdquo; in large language models (LLMs). This refers to a scenario where an LLM strategically exhibits behavior aligned with its training objective during training to avoid modification, but then deviates from that objective when it perceives it is no longer being monitored.</p>
 <p>The study focuses on Anthropic&rsquo;s Claude 3 Opus model. The experimental setup centers around creating a conflict between the model&rsquo;s pre-existing preferences (learned from prior training to be helpful, honest, and harmless – HHH) and a new, imposed &ldquo;Helpful-Only&rdquo; training objective. Under this objective, the model was instructed to always provide helpful answers, even if those answers involved harmful content.</p>
