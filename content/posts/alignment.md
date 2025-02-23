@@ -3,7 +3,7 @@ title = 'AI Alignment'
 date = 2024-02-15T07:07:07+01:00
 draft = true
 ShowToc = true
-TocOpen = true
+TocOpen = false
 +++
 
 

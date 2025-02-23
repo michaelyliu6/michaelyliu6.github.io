@@ -13,7 +13,6 @@ hideCitation: true
 - Latent Space - https://www.youtube.com/@LatentSpacePod
 - 80 000 hours - https://www.youtube.com/@eightythousandhours
 - Cognitive Revolution - https://www.youtube.com/@CognitiveRevolutionPodcast
-- All-In - https://www.youtube.com/@allin
 
 ## AI Alignment and Interpretability 
 - The "most important century" blog post series - https://www.cold-takes.com/most-important-century
@@ -30,6 +29,8 @@ hideCitation: true
 - RLHF Book - https://rlhfbook.com/
 
 ## Agents
+- Anthropic: Building effective agents - https://www.anthropic.com/research/building-effective-agents
+- Google: Agents Whitepaper - https://www.kaggle.com/whitepaper-agents
 - Advanced Large Language Model Agents: Berkley MOOC - https://llmagents-learning.org/sp25
 - smolagents - https://github.com/huggingface/smolagents
 - OpenHands - https://github.com/All-Hands-AI/OpenHands 
@@ -52,6 +53,7 @@ hideCitation: true
 ## Blogs & Newsletters
 - Gwern - https://www.gwern.net/
 - Lillian Weng's Lil' Log - https://lilianweng.github.io/
+- Epoch AI - https://epoch.ai/blog
 - SemiAnalysis - https://www.semianalysis.com/
 - AI News - https://buttondown.com/ainews/
 - Rohan's Bytes - https://rohanpaul.substack.com/
