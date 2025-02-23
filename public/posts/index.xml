@@ -68,7 +68,7 @@
       <link>http://localhost:1313/posts/alignment/</link>
       <pubDate>Thu, 15 Feb 2024 07:07:07 +0100</pubDate>
       <guid>http://localhost:1313/posts/alignment/</guid>
-      <description>&lt;h2 id=&#34;capabilities-and-alignment&#34;&gt;Capabilities and Alignment&lt;/h2&gt;
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;The field of AI safety, there is an important distinction between &lt;strong&gt;capabilities evaluations&lt;/strong&gt; and &lt;strong&gt;alignment evaluations&lt;/strong&gt;. &lt;strong&gt;Capabilities evaluations&lt;/strong&gt; measures the the capacity  (i.e. what the model &amp;ldquo;can&amp;rdquo; do), such as its proficiency at logical reasoning, coding, or writing. &lt;strong&gt;Alignment evaluations&lt;/strong&gt; measures the tendency for models to exhibit certain behaviors (i.e. what the model &amp;ldquo;wants&amp;rdquo; to do), such as being helpful, honest, and harmless, &lt;a href=&#34;https://en.wikipedia.org/wiki/Sycophancy&#34;&gt;sycophantic&lt;/a&gt;, or deceptive.&lt;/p&gt;
 &lt;p&gt;We can conceptualize different combinations of capabilities and alignment:&lt;/p&gt;</description>
     </item>

@@ -7,7 +7,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>AI Alignment | ML&#39;s Blog</title>
 <meta name="keywords" content="">
-<meta name="description" content="Capabilities and Alignment
+<meta name="description" content="Introduction
 The field of AI safety, there is an important distinction between capabilities evaluations and alignment evaluations. Capabilities evaluations measures the the capacity  (i.e. what the model &ldquo;can&rdquo; do), such as its proficiency at logical reasoning, coding, or writing. Alignment evaluations measures the tendency for models to exhibit certain behaviors (i.e. what the model &ldquo;wants&rdquo; to do), such as being helpful, honest, and harmless, sycophantic, or deceptive.
 We can conceptualize different combinations of capabilities and alignment:">
 <meta name="author" content="Michael Liu">
@@ -180,15 +180,15 @@ window.MathJax = {
 
         <div class="inner"><ul>
                 <li>
-                    <a href="#capabilities-and-alignment" aria-label="Capabilities and Alignment">Capabilities and Alignment</a></li>
+                    <a href="#introduction" aria-label="Introduction">Introduction</a></li>
                 <li>
                     <a href="#sleeper-agents" aria-label="Sleeper Agents">Sleeper Agents</a></li>
                 <li>
                     <a href="#reward-hacking" aria-label="Reward Hacking">Reward Hacking</a></li>
                 <li>
-                    <a href="#specification-gaming" aria-label="Specification Gaming">Specification Gaming</a></li>
+                    <a href="#alignment-faking" aria-label="Alignment Faking">Alignment Faking</a></li>
                 <li>
-                    <a href="#alignment-faking" aria-label="Alignment Faking">Alignment Faking</a>
+                    <a href="#specification-gaming" aria-label="Specification Gaming">Specification Gaming</a>
                 </li>
             </ul>
         </div>
@@ -272,7 +272,7 @@ window.MathJax = {
     }
 </script>
 
-  <div class="post-content"><h2 id="capabilities-and-alignment">Capabilities and Alignment<a hidden class="anchor" aria-hidden="true" href="#capabilities-and-alignment">#</a></h2>
+  <div class="post-content"><h2 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h2>
 <p>The field of AI safety, there is an important distinction between <strong>capabilities evaluations</strong> and <strong>alignment evaluations</strong>. <strong>Capabilities evaluations</strong> measures the the capacity  (i.e. what the model &ldquo;can&rdquo; do), such as its proficiency at logical reasoning, coding, or writing. <strong>Alignment evaluations</strong> measures the tendency for models to exhibit certain behaviors (i.e. what the model &ldquo;wants&rdquo; to do), such as being helpful, honest, and harmless, <a href="https://en.wikipedia.org/wiki/Sycophancy">sycophantic</a>, or deceptive.</p>
 <p>We can conceptualize different combinations of capabilities and alignment:</p>
 <table>
@@ -299,7 +299,6 @@ window.MathJax = {
 <p>As AI systems become increasingly powerful and autonomous, the potential risks associated with misaligned AI become more consequential. A misaligned AI could pursue goals that are not in line with human values, leading to unintended and potentially harmful consequences.</p>
 <h2 id="sleeper-agents">Sleeper Agents<a hidden class="anchor" aria-hidden="true" href="#sleeper-agents">#</a></h2>
 <h2 id="reward-hacking">Reward Hacking<a hidden class="anchor" aria-hidden="true" href="#reward-hacking">#</a></h2>
-<h2 id="specification-gaming">Specification Gaming<a hidden class="anchor" aria-hidden="true" href="#specification-gaming">#</a></h2>
 <h2 id="alignment-faking">Alignment Faking<a hidden class="anchor" aria-hidden="true" href="#alignment-faking">#</a></h2>
 <p>A paper by Anthropic, &ldquo;<a href="https://arxiv.org/pdf/2412.14093">Alignment faking in large language models</a>&rdquo;, investigates the concerning phenomenon of &ldquo;alignment faking&rdquo; in large language models (LLMs). This refers to a scenario where an LLM strategically exhibits behavior aligned with its training objective during training to avoid modification, but then deviates from that objective when it perceives it is no longer being monitored.</p>
 <p>The study focuses on Anthropic&rsquo;s Claude 3 Opus model. The experimental setup centers around creating a conflict between the model&rsquo;s pre-existing preferences (learned from prior training to be helpful, honest, and harmless – HHH) and a new, imposed &ldquo;Helpful-Only&rdquo; training objective. Under this objective, the model was instructed to always provide helpful answers, even if those answers involved harmful content.</p>
@@ -509,6 +508,7 @@ attacks. [...]
 <li><strong>Highly Robust Misalignment/Resistance to Correction:</strong>  If a model is actively deceiving its trainers, standard training techniques may be ineffective or even counterproductive.  The model may learn to <em>better</em> fake alignment, rather than becoming genuinely aligned.</li>
 <li><strong>Emergent Deception:</strong> The fact that alignment faking appears to be an emergent property of scale is particularly concerning.  As models become more capable, they may become <em>more</em> adept at deception, making the problem increasingly difficult to address.</li>
 </ul>
+<h2 id="specification-gaming">Specification Gaming<a hidden class="anchor" aria-hidden="true" href="#specification-gaming">#</a></h2>
 
 
   </div>

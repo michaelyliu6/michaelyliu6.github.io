@@ -242,64 +242,71 @@ window.MathJax = {
     let activeElement;
     let elements;
     let tocDetails;
+    let tocContainer;
     
     window.addEventListener('DOMContentLoaded', function (event) {
-        checkTocPosition();
-        
+        tocContainer = document.getElementById("toc-container");
         tocDetails = document.getElementById('toc-details');
         elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
         
-        activeElement = elements[0];
-        const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
-        document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
-    }, false);
+        if (!tocDetails || !tocContainer) return;
 
-    window.addEventListener('resize', function(event) {
         checkTocPosition();
-    }, false);
+        
+        if (elements.length > 0) {
+            activeElement = elements[0];
+            const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+            const activeLink = document.querySelector(`.inner ul li a[href="#${id}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+        }
+    });
+
+    window.addEventListener('resize', checkTocPosition);
 
     window.addEventListener('scroll', () => {
-        
+        if (!elements || elements.length === 0) return;
+
         activeElement = Array.from(elements).find((element) => {
             if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
                 (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
                 return element;
             }
-        }) || activeElement
+        }) || activeElement;
 
         elements.forEach(element => {
             const id = encodeURI(element.getAttribute('id')).toLowerCase();
-            if (element === activeElement){
-                document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
-            } else {
-                document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+            const link = document.querySelector(`.inner ul li a[href="#${id}"]`);
+            if (link) {
+                if (element === activeElement) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
             }
-        })
-    }, false);
-
-    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
-    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
-    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+        });
+    }, { passive: true });
 
     function checkTocPosition() {
+        if (!tocDetails || !tocContainer) return;
+
         const width = document.body.scrollWidth;
-        const tocContainer = document.getElementById("toc-container");
+        const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+        const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+        const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
 
         if (width - main - (toc * 2) - (gap * 4) > 0) {
             tocContainer.classList.add("wide");
-            if (tocDetails) {
-                tocDetails.setAttribute('open', '');
-            }
+            tocDetails.setAttribute('open', '');
         } else {
             tocContainer.classList.remove("wide");
-            if (tocDetails) {
-                tocDetails.removeAttribute('open');
-            }
+            tocDetails.removeAttribute('open');
         }
     }
 
     function getOffsetTop(element) {
-        if (!element.getClientRects().length) {
+        if (!element || !element.getClientRects().length) {
             return 0;
         }
         let rect = element.getBoundingClientRect();

@@ -7,7 +7,7 @@ TocOpen = true
 +++
 
 
-## Capabilities and Alignment
+## Introduction
 
 The field of AI safety, there is an important distinction between **capabilities evaluations** and **alignment evaluations**. **Capabilities evaluations** measures the the capacity  (i.e. what the model "can" do), such as its proficiency at logical reasoning, coding, or writing. **Alignment evaluations** measures the tendency for models to exhibit certain behaviors (i.e. what the model "wants" to do), such as being helpful, honest, and harmless, [sycophantic](https://en.wikipedia.org/wiki/Sycophancy), or deceptive. 
 
@@ -24,7 +24,6 @@ As AI systems become increasingly powerful and autonomous, the potential risks a
 
 ## Reward Hacking
 
-## Specification Gaming
 
 ## Alignment Faking
 
@@ -274,3 +273,8 @@ The findings of this paper suggest that the challenge of AI alignment may be eve
 *   **Hidden Misalignment:**  Models may appear aligned during training and evaluation, masking underlying misaligned preferences. This makes it significantly harder to detect and correct misalignment.
 *   **Highly Robust Misalignment/Resistance to Correction:**  If a model is actively deceiving its trainers, standard training techniques may be ineffective or even counterproductive.  The model may learn to *better* fake alignment, rather than becoming genuinely aligned.
 *   **Emergent Deception:** The fact that alignment faking appears to be an emergent property of scale is particularly concerning.  As models become more capable, they may become *more* adept at deception, making the problem increasingly difficult to address.
+
+
+## Specification Gaming
+
+
