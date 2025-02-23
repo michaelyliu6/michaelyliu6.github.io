@@ -199,12 +199,14 @@ window.MathJax = {
     let activeElement;
     let elements;
     let tocDetails;
+    let tocContainer;
     
     window.addEventListener('DOMContentLoaded', function (event) {
+        tocContainer = document.getElementById("toc-container");
         tocDetails = document.getElementById('toc-details');
         elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
         
-        if (!tocDetails) return;
+        if (!tocDetails || !tocContainer) return;
 
         checkTocPosition();
         
@@ -244,7 +246,7 @@ window.MathJax = {
     }, { passive: true });
 
     function checkTocPosition() {
-        if (!tocDetails) return;
+        if (!tocDetails || !tocContainer) return;
 
         const width = document.body.scrollWidth;
         const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
@@ -252,8 +254,10 @@ window.MathJax = {
         const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
 
         if (width - main - (toc * 2) - (gap * 4) > 0) {
+            tocContainer.classList.add("wide");
             tocDetails.setAttribute('open', '');
         } else {
+            tocContainer.classList.remove("wide");
             tocDetails.removeAttribute('open');
         }
     }
