@@ -6,8 +6,12 @@ showToc = true
 TocOpen = true
 +++
 
-
 ## Introduction
+
+
+
+
+## Capabilities vs Alignment
 
 The field of AI safety, there is an important distinction between **capabilities evaluations** and **alignment evaluations**. **Capabilities evaluations** measures the the capacity  (i.e. what the model "can" do), such as its proficiency at logical reasoning, coding, or writing. **Alignment evaluations** measures the tendency for models to exhibit certain behaviors (i.e. what the model "wants" to do), such as being helpful, honest, and harmless, [sycophantic](https://en.wikipedia.org/wiki/Sycophancy), or deceptive. 
 

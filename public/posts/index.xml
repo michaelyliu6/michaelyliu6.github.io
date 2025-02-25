@@ -64,11 +64,23 @@
 &lt;p&gt;The intended audience of this post is someone who has a solid understanding of Deep Learning and GPT2.&lt;/p&gt;</description>
     </item>
     <item>
+      <title>5 Predictions for AI in 2025</title>
+      <link>http://localhost:1313/posts/predictions/</link>
+      <pubDate>Thu, 15 Feb 2024 07:07:07 +0100</pubDate>
+      <guid>http://localhost:1313/posts/predictions/</guid>
+      <description>&lt;h2 id=&#34;prediction-1-the-iphone-moment-wont-happen&#34;&gt;Prediction 1: The iPhone Moment won&amp;rsquo;t happen&lt;/h2&gt;
+&lt;h2 id=&#34;prediction-2-inference-as-a-percentage-of-total-compute-will-increase&#34;&gt;Prediction 2: Inference as a percentage of total compute will increase&lt;/h2&gt;
+&lt;h2 id=&#34;prediction-3-post-training-will-be-the-dominant-paradigm-for-llm-development&#34;&gt;Prediction 3: Post-training will be the dominant paradigm for LLM development&lt;/h2&gt;
+&lt;h2 id=&#34;prediction-4-visual-understanding-in-llms-will-the-next-unlock-for-agent-capabilities&#34;&gt;Prediction 4: Visual Understanding in LLMs will the next unlock for Agent Capabilities&lt;/h2&gt;
+&lt;h2 id=&#34;prediction-5-multi-agent-systems-will-be-the-next-big-thing-in-llm-applications&#34;&gt;Prediction 5: Multi-agent systems will be the next big thing in LLM applications&lt;/h2&gt;</description>
+    </item>
+    <item>
       <title>AI Alignment</title>
       <link>http://localhost:1313/posts/alignment/</link>
       <pubDate>Thu, 15 Feb 2024 07:07:07 +0100</pubDate>
       <guid>http://localhost:1313/posts/alignment/</guid>
       <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;h2 id=&#34;capabilities-vs-alignment&#34;&gt;Capabilities vs Alignment&lt;/h2&gt;
 &lt;p&gt;The field of AI safety, there is an important distinction between &lt;strong&gt;capabilities evaluations&lt;/strong&gt; and &lt;strong&gt;alignment evaluations&lt;/strong&gt;. &lt;strong&gt;Capabilities evaluations&lt;/strong&gt; measures the the capacity  (i.e. what the model &amp;ldquo;can&amp;rdquo; do), such as its proficiency at logical reasoning, coding, or writing. &lt;strong&gt;Alignment evaluations&lt;/strong&gt; measures the tendency for models to exhibit certain behaviors (i.e. what the model &amp;ldquo;wants&amp;rdquo; to do), such as being helpful, honest, and harmless, &lt;a href=&#34;https://en.wikipedia.org/wiki/Sycophancy&#34;&gt;sycophantic&lt;/a&gt;, or deceptive.&lt;/p&gt;
 &lt;p&gt;We can conceptualize different combinations of capabilities and alignment:&lt;/p&gt;</description>
     </item>
@@ -82,15 +94,6 @@
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;Supervised Fine-tuning (SFT):&lt;/strong&gt; An initial language model is fine-tuned on a dataset of high-quality demonstrations, where the model learns to imitate the provided examples.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Agents</title>
-      <link>http://localhost:1313/posts/agents/</link>
-      <pubDate>Sun, 14 Jan 2024 07:07:07 +0100</pubDate>
-      <guid>http://localhost:1313/posts/agents/</guid>
-      <description>&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;http://localhost:1313/assets/images/agents/CodeAct.png&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;smolagents-httpsgithubcomhuggingfacesmolagents&#34;&gt;smolagents (&lt;a href=&#34;https://github.com/huggingface/smolagents&#34;&gt;https://github.com/huggingface/smolagents&lt;/a&gt;)&lt;/h2&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;http://localhost:1313/assets/images/agents/smolAgents-GAIA-benchmark.png&#34;&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>DeepSeek-VL2</title>
@@ -122,6 +125,15 @@
       <guid>http://localhost:1313/posts/my-first-post/</guid>
       <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;Hi there! My name is Michael Liu.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Understanding Agent Capabilities through the GAIA Benchmark</title>
+      <link>http://localhost:1313/posts/agents/</link>
+      <pubDate>Sun, 14 Jan 2024 07:07:07 +0100</pubDate>
+      <guid>http://localhost:1313/posts/agents/</guid>
+      <description>&lt;h2 id=&#34;background&#34;&gt;Background&lt;/h2&gt;
+&lt;h2 id=&#34;gaia-benchmark-quantifying-real-world-agent-progress&#34;&gt;GAIA Benchmark: Quantifying Real-World Agent Progress&lt;/h2&gt;
+&lt;p&gt;Evaluating AI agents necessitates benchmarks that transcend academic exercises and accurately reflect practical, real-world capabilities. While datasets like &lt;strong&gt;MMLU&lt;/strong&gt; assess knowledge domains, they do not fully capture the essential skills for effective agents in complex, everyday scenarios. The &lt;strong&gt;GAIA&lt;/strong&gt; (\textbf{G}eneral \textbf{AI} \textbf{A}ssistants) benchmark \citep{mialon2023gaia} provides a more pertinent evaluation: it challenges agents with tasks demanding &lt;strong&gt;reasoning&lt;/strong&gt;, &lt;strong&gt;tool utilization&lt;/strong&gt;, and &lt;strong&gt;multi-modal comprehension&lt;/strong&gt; within open-ended, real-world contexts.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

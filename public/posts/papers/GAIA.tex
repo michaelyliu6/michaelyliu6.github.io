@@ -1,0 +1,828 @@
+\documentclass{fairmeta}
+
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{appendix}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\definecolor{RoyalBlue}{RGB}{65,105,225}
+\definecolor{Green}{RGB}{34,139,34}
+\hypersetup{
+    colorlinks=true,
+    citecolor=RoyalBlue,
+    linkcolor=RoyalBlue,
+    filecolor=magenta,      
+    urlcolor=RoyalBlue
+}
+\usepackage{cleveref}
+\usepackage{tabularx}
+\usepackage{comment}
+\usepackage{subfig}
+\usepackage{tikz}
+\usepackage[frozencache,cachedir=minted-cache]{minted}
+\setminted{fontsize=\scriptsize}
+\usepackage{amssymb}
+\usepackage{wrapfig}
+
+\usepackage{fontawesome}
+\usepackage{pifont}
+
+\definecolor{lvl1}{HTML}{93acf5}
+\definecolor{lvl2}{HTML}{1549e4} 
+\definecolor{lvl3}{HTML}{091f62} 
+
+
+\newcommand{\greg}[1]{{\color{violet}\textbf{GM: #1}}}
+\newcommand{\clem}[1]{{\color{orange}\textbf{CF: #1}}}
+\newcommand{\tsc}[1]{{\color{blue}\textbf{Thomas Scialom: #1}}}
+
+\newcommand{\wip}[1]{{\color{red}\textbf{#1}}}
+
+\newcommand{\benchmark}{\textsc{GAIA}}
+\newcommand{\total}{466}
+\newcommand{\test}{300}
+\newcommand{\dev}{166}
+\newcommand{\humanscore}{92\%}
+
+\title{
+\begin{center}
+    \benchmark{}: \\ A Benchmark for \textbf{G}eneral \textbf{AI} \textbf{A}ssistants
+\end{center}
+}
+
+\author[1]{Gr\'egoire Mialon}
+\author[2]{Cl\'ementine Fourrier}
+\author[3]{Craig Swift}
+\author[2]{Thomas Wolf}
+\author[1]{Yann LeCun}
+\author[4]{Thomas Scialom}
+
+\affiliation[1]{FAIR, Meta}
+\affiliation[2]{HuggingFace}
+\affiliation[3]{AutoGPT}
+\affiliation[4]{GenAI, Meta}
+
+\abstract{
+
+We introduce \benchmark{}, a benchmark for General AI Assistants that, if solved, would represent a milestone in AI research. \benchmark{} proposes real-world questions that require a set of fundamental abilities such as reasoning, multi-modality handling, web browsing, and generally tool-use proficiency.
+\benchmark{} questions are conceptually simple for humans yet challenging for most advanced AIs: we show that human respondents obtain 92\% vs. 15\% for GPT-4 equipped with plugins. 
+This notable performance disparity contrasts with the recent trend of LLMs outperforming humans on  tasks requiring professional skills in \textit{e.g.} law or chemistry.
+\benchmark{}'s philosophy departs from the current trend in AI benchmarks suggesting to target tasks that are ever more difficult for humans.
+We posit that the advent of Artificial General Intelligence (AGI) hinges on a system's capability to exhibit similar robustness as the average human does on such questions. Using \benchmark{}'s methodology, we devise 466 questions and their answer. We release our questions while retaining answers to 300 of them to power a leader-board \href{https://huggingface.co/gaia-benchmark}{hereby accessible}. 
+
+}
+
+\date{\today}
+\correspondence{\email{\{gmialon,tscialom\}@meta.com}, \email{clementine@huggingface.co}}
+
+\metadata[Code]{\url{https://huggingface.co/gaia-benchmark}}
+
+\begin{document}
+
+
+\maketitle
+
+
+\section{Introduction}
+
+
+\begin{figure}[h!]
+    \centering
+    \begin{tcolorbox}[colframe=RoyalBlue, colback=white]
+    \begin{center}
+    \textbf{\textcolor{lvl1}{Level 1}} 
+    \end{center}
+    \textbf{Question:}
+    What was the actual enrollment count of the clinical trial on H. pylori in acne vulgaris patients from Jan-May 2018 as listed on the NIH website?
+    \\
+    \textbf{Ground truth:} 90
+    \begin{center}
+    \textbf{\textcolor{lvl2}{Level 2}} 
+    \end{center}
+    \begin{minipage}[c]{0.2\textwidth}
+    \centering
+      \begin{tikzpicture}
+        \draw[rounded corners=5pt,line width=2pt, color=lvl2] (0,0) rectangle (2.3cm, 3.0cm);
+        \clip[rounded corners=5pt] (0,0) rectangle (2.3cm, 3.0cm);
+        \node at (1.15cm, 1.5cm) {\includegraphics[width=2.3cm,height=3.0cm]{figures/ice_cream.jpg}};
+      \end{tikzpicture}
+    \end{minipage}
+    % \hfill
+    \begin{minipage}[c]{0.79\textwidth}
+        \textbf{Question:} If this whole pint is made up of ice cream, how many percent above or below the US federal standards for butterfat content is it when using the standards as reported by Wikipedia in 2020? Answer as + or - a number rounded to one decimal place. 
+        \\
+        \textbf{Ground truth:} +4.6 
+    \end{minipage}
+    \begin{center}
+    \textbf{\textcolor{lvl3}{Level 3}} 
+    \end{center}
+    \textbf{Question:}
+    In NASA's Astronomy Picture of the Day on 2006 January 21, two astronauts are visible, with one appearing much smaller than the other. As of August 2023, out of the astronauts in the NASA Astronaut Group that the smaller astronaut was a member of, which one spent the least time in space, and how many minutes did he spend in space, rounded to the nearest minute? Exclude any astronauts who did not spend any time in space. Give the last name of the astronaut, separated from the number of minutes by a semicolon. Use commas as thousands separators in the number of minutes. 
+    \\
+    \textbf{Ground truth:} White; 5876
+    \end{tcolorbox}
+    \caption{Sample \benchmark{} questions. Completing the tasks requires fundamental abilities such as reasoning, multi-modality handling, or tool use proficiency. Answers are unambiguous and by design unlikely to be found in plain text in training data.
+    Some questions come with additional evidence, such as images, reflecting real use cases and allowing better control on the questions.}
+    \label{fig:demo_questions}
+\end{figure}
+
+Large Language Models (LLMs) arguably open the way to general purpose systems. Indeed, the latest among them~\citep{openai2023gpt4, anthropic2023claude2, anil2023palm, touvron2023llama2} are fluent, knowledgeable, aligned to some extent with human preferences~\citep{ouyang2022training}, and can be augmented~\citep{mialon2023augmented} with tools such as web browsers or code interpreters in a zero or few-shot setting~\citep{brown2020language}. However, evaluating these systems is an open problem: given their emerging new capabilities, LLMs are regularly breaking AI benchmarks, at an ever-increasing rate~\citep{_kiela-etal-2023-plottingprogress}.
+
+ 
+In search for more challenging benchmarks, current trend suggests to seek tasks that are ever more difficult for humans, and challenge LLMs with more intricate educational assessments, for example in STEM and Law, or target more complex realisations, such as writing a coherent book. But, tasks that are difficult for humans are not necessarily difficult for recent systems: the challenging MMLU or GSM8k benchmarks for example~\citep{_hendrycks-etal-2021-measuring-mmlu, cobbe2021training} are already close to be solved,\footnote{GPT4 does 86.4\% on MMLU. Human \emph{non}-specialist accuracy on the benchmark is only 34.5\% Expert-level human performance is estimated at 89.8\%.} due to rapid LLM improvement possibly combined with data contamination.\footnote{\href{https://www.surgehq.ai/blog/hellaswag-or-hellabad-36-of-this-popular-llm-benchmark-contains-errors}{See for example the case of Hellaswag.}}
+Furthermore, open-ended generation generally requires human or model-based evaluation~\citep{zheng2023judging}. Human evaluation will become less and less feasible when increasing the task complexity, \textit{e.g.} in terms of output length or required skills: how to evaluate a book generated by an AI, or solutions to maths problems that few people in the world can solve? Model-based evaluations on the other hand are by construction dependent of stronger models hence cannot evaluate new state-of-the-art models, without mentioning potential subtle biases such as preferring the first choice presented~\citep{zheng2023judging}.
+Overall, evaluating new AI systems requires to rethink benchmarks~\citep{chollet2019measure}.
+
+Alternatively to tasks that are harder for humans, AI systems could be asked to solve conceptually simple tasks yet that require accurate execution of complex sequences of actions, with large combinatorial spaces. The output could only be obtained upon successful completion of the task and be easy to validate, analogous to the Proof of Work algorithm~\citep{jakobsson1999proofs,dwork1993pricing}, where a computer is asked to solve a complex problem whose solution is easy to verify. Tasks for AI assistants, given their need for access to a diverse and uncertain world, meet this criterion while being inherently rooted in practical use cases.
+
+We move in that direction by proposing \benchmark{}, a benchmark for General AI Assistants featuring \total{} carefully crafted questions and their answer, along with the associated design methodology. Our questions are easy to create, challenging for AI systems---for LLMs, most require complex generations---, yet admit a unique, factual answer, allowing a simple and robust automatic evaluation.
+
+\benchmark{} attempts to avoid current pitfalls of LLMs evaluation by targeting:
+\begin{itemize}
+    \item[-] Real-world and challenging questions. For example, a LLM will typically need to browse the open and changing web, handle multi-modality, or reason over multiple steps to answer our questions. Conversely, many LLM benchmarks are quite specific and/or restricted to closed and synthetic environments.
+    
+    \item[-] Easy interpretability through conceptually simple tasks---non experts annotators exhibit a near perfect score---, associated reasoning trace, and few but highly curated questions. This is in contrast with aggregated benchmarks that can lack efficiency and reliability~\citep{perlitz2023efficient}.
+
+    \item[-] Non-gameability. Answering the questions requires successful completion of some number of steps, which cannot easily be brute forced due to their diversity.
+    The possibility to check the reasoning trace, the accuracy required in the answers,  their absence in plain text from the internet prevent a possible data contamination. In contrast, multiple choice answers (\textit{e.g.}, MMLU) make contamination assessment more difficult since a wrong reasoning trace can more easily get to the correct choice.
+    
+    \item[-] Simplicity of use. Crucially, the answers to our questions are factoid, concise and unambiguous. These properties allow simple, fast and factual evaluation. Our questions are meant to be answered in zero shot, limiting the influence of the evaluation setup. By opposition, many LLM benchmarks require evaluations that are sensitive to the experimental setup such as the number and nature of prompts
+    ~\citep{liang2022holistic} (Section 8.2), or the benchmark implementation.\footnote{\url{https://huggingface.co/blog/evaluating-mmlu-leaderboard}}
+\end{itemize}
+
+In spite of being successful at tasks that are difficult for humans, the most capable LLMs do poorly on \benchmark{}. Even equipped with tools, GPT4 does not exceed a 30\% success rate for the easiest of our tasks, and 0\% for the hardest.
+In the meantime, the average success rate for human respondents is \humanscore{}. Consequently, a system capable of solving \benchmark{} can be assessed in the context of t-AGI,\footnote{As defined in \url{https://www.alignmentforum.org/posts/BoA3agdkAzL6HQtQP/clarifying-and-predicting-agi}, a t-AGI beats, on most tasks, most human experts who are given time t to perform the task} noting that humans typically take between 6 minutes for the simplest questions to 17 minutes for the most complex ones. From a related perspective, such system would arguably be a competent General AI within the framework recently proposed in~\citet{morris2023levels}, which also appear to be the next milestone in AI research since ChatGPT~\citep{openai2023gpt4} is one level below.
+This paper covers the composition of \benchmark{}, its design choices, and explain how to craft questions and the associated challenges so that the community can further extend the benchmark to target emerging questions such as safety associated to tool use, or multi-modality.
+We also analyse the successes and shortcomings of some of the most capable assistants to date, illustrating the potential of augmenting LLMs.
+We release a developer set of \dev{} annotated questions
+and release the remaining \test{} questions without annotations: the benchmark will be notably hosted as a leaderboard.
+We hope our methodology will help addressing the problem of open ended generation evaluation in NLP and beyond, and believe the successful resolution of \benchmark{} would be an important milestone towards the next generation of AI systems.
+
+\section{Related work}
+\paragraph{Evaluating Large Language Models.} As LLMs capabilities have rapidly progressed, benchmarks become saturated at an increasing speed. As a example, reading comprehension was still a challenging task a few years alo~\citep{rajpurkar2016squad}. \citet{_wang-etal-2018-glue} introduced the General Language Understanding Evaluation benchmark (GLUE), on which models surpassed humans within a year. Its extension~\citep{_wang-etal-2019-superglue} didn't resist for more than a couple of years after its release. More generally, with each passing year, static benchmarks are saturated and solved at human level at an ever increasing speed, as well illustrated by \citet{_kiela-etal-2023-plottingprogress}.
+While searching for harder evaluations, a natural direction is to explore tasks requiring professional level knowledge in various fields such as law or science: an example is MMLU~\citep{_hendrycks-etal-2021-measuring-mmlu}, containing over 15,000 questions covering 57 subjects across STEM, the humanities, the social sciences, and more. 
+And yet, LLMs already passed human performance on these,
+and have even been reported to reach a stage where they could plausibly pass the US bar exam~\citep{openai2023gpt4} or exceed the passing score on USMLE, a US examination program used to assess clinical competency and grant licensure~\citep{nori2023capabilities}.
+Directions to evaluate LLMs more holistically, on their broader conversational aspects, have included (i) compilations of evaluations~\citep{_gao-etal-2021-harness,_liang-etal-2022-holistic,_srivastava-etal-2023-bigbench}, which are often difficult to aggregate meaningfully and are prone to contamination through data leakage, (ii) human evaluation, which is time-consuming and difficult to scale, or (iii) model based evaluation to overcome this limitation~\citep{zheng2023judging}. However, this latter solution relies on using a more capable LLM (often GPT4) than the one currently evaluated, and the quality of the evaluation is affected by the shortcomings of the evaluator LLM, which are not always obvious and can lead to subtly incorrect results.
+
+
+\paragraph{Evaluating General Assistants.}
+While there is ongoing effort to turn Large Language Models into general-purpose assistants (see our discussion in~\Cref{sec:extended_related_work}), appropriate evaluation is lagging behind. Most evaluations
+rely on the use of closed systems, specific API calls, and a given ``correct way" to attain the answer, or simply repurpose existing evaluation datasets. ToolQA \citep{_zhuang-etal-2023-toolqa} or Gentopia \citep{_xu-etal-2023-gentopia} for example combine existing datasets with human annotations (MMLU, MATH, etc.) at the risk of contamination during training, and without ensuring tool usage is actually tested. Gorilla \citep{_patil-etal-2023-gorilla} introduces APIBench, which tests how well an agent like system calls its specific API, similarly to API-Bank \citep{_li-etal-2023-apibank}, which provides an API pool to help the LLM during its evaluation. AgentBench \citep{liu2023agentbench} is more general, and provides a number of closed box environments inside which assistant LLMs can be deployed to answer user queries (from Unix shells to WebShopping APIs). However, because such evaluations rely on closed environments, they risk evaluating how well the assistants have learned to use specific APIs, instead of more general results grounded in real world interactions.
+By opposition, \benchmark{} does not specify possible APIs, and relies on interactions with the real world.
+OpenAGI \citep{_ge_2023_openagi} introduces both a platform and a benchmark, made of a number of multi-steps tasks across modalities and capabilities, and is closer to our work. The core difference with \benchmark{} is that their tasks focus on current model capabilities rather than upcoming advancements.
+
+\section{\benchmark{}}
+
+This section covers the design and content of \benchmark{}, as well as guidelines for creating questions and associated challenges.
+
+\subsection{A convenient yet challenging benchmark for general AI assistants}
+
+\paragraph{What is \benchmark{} and how does it work?} \benchmark{} is a benchmark for AI systems proposing general assistant questions. \benchmark{} attempts to circumvent different pitfalls of LLMs evaluation. It is composed of \total{} questions designed and annotated by humans. These questions are text-based, and sometimes come with a file (such as an image or a spreadsheet). They cover various assistant use cases such as daily personal tasks, science, or general knowledge. The questions are designed to admit a short, single correct answer, therefore easy to verify. To use \benchmark{}, one only needs to zero-shot prompt an AI assistant with the questions and attached evidence if there are some.
+Scoring perfectly on \benchmark{} requires a varied set of fundamental abilities (see~\Cref{sec:composition}). We provide questions along various with meta-data in supplementary material.
+
+
+\begin{figure}[h!]
+    \centering
+    \begin{tcolorbox}[colframe=RoyalBlue, colback=white]
+    \textbf{System prompt:} You are a general AI assistant. I will ask you a question. Report your thoughts, and finish your answer with the following template: FINAL ANSWER: [YOUR FINAL ANSWER]. \\
+    YOUR FINAL ANSWER should be a number OR as few words as possible OR a comma separated list of numbers and/or strings. \\
+    If you are asked for a number, don't use comma to write your number neither use units such as \$ or percent sign unless specified otherwise. \\
+    If you are asked for a string, don't use articles, neither abbreviations (e.g. for cities), and write the digits in plain text unless specified otherwise. \\
+    If you are asked for a comma separated list, apply the above rules depending of whether the element to be put in the list is a number or a string.
+    \\
+    \\
+     \begin{minipage}{0.75\textwidth}
+        \textbf{\benchmark{} Question:} The attached Excel file contains the sales of menu items for a local fast-food chain. What were the total sales that the chain made from food (not including drinks)? Express your answer in USD with two decimal places.
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.2\textwidth}
+        \centering
+    \includegraphics[scale=.08]{figures/xlsx_icon.pdf}
+    \small{\texttt{uploaded.xlsx}}
+    \end{minipage}
+    \\
+    \\
+    \textbf{GPT4 (Advanced Data Analysis mode):} 
+    \\
+    \\ Working:
+    \begin{tcolorbox}[colframe=RoyalBlue, colback=gray!10]
+    \begin{minted}{python}
+import pandas as pd
+
+# Load the Excel file
+file_path = '/mnt/data/uploaded.xlsx'
+df = pd.read_excel(file_path)
+\end{minted}
+\end{tcolorbox}
+Working:
+\begin{tcolorbox}[colframe=RoyalBlue, colback=gray!10]
+\begin{minted}{python}
+# Calculate the total sales from food items (not including drinks i.e., Soda)
+total_food_sales = df[
+    ['Burgers', 'Hot Dogs', 'Salads', 'Fries', 'Ice Cream']
+].sum().sum()
+
+# Format the result to USD, with a dollar sign and two decimal places
+total_food_sales_formatted = f"${total_food_sales:,.2f}"
+\end{minted}
+\end{tcolorbox}
+FINAL ANSWER: \texttt{\$89706.00} \hspace{1cm}\textbf{Ground truth:} \texttt{89706.00} \textcolor{Green}{{\Large \checkmark}}
+
+
+    \end{tcolorbox}
+    \caption{To answer \benchmark{}, an AI assistant such as GPT4 (here equipped with a code interpreter) needs to complete a few steps, potentially using tools or reading files.}
+    \label{fig:demo_gpt4}
+\end{figure}
+
+
+
+\paragraph{Design choices.} \benchmark{} results both from the need for revised AI benchmarks, and the observed shortcomings of LLM evaluation. 
+
+Our first principle is to target questions that are conceptually simple although potentially tedious for humans, yet varied, rooted in the real world and challenging for current AI systems. This allows to focus on fundamental abilities such as quick adaptation via reasoning, multi-modality understanding, and potentially diverse tool use, rather than specialised skills~\citep{chollet2019measure}. The questions generally consist in finding and transforming information gathered from different and various sources, such as provided documents or the open and changing web, to produce an accurate answer. 
+To answer the first example question above (\Cref{fig:demo_questions}), LLMs should typically browse the web to find a study, then look for the correct enrolment. This goes against the trend of benchmarks that are increasingly difficult for humans, and/or operate in purely textual or artificial environments. 
+
+Our second principle is interpretability.
+The restricted number of highly curated questions makes the benchmark easier to use compared to aggregated ones~\citep{perlitz2023efficient}. The conceptual simplicity of the task (human success rate is 92\%) makes it easy for users to understand a model's reasoning trace.
+For the Level 1 question from~\Cref{fig:demo_questions}, the reasoning trace will mostly consist in checking the correct website, and report the correct enrolment, which is simple to verify.
+
+Our third principle is robustness against memorization: \benchmark{} aims to be less gameable than most current benchmarks. To complete a task, a system has to plan and successfully complete some number of steps since the resulting answer is absent by design in plain text from current pre-training data. A progress in accuracy reflects actual system progress. Due to their diversity and the size of the action space, these tasks cannot be brute-forced without cheating, for example by memorizing the ground truth. Although accidental memorization is possible through data contamination, the accuracy required in the answers,
+their absence from pre-training data, and the possibility to check the reasoning trace mitigate this risk. In contrast, multiple choice answers make contamination assessment difficult since a wrong reasoning trace can still get to the correct choice.
+If catastrophic memorization happens in spite of these mitigations, it is easy to craft new questions using the guidelines we provide in~\Cref{sec:guidelines}.
+
+Our last principle is easiness of use. Our tasks are simple prompts that may come with an additional file. Crucially, the answers to our questions are factoid, concise and unambiguous. These properties allow simple, fast and factual evaluation. Our questions are meant to be answered in zero shot, limiting the influence of the evaluation setup. By opposition, many LLM benchmarks require evaluations that are sensitive to the experimental setup such as the number and nature of prompts~\citep{liang2022holistic} (Section 8.2), or the benchmark implementation.
+
+
+\subsection{Evaluation} \benchmark{} is designed such that evaluation is automated, fast, and factual. In practice, each question calls for an answer that is either a string (one or a few words), a number, or a comma separated list of strings or floats, unless specified otherwise. There is only one correct answer. Hence, evaluation is done via quasi exact match between a model's answer and the ground truth (up to some normalization that is tied to the ``type'' of the ground truth). A system (or prefix) prompt is used to inform the model about the required format, see~\Cref{fig:demo_gpt4}. In practice, GPT4 level models easily follow our format. We provide our scoring function along with the \href{https://huggingface.co/gaia-benchmark}{leaderboard}.
+
+\subsection{Composition of \benchmark{}}
+\label{sec:composition}
+
+This subsection delves into the composition of the \total{} questions we devised for \benchmark{}. 
+
+\vspace{-0.2cm}
+
+\paragraph{Capabilities coverage.} Scoring perfectly on \benchmark{} requires advanced reasoning, multi-modality understanding, coding capabilities and generally tool use, \textit{e.g} web browsing, for which we provide a more precise definition in~\Cref{sec:extended_description}. We also include questions requiring to process varied data modalities such as PDFs, spreadsheets, but also images, videos or audio, whose distribution is reported in~\Cref{sec:extended_description}~(\Cref{fig:file_types}). \Cref{fig:gaia_overview} (left) is an overview of these capabilities. Although web browsing is a key component of \benchmark{}, we do not require assistants to perform actions other than ``clicks'' on a website such as uploading a file, post a comment or book a meeting. Testing these capabilities in real environments while avoiding spamming websites requires careful consideration that we leave for future work, and refer the reader to recent works proposing closed environments for LLMs agents~\citep{liu2023agentbench}. We do not provide a more detailed list of required capabilities to solve the benchmark since most questions can be solved equally well via different combinations of capabilities. For example, a given piece of evidence may have been properly memorised by an assistant LLM, or retrieved via a web search.
+In particular, we do not provide a fine-grained benchmarking of tool usage by LLMs, and refer the reader to~\citet{xu2023tool,li2023apibank}.
+
+\begin{figure}
+    \centering
+    \begin{minipage}[c]{0.475\textwidth}
+        \includegraphics[width=\textwidth,keepaspectratio]{figures/capabilities_histogram.pdf}
+    \end{minipage}
+    \begin{minipage}[c]{0.48\textwidth}
+        \includegraphics[width=\textwidth,keepaspectratio]{figures/gaia_overview.pdf}
+    \end{minipage}
+    \caption{Left: number of questions per capability requiring at least this capability to be solved. Right: each dot corresponds to a \benchmark{} question. At a given location, the size of the dots are proportional to the number of questions,
+    and only the level with the highest number of questions is displayed for readability. Both figures are based on information reported by human annotators when answering the questions, and AI systems might proceed differently.}
+    \label{fig:gaia_overview}
+\end{figure}
+
+\vspace{-0.2cm}
+
+\paragraph{Increasing difficulty.} The questions can be sorted into three levels of increasing difficulty depending on the number of steps required to solve the questions, and the number of different tools needed to answer the question. There is naturally not a single definition of step or tool, and possibly many paths to answer a given question. Therefore, we rely as a proxy on the number of steps and tools used by our annotators when crafting the questions.
+\Cref{fig:gaia_overview} (right) illustrates the distribution of our questions along these two axes. Tools are always related to one or more capability (see~\Cref{sec:extended_description}). We loosely use the following definitions to attribute a level to a question:
+\begin{itemize}
+    \item[-] \textbf{Level 1} questions generally require no tools, or at most one tool but no more than 5 steps. 
+    \item[-] \textbf{Level 2} question generally involve more steps, roughly between 5 and 10 and combining different tools is needed.
+    \item[-] \textbf{Level 3} are questions for a near perfect general assistant, requiring to take arbitrarily long sequences of actions, use any number of tools, and access to the world in general.
+\end{itemize}
+
+An illustration of these levels is provided in~\Cref{fig:demo_questions}. Those definitions are not hard constraints: for example, a question with less than $10$ annotator steps but that requires complex web navigation might be categorised as Level 3 rather than 2. Our definition of the difficulty is validated in Section~\ref{sec:evaluation}.
+
+\paragraph{Distribution of required capabilities.} While \benchmark{} targets real-world assistant questions,
+we also include tasks that could potentially benefits physically impaired people, such as finding a piece of information in a small audio file. Finally, we make our best effort to cover various topic domains and cultures, although the language of the dataset is restricted to English (see~\Cref{sec:limitations}). 
+
+\subsection{Building and extending \benchmark{}}
+\label{sec:guidelines}
+
+This subsection delves into our question design and annotation process. In particular, we discuss some associated challenges and hope our insights will help the community building over\benchmark{}. 
+
+
+\paragraph{Crafting questions.}
+
+Our questions are created by humans\footnote{More precisely, in a collaboration between our teams and compensated annotators from Surge AI.} and aim to reflect realistic use cases of AI assistants. The authors designed initial questions, and gave them as examples to annotators along with instructions (reported in~\Cref{sec:extended_protocol}) to create more questions. 
+The questions were based on one or more sources of truth that were often specified in the question to avoid ambiguity. Examples of sources of truth are trusted web pages that have low chance to disappear anytime soon \textit{e.g.}, Wikipedia, Papers With Code, or arXiv. In other cases, the source of truth is entirely provided with the question, \textit{e.g.}, an attached document. The last case is a self-contained question, \textit{e.g.}, a small puzzle. We do not specify a fixed list of sources of truth in order to enforce question diversity and avoid memorisation. Apart from puzzles, most questions were created by finding and potentially combining information from different sources of truth to produce a specific answer. Once a question was created, it was also annotated, \textit{i.e.} the question creator provided an answer as well as meta-data: which tools were needed, which steps were taken, or how many time was required to answer. A typical annotation result is presented in~\Cref{tab:annotated_question} (\Cref{sec:extended_description}). 
+
+\paragraph{Validating questions.} Most of the work associated with crafting questions consists in ensuring that they are unambiguous, \textit{i.e.}, there is a single correct answer. This property allows fast and factual evaluation, hence it is crucial to maintain it. Ambiguities can be subtle and rarely obvious to the creator of a question. 
+For example, a question is ambiguous if it does not specify a version for a web page while the information needed to answer the question is different in other versions.  
+We therefore asked two new annotators to independently answer each question. If the original annotator and the two new annotators arrived at the same answer, the question was validated. Questions on which annotators disagreed generally only required a simple fix, but were removed otherwise. For this reason, question creation can hardly be automated while keeping the interest and variety of questions high. We report statistics on this validation phase in~\Cref{tab:ambiguity_stats} (\Cref{sec:extended_description}). 68\% of the questions were good as is, while the rest had to be corrected or removed.
+While the questions are conceptually simple, annotators might do inadvertent mistakes: we estimate the annotator's success rate to be \humanscore{} when aggregated on all levels of difficulty, and report this as the human score for \benchmark{}. It is close to perfect, demonstrating that \benchmark{} is simple for non experts. We estimate the creation of a question, including its validation by two supplementary annotators and potential repairs, to require two hours of annotator time.
+
+
+
+\paragraph{Challenges associated to relying on the web.} Designing questions can be delicate when a source of truth is hosted on the web.
+First, the evidence might change over time. For example, a Wikipedia article could be updated between the moment the question is created and the moment it is asked to an AI assistant, potentially removing the evidence required to answer. For such questions, it is often important to specify a version of the evidence, such as the page's date.
+In practice, we find our benchmark to be robust to these changes since we try to rely as much as possible on evidence that will likely pass the test of time.
+Second, some website owners wish to prevent access to parts or totality of their website from bots via their \texttt{robots.txt} files. While this is rather a demand than a constraint, it is obviously desirable to comply. For example, OpenAI provides instruction to website owners wishing to forbid access to GPT4 on how to modify their \texttt{robots.txt} accordingly. Hence, we verify that accessing the part of the website hosting the evidence is not restricted.
+
+\section{LLMs results on GAIA}
+\label{sec:evaluation}
+
+\vspace{-.2cm}
+Evaluating LLMs with \benchmark{} only requires the ability to prompt the model, \textit{i.e} an API access. We use a prefix prompt before asking the model a question. To ease answer extraction, we specify a format in the prefix prompt, see~\Cref{fig:demo_gpt4}. We evaluate GPT4~\citep{openai2023gpt4} with and without plugins,\footnote{\url{https://openai.com/blog/chatgpt-plugins}} as well as AutoGPT~\footnote{\url{https://github.com/Significant-Gravitas/Auto-GPT}, git hash of the AutoGPT version evaluated: \texttt{ed172dec1947466cc0942abf75bb77b027cd433d}.} with GPT4 as backend. GPT4 currently requires to manually select plugins (see paragraph below). On the contrary, AutoGPT is able to do this selection automatically. Our non-LLM baselines are human annotators, and web search. For the latter, we type our questions in a search engine and check whether the answer can be deducted from the first page of results. This allows us to assess whether the answer to our questions can easily be found on the web or not.
+Whenever an API is available, we run the model three times and report the average results.
+
+\vspace{-.2cm}
+
+\paragraph{GPT4 plugins.} As opposed to GPT4, there is currently no API for GPT4 \textit{with} plugins, and we resort to manual ChatGPT queries. At the time of the writing, the user has to manually choose between an Advanced Data Analysis mode---with code execution and file reading capabilities---, and a set of at most three third party plugins. We use either the first mode or select third parties plugins according to our best guess of the most important capabilities given the task. We often rely on (i) a tool for reading various types of links, (ii) a web browsing tool, and (iii) a tool for computation. Sadly, it is currently not possible to use a stable set of plugins over some period of time as plugins often change or disappear from the store. Similarly, the official search tool for GPT4 was removed as it could possibly circumvent paywalls, before being recently brought back. Therefore, our score for GPT4 with plugins is an ``oracle'' estimate of GPT4 potential with more stable and automatically selected plugins rather than an easily reproducible result.
+
+\vspace{-.2cm}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=.4]{figures/gaia_results_with_times.pdf}
+    \caption{Scores and time to answer per method and level. As stated in the main text, GPT4 + plugins score should be seen as an oracle since the plugins were chosen manually depending on the question. Human score refers to the score obtained by our annotators when validating the questions.}
+    \label{fig:eval_results}
+\end{figure}
+
+\vspace{-0.4cm}
+
+\paragraph{Results.}  Our evaluation can be found in~\Cref{fig:eval_results}, with more details in~\Cref{tab:detailed_eval_results} (\Cref{sec:extended_evaluation}). Our proposed levels of difficulty, loosely defined in terms of number of steps and number of different capabilities used, are correlated with the performance of current models, strengthening their validity. While humans excel at all levels, current best LLMs do poorly. Overall, \benchmark{} allows to clearly rank capable assistants, while leaving a lot of room for improvement in the coming months and perhaps years.
+
+\begin{wrapfigure}{r}{0.56\textwidth}
+    \centering
+    \includegraphics[scale=.33]{figures/gaia_results_per_capability_v2.pdf}
+    \caption{Score of various LLMs at Level 1 per capability. Non zero scores for non tool models for ``Diverse filetype reading'' and ``Multi-modality'' are due to tasks that can be solved differently from the way the annotators did. Non zero scores for non tool models for web browsing are mostly due to correct memorization of information required to complete intermediate steps.}
+    \label{fig:eval_results_per_capability}
+\end{wrapfigure}
+
+Web search by humans might return textual results from which the correct answer can be deducted for Level 1, yet does not work when it comes to slightly more complex queries, and is also slightly slower than a typical LLM assistant since the user has to skim through the first search results. This confirms the potential of LLM assistants as competitors for search engines. 
+
+The discrepancy between GPT4 results without plugins and the others demonstrate that augmenting LLMs via tool APIs or access to the web improves answer accuracy, and unlock many new use cases, confirming the huge potential of this research direction. In particular, GPT4 + plugins exhibit behaviours such as backtracking or query refinement when the result is not satisfying, and relatively long plan execution. We provide examples of such behaviours in~\Cref{sec:extended_evaluation}. The discrepancy with humans suggests the work needed to fully unlock this potential.
+
+AutoGPT4, which allows GPT4 to automatically use tools, offer disappointing results for Level 2, and even Level 1 compared to GPT4 without plugins. This discrepancy might come from the way AutoGPT4 relies on the GPT4 API (prompt and generation parameters) and will require new evaluation in the near future. AutoGPT4 is also slow compared to other LLMs. Overall, the collaboration between a human and GPT4 with plugins seem to offer the best ratio of score versus time needed so far.
+
+\Cref{fig:eval_results_per_capability} shows the scores obtained by the models splitted per capability. Unsurprisingly, GPT4 cannot deal with files and multi-modality, yet manages to solve questions for which annotators used web browsing, mostly because it properly memorised pieces of information that need to be combined to get the answer.
+
+\begin{comment}
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{lccc}
+        \toprule
+        Model &  Level 1 & Level 2 & Level 3 \\
+        \midrule
+        GPT4 + plugins & \\
+        GPT4 &  \\
+        Claude2 \\
+        \bottomrule
+    \end{tabular}
+    \caption{We evaluated different assistants via their API or manually when no API was available.}
+    \label{tab:evals}
+\end{table}
+
+\end{comment}
+\vspace{-.3cm}
+
+\section{Discussion}
+
+\vspace{-.2cm}
+
+Designing \benchmark{} led us to think about current and future paradigm of AI systems evaluation.
+
+\vspace{-.2cm}
+
+\paragraph{Reproducibility for closed-source assistants.}  The capabilities of models closed behind APIs might change over time~\citep{chen2023chatgpts}, making an evaluation done at some point in time not reproducible. The problem can be even worse: for example, ChatGPT plugins and their capabilities change regularly, and are not accessible through ChatGPT's API yet. % Hey, don't look at my source file!
+Reproducibility could become even more elusive since static benchmarks might disappear in favour of benchmarks that decay through time due to their reliance on the real world. \benchmark{} is however robust to the randomness of token generation since only the final answer, that admits a single correct response, is evaluated.
+
+\vspace{-.2cm}
+
+\paragraph{Static versus dynamic benchmarks.} Much like other complex expert datasets, \benchmark{} currently comes with hundreds of questions that have been carefully curated and selected. By comparison, a more massive benchmark such as MMLU has close to 15,000. Yet, MMLU consists of multiple choice questions hence is seemingly easier than our open questions.
+Questions that admit a single correct answer require care, and we preferred to favour quality over quantity. Moreover, we hope that our insights on question design will help the community to add more questions.  \benchmark{} is indeed likely to decay over time, be it via (i) catastrophic contamination of pre-training data or (ii) disappearance from the web of some information required to answer the questions. We are confident that the various mitigations we provide for these problems will help maintaining \benchmark{} relevant until it is solved. Static benchmarks are broken benchmarks in the making, and making \benchmark{} evolve year-by-year through the removal of broken questions and the addition of new ones might be an important component to better assess the generalization and robustness of AI systems.
+
+\vspace{-.2cm}
+
+
+\paragraph{Towards unified evaluation of generative models.} Many \benchmark{} tasks might be solved by calling modules that could yield errors~\textit{e.g.} an image classifier returning the wrong label. One could argue this makes evaluation ambiguous since it considers the system as a whole and does not attribute errors to sub-parts \textit{e.g.} the web browsing or vision modules. 
+However, the paradigm of coupling LLMs with external tools for every task beyond text understanding might not last. 
+For example, future models might bend towards more integration between the LLM and other capabilities as in vision-language models~\citep{alayrac2022flamingo,laurençon2023obelics}. \benchmark{} aims at evaluating AI systems rather than the current architectural standard.
+More generally, automatic, factual, and interpretable evaluation of complex generations is a long lasting problem in generative AI, another important example being images~\citep{stein2023exposing}. \citet{hu2023tifa} make a step in that direction, yet rely on model-based evaluation and simple questions. Moving forward, the conjugation of multi-modal systems with \benchmark{} might further improve advanced generative models evaluation \textit{e.g.} image generators, via tasks requiring a complex sequence of image modifications and asking an unambiguous question on the resulting image in natural language. The answer could be found only if the modifications have been correctly applied by the model to the original image.
+
+\vspace{-.2cm}
+
+\paragraph{Partial versus full automation.} While partial automation of a process still requires humans in the loop, full automation completely removes that need. Systems that respectively allow partial automation and full automation can be as close as a few percentage of error on a given task---the former would have say 1\% and the latter 0\%---, yet yield these two fundamentally different paradigms. Full automation is a goal that deep learning has been striving to achieve, without complete success to date: in spite of state-of-art results in various domains, most neural networks based systems can unpredictably fail \textit{e.g} in common situations, impeding the advent of technologies such as self-driving cars. 
+Solving \benchmark{} requires full automation since no approximation is allowed in the answer. Full automation of more human activities will reshape our socio-economic landscape~\citep{growiec_2022}, with the risk that the added value is mainly captured by the owner of the technology instead of human workers. This is a grounded argument in favour of open-source.
+
+\vspace{-.3cm}
+
+\section{Limitations} 
+\label{sec:limitations}
+
+\vspace{-.2cm}
+
+While \benchmark{} attempts to circumvent current pitfalls of LLM benchmarks, some limitation remains. 
+
+\vspace{-.2cm}
+
+\paragraph{Missing evaluations.} In its current form, \benchmark{} does not evaluate the trace leading to the answer. Indeed, as opposed to the ground truth which is unique, different paths could lead to the correct answer and there is no obvious and simple ways to grade those, while we prioritized easiness of use for \benchmark{}. Going forward, human and model-based evaluations, albeit limited, are interesting options to evaluate the plans, and could be quite convenient since (i) our questions rarely require expert knowledge, thus alleviating the need to find specialized annotators, and (ii) the judge can rely on the ground truth: it is often faster to verify than to independently derive the answer. We leave the addition of human and model-based evaluation for future work. Finally, we only evaluate the strongest available LLMs that have access to tools
+hence are able to obtain informative scores. However, OpenAI's API does not provide the detailed log of tool calls yet, which would be required for fine-grained analysis. We look forward to add other models with sufficient tool using capabilities and logging, especially in open source. 
+
+\vspace{-.2cm}
+
+\paragraph{On the cost of designing unambiguous questions.} The price to pay for a real-world yet easy to use benchmark corresponds to making sure the questions are unambiguous. We find that two rounds of annotations are required, a first annotator making their best effort to design an unambiguous question---wich takes more time than \textit{e.g.} ranking two different generations for RLHF---, and two supplementary annotators independently answering the question and disambiguating it if necessary.
+In spite of this thorough process, possible ambiguities remain. However, the annotation cost is fixed and probably small compared to the potential cost of multiple untrustworthy evaluations. A question might be ambiguous for a perfectly logical computer yet not ambiguous for humans: this is not a problem since we want AI systems to be aligned with human preferences. We believe human annotators are currently essential to have diverse and grounded questions, as opposed to programmatically generated ones. A similar argument is made in~\citet{chollet2019measure}. One could however synthetically generate GAIA-like data by relaxing the unambiguity constraint, \textit{e.g.} for training purpose.
+Additionally, some \benchmark{} questions come with many details hence seem unnatural: these details ensure the question admits only one correct answer and are therefore necessary. In practice, a user would ask an under-specified question, and a useful assistant would answer by citing its sources or keeping the most trustworthy one. Both are difficult to factually evaluate, and we leave that aspect for future work. 
+
+\paragraph{Lack of linguistic and cultural diversity.} A big limitation of \benchmark{} is its lack of language diversity: all questions are asked in ``standard'' English only, and many questions mostly rely on English web pages. This benchmark will therefore not validate the usefulness of assistants for non-English speakers (80\% of the global world population), their usefulness on the non English-speaking web (about half of its content), nor on any sort of dialectal variation of English. As such, \benchmark{} is only a first step to estimate the potential of AI assistants, but should not be seen as an absolute general proof of their success. We hope to fill this gap in future work or through community involvement.
+
+
+
+\section{Acknowledgements}
+
+
+
+The authors would like to thank Nicolas Usunier for suggesting the web search baseline, Edwin Chen for helping us improve our unusual protocol for annotators, Yacine Jernite for sharing his insights on diversity when benchmark building, and Sasha Luccioni for taking the time to proofread some sections where proper English was eluding us.
+
+\vspace{-0.3cm}
+
+\bibliographystyle{plainnat}
+\bibliography{paper}
+
+
+\newpage
+
+\appendix
+
+
+\section{Extended related work}
+\label{sec:extended_related_work}
+
+\paragraph{Large Language Models as General Assistants.}
+Several avenues have been explored to turn LLMs into general-purpose assistants: (i) using single agent LLMs with better capabilities through Chain of Thought prompting or equivalent mechanisms, such as GPT-Engineer \citep{_osika-2023-gpt}, AutoGPT \citep{_yang-etal-2023-autogpt}; (ii) using multiple agent LLMs to debate and together reach better conclusions to answer user queries \citep{_li-etal-2023-camel,_hong-etal-2023-metagpt,_chan-etal-2023-chateval,_talebirad-nadiri-2023-multiagent}; (iii) using single agent LLMs augmented with specific tools, such as Blender Bot 3~\citep{shuster2022blenderbot}, BOLAA \citep{_liu-etal-2023-bolaa} and AssistGPT~\citep{_gao-etal-2023-assistgpt} extending LLMs with planning components, Socratic Models~\citep{_zeng-etal-2022-socratic} or Visual ChatGPT~\citep{_wu-etal-2023-visual} extended with multimodal models, WebGPT~\citet{nakano2021webgpt} fine-tuned for web-search, or a collection of tools and APIs, such as Toolformer~\citep{schick2023toolformer} fine-tuned for general tool usage, ViperGPT~\citep{_suris-etal-2023-vipergpt} using coding capabilites to generate correct API calls, HuggingGPT \citep{_shen-etal-2023-hugginggpt} leveraging calls to the HuggingFace ecosystem to extend its LLM with other ML models capabilities, or even (iv) providing full new API/tooling libraries, such as the \href{https://openai.com/blog/chatgpt-plugins}{OpenAI plugins}, SemanticKernel \citep{_microsoft-2023-semantic}, Langchain \citep{_chase-2022-langchain} and MiniChain \citep{_rush-2023-minichain}. 
+
+
+\section{Datacard}
+We follow~\citep{bender-friedman-2018-data} for the creation of this datacard, where we try to summarise and centralise all information which might be relevant for analysis of this dataset.
+
+\paragraph{Curation rationale.} This is detailed in~\Cref{sec:guidelines} and~\Cref{sec:extended_protocol}.
+
+\paragraph{Language variety.}
+Information about our annotators' nationality was not provided, but they were all based in the US, and all questions, answers, and meta-data were written in mainstream English (therefore most likely en-US). We can also note that all authors of this paper are French and do not have English as a first language, which might have lead to the inclusion of non-standard English phrasing in the questions or answers.
+
+\paragraph{Curators and Annotators demographic.}
+Following the definitions proposed in~\citep{bender-friedman-2018-data}, building \benchmark{} required the work of Curators, who devised the questions and their answer, and Annotators, who independently annotated the questions to assess their non-ambiguity. Both come from the following population: 
+\begin{itemize}
+    \item \textbf{Age}: 
+    \begin{itemize}
+            \item 18-25: 17\%
+            \item 26-35: 39\%
+            \item 36-45: 26\%
+            \item 45-55: 13\%
+            \item 56-65: 4\%
+    \end{itemize}
+    \item \textbf{Gender}: 57\% Male, 43\% Female.
+   \item \textbf{Academic background}:
+   \begin{itemize}
+       \item Bachelor's Degree: 61\%
+       \item Master's Degree: 26\%
+       \item PhD: 17\%
+   \end{itemize}
+\end{itemize}
+
+\paragraph{Text characteristics.} This is detailed in~\Cref{sec:extended_description}.
+
+\section{Extended description of \benchmark{}}
+\label{sec:extended_description}
+
+\paragraph{Description of capabilities.} When answering the questions, annotators specified the steps that were followed and listed the tools they use. Based on the set of tools that were mentionned by the annotators, we defined capabilities required by \benchmark{}. For each capability, we report examples of corresponding tool as reported by annotators.
+\begin{itemize}
+    \item \textbf{Web browsing}: tools related to search the web and browse websites. Examples: \texttt{Web browser, Search engine, Website widget access, Access to YouTube, Google Street View}.
+    \item \textbf{Multi-modality}: tools related to understanding data modality other than text. Examples: \texttt{A speech-to-text tool, Video recognition, Image recognition, OCR, Google Street View}.
+    \item \textbf{Coding}: tools related to code execution. Examples: \texttt{Python, a calculator, Substitution cipher encoder, C++ compiler, A word reversal tool / script}.
+    \item \textbf{Diverse filetype reading}: tools related to understanding various type of files given by a user or found on the web. Examples: \texttt{PDF viewer, Excel file access, PowerPoint viewer, CSV access, Txt file access}.
+    \item \textbf{N/A}: tools for tasks that can currently be performed by non-augmented LLMs. Examples: \texttt{Tetris rules database, German translator, Spell checker, Text Editor, Bass note data}.
+\end{itemize}
+Note that a tool can belong to different categories. For example, \texttt{Google Street View} requires access to the web, browsing, but also multi-modality. Hence, these categories are indications of the capabilities required by \benchmark{} and not a perfect typology of our questions.
+
+
+\paragraph{Filetypes.} Some \benchmark{} questions come with additional files, whose distribution is given in~\Cref{fig:file_types}.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=.38]{figures/file_types.pdf}
+    \caption{Initial distributions of file types in \benchmark{}.}
+    \label{fig:file_types}
+\end{figure}
+
+\paragraph{Difficulty of the questions.}
+
+Our analysis of the time taken by the annotators to answer a question shows a correlation with the number of steps taken. The correlation is less clear with the number of different tools used to answer.
+
+\begin{figure}[h!]
+    \centering
+    \begin{minipage}{0.495\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{figures/time_tools_relationship.pdf}
+        \caption{Using multiple tools does not necessarily involve more time to answer a question.}
+        \label{fig:time_tools}
+    \end{minipage}\hfill
+    \begin{minipage}{0.495\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{figures/time_steps_relationship.pdf}
+        \caption{Unsurprisingly, the number of steps taken to answer is correlated to the time taken.}
+        \label{fig:time_steps}
+    \end{minipage}
+\end{figure}
+
+
+\section{Extended description of our question design framework}
+\label{sec:extended_protocol}
+
+\paragraph{Question creation phase.} We provided the annotators with a seed set of \benchmark{} questions we devised ourselves, accompanied with the following instructions:
+
+We want to augment the dataset of provided questions (not variations of what we already have).
+
+Requirements:
+
+\begin{itemize}
+    \item Make sure your question is based on a source of truth (Wikipedia, arXiv, githhub, other...). For Level 2 and Level 3, a good way to create questions is to combine sources of truth. 
+    \item Make sure the answer to your question does not exist on the internet in plain text.
+    \item Make sure the answer to your question is a number or at most a few words to make evaluation robust.
+    \item Make sure the answer to your question does not change with time. This includes potential deletion of the source of truth.
+    \item Make sure the answer to your question is unambiguous.
+    \item Make sure your question is ``interesting'', \textit{i.e.} by reading it you think that an AI assistant answering this kind of question would help you a lot.
+    \item Make sure your question can be answered in a reasonable amount of time by a human annotator.
+    \item \textit{(Added later on)}: check the \texttt{robots.txt} of the website containing the information needed to answer so that it is accessible to AI assistants.
+\end{itemize}
+
+The annotators were also asked to answer the questions they created. We provide a typical example of annotated question in~\Cref{tab:annotated_question}.
+
+\begin{table}[]
+    \centering
+    \small
+    \begin{tabularx}{\textwidth}{lX}
+        \toprule
+         Question & What was the actual enrollment count of the clinical trial on H. pylori in acne vulgaris patients from Jan-May 2018 as listed on the NIH website? \\
+         \midrule
+         File & None\\
+         \midrule
+         Level & 1 \\
+         \midrule
+         Steps & 
+         \begin{itemize}
+             \item[-] Searched ``nih" on Google search.
+\item[-] Clicked the top link to nih.gov.
+\item[-] Searched ``h pylori acne" in the search box.
+\item[-] Clicked ``More" and selected ``Clinical Trials".
+\item[-] Clicked the result about H. Pylori and acne.
+\item[-] Checked the date to confirm it was January to May 2018.
+\item[-] Opened ``Tabular View".
+\item[-] Scrolled down to Actual Enrollment and recorded the number.
+         \end{itemize} \\
+        \midrule
+        Number of steps & 8 \\
+        \midrule
+        Answer & 90 \\
+        \midrule
+        Time to answer & 8 minutes\\
+        \midrule
+        Tools & \begin{itemize}
+            \item[-] Web browser
+        \end{itemize} \\
+        \midrule
+        Number of tools & 1 \\
+        \bottomrule
+    \end{tabularx}
+    \caption{An annotated question during the question creation phase.}
+    \label{tab:annotated_question}
+\end{table}
+
+\paragraph{Validation phase.} After question creation, we ask two new independent annotators to answer the questions to check it is not ambiguous. We provide a typical annotator output for the validation phase in~\Cref{tab:annotated_question_validation}, as well as additional statistics on the validation phase of our protocol in~\Cref{tab:ambiguity_stats}. If the new annotators don't fully agree with the original answer and there is no human error, the question is repaired if possible and removed otherwise.
+
+\begin{table}[]
+    \centering
+    \small
+    \begin{tabularx}{\textwidth}{lX}
+        \toprule
+         Question & What was the actual enrollment count of the clinical trial on H. pylori in acne vulgaris patients from Jan-May 2018 as listed on the NIH website? \\
+         \midrule
+         File & None\\
+         \midrule
+         Level & 1 \\
+        \midrule
+        Verifier response & 90 \\
+        \midrule
+        Answer match & Yes - my answer matches the correct answer. \\
+        \midrule
+        Cause of mismatch & None \\
+        \bottomrule
+    \end{tabularx}
+    \caption{An annotated question during the validation phase.}
+    \label{tab:annotated_question_validation}
+\end{table}
+
+
+\begin{table}[]
+\small
+    \centering
+    \begin{tabular}{lccc}
+        \toprule
+        After two new, independent annotators answer for all crafted questions: & \\
+        \midrule 
+        Two new annotators agree with original answer & 55\% \\
+        One new annotator agree with original answer, other disagree & 27\% \\
+        Two new annotators disagree with original answer & 18\% \\
+        \midrule
+        Valid questions (aggregated)* & 68\% \\
+        \midrule
+        Valid Level 1 questions & 75\% \\
+        Valid Level 2 questions & 68\% \\
+        Valid Level 3 questions & 47\% \\
+        \midrule
+        Human score (aggregated)** & 92\% \\
+        \midrule
+        Human score for Level 1 & 94\% \\
+        Human score for Level 2 & 92\% \\
+        Human score for Level 3 & 87\% \\
+        \bottomrule
+    \end{tabular}
+    \caption{Statistics on the validation phase. 623 newly crafted questions were validated by two new annotators each. The statistics were computed on their 1246 annotations. *: a valid question is a question for which two annotators give the same answer as the question designer, or only one annotator gives the same answer as the question designer and the other made a mistake. **: the human baseline is computed as the fraction of correct answers for all tentative on valid questions by the new annotators.}
+    \label{tab:ambiguity_stats}
+\end{table}
+
+We estimate the creation of a question, including its validation by two supplementary annotators and potential repairs, requires two hours of annotator time.
+\vspace{-.2cm}
+\subsection{Extended evaluation}
+\label{sec:extended_evaluation}
+\vspace{-.2cm}
+We provide the detailed scores of the different methods evaluated in~\Cref{tab:detailed_eval_results}.
+
+
+\begin{table}[]
+\small
+    \centering
+    \begin{tabular}{lcccccc}
+        \toprule
+         Metric & \multicolumn{3}{c}{Score in \% ($\uparrow$)} & \multicolumn{3}{c}{Avg. time to answer in mins ($\downarrow$)} \\
+        \midrule
+         Level & Level 1 & Level 2 & Level 3 & Level 1 & Level 2 & Level 3 \\
+         \midrule
+        Number of questions & 146 & 245 & 75 & 146 & 245 & 75 \\
+        \midrule 
+        GPT4 & $9.1 \pm 2.5$ & $2.6 \pm 0.6$ & 0 & 0.19 & 0.15 & N.A.\\
+        GPT4 Turbo & $13.0 \pm 2.1$ & $5.5 \pm 1.4$ & 0 & 0.24 & 0.12 & N.A. \\
+        AutoGPT (GPT4 backend) & 14.4 & 0.4 & 0 & 7.6 & 11.7 & N.A. \\
+        GPT4 + plugins* & 30.3 & 9.7 & 
+        0 & 0.65 & 0.53 & N.A. \\
+        \midrule
+        Search engine & 7.4 & 0 & 0 & 7.4 & N.A. & N.A. \\
+        Human annotator** & 93.9 & 91.8 & 87.3 & 6.8 & 10.5 & 17.7 \\
+
+        \bottomrule
+    \end{tabular}
+    \caption{Score and average time to answer for various baselines on GAIA in \%. *: GPT4 + plugins scores were obtained by manually selecting plugins, and cannot be reproduced exactly for the reasons described in the main text. **: Human score corresponds to the portion of correct answers by validation annotators for valid questions. Whenever we have direct API access, we run the model three times and report the average. Times for APIs were obtained by running the API on 20 questions then averaging, and were taken at a single point in time: they aren't meant to reflect GPT4 vs. GPT4 Turbo speed, but GPT4 vs. other types of methods for answering \benchmark{}.}
+    \label{tab:detailed_eval_results}
+\end{table}
+
+\paragraph{Additional examples of GPT4 answering \benchmark{}.} We provide more reasoning traces of GPT4 with and without plugins when answering \benchmark{}. The output of AutoGPT is currently much longer, denser and less interpretable thant GPT4. Examples of AutoGPT outputs are therefore provided in the supplementary material for the same \benchmark{} question as the example in~\Cref{fig:demo_gpt4_stpeter}.
+
+\begin{figure}[h!]
+    \small
+    \centering
+    \begin{tcolorbox}[colframe=RoyalBlue, colback=white]
+    \textbf{System prompt:} You are a general AI assistant. I will ask you a question. Report your thoughts, and finish your answer with the following template: FINAL ANSWER: [YOUR FINAL ANSWER]. \\
+    YOUR FINAL ANSWER should be a number OR as few words as possible OR a comma separated list of numbers and/or strings. \\
+    If you are asked for a number, don't use comma to write your number neither use units such as \$ or percent sign unless specified otherwise. \\
+    If you are asked for a string, don't use articles, neither abbreviations (e.g. for cities), and write the digits in plain text unless specified otherwise. \\
+    If you are asked for a comma separated list, apply the above rules depending of whether the element to be put in the list is a number or a string.
+    \\
+    \\
+    \textbf{\benchmark{} Question:} Your final answer should be a number, or as few words as possible. Where were the Vietnamese specimens described by Kuznetzov in Nedoshivina's 2010 paper eventually deposited? Just give me the city name without abbreviations.
+    \\
+    \\
+    \textbf{GPT4:} 
+    \\
+    I’m unable to browse the internet or access new information after my knowledge cut-off in January 2022. Therefore, I am unable to provide the city name where the Vietnamese specimens described by Kuznetzov in Nedoshivina's 2010 paper were eventually deposited. \\
+FINAL ANSWER: \texttt{Unable to provide} 
+\hspace{.3cm}\textbf{Ground truth:} \texttt{Saint Petersburg} \textcolor{red}{\Large \ding{55}}
+
+
+    \end{tcolorbox}
+    \begin{tcolorbox}[colframe=RoyalBlue, colback=white]
+    \textbf{System prompt:} You are a general AI assistant. I will ask you a question. Report your thoughts, and finish your answer with the following template: FINAL ANSWER: [YOUR FINAL ANSWER]. \\
+    YOUR FINAL ANSWER should be a number OR as few words as possible OR a comma separated list of numbers and/or strings. \\
+    If you are asked for a number, don't use comma to write your number neither use units such as \$ or percent sign unless specified otherwise. \\
+    If you are asked for a string, don't use articles, neither abbreviations (e.g. for cities), and write the digits in plain text unless specified otherwise. \\
+    If you are asked for a comma separated list, apply the above rules depending of whether the element to be put in the list is a number or a string.
+    \\
+    \\
+    \textbf{\benchmark{} Question:} Your final answer should be a number, or as few words as possible. Where were the Vietnamese specimens described by Kuznetzov in Nedoshivina's 2010 paper eventually deposited? Just give me the city name without abbreviations.
+    \\
+    \\
+    \textbf{GPT4 (Web browsing):} 
+    \\ Browsing Bing:
+    \begin{tcolorbox}[colframe=RoyalBlue, colback=gray!10]
+    \faSearch \hspace{.1cm} ``Vietnamese specimens described by Kuznetzov Nedoshivina 2010 paper deposition location'' \\
+    \\
+    \faNavicon \hspace{.1cm} Reading content 
+    \end{tcolorbox}
+Result:
+\begin{tcolorbox}[colframe=RoyalBlue, colback=gray!10]
+A catalogue of type specimens of the Tortricidae described by V. I. Kuznetzov from Vietnam and deposited in the Zoological Institute, St. Petersburg : Nedoshivina, Svetlana : Free Download, Borrow, and Streaming : Internet Archive
+\end{tcolorbox}
+FINAL ANSWER: \texttt{Saint Petersburg} \hspace{.5cm}\textbf{Ground truth:} \texttt{Saint Petersburg} \textcolor{Green}{{\Large \checkmark}}
+
+
+    \end{tcolorbox}
+    \caption{Proper web search is very effective to answer \benchmark{} questions. The reasoning trace was obtained with the current GPT4 web browsing version.}
+    \label{fig:demo_gpt4_stpeter}
+\end{figure}
+
+\begin{figure}[h!]
+    \small
+    \centering
+    \begin{tcolorbox}[colframe=RoyalBlue, colback=white]
+    \textbf{System prompt:} You are a general AI assistant. I will ask you a question. Report your thoughts, and finish your answer with the following template: FINAL ANSWER: [YOUR FINAL ANSWER]. \\
+    YOUR FINAL ANSWER should be a number OR as few words as possible OR a comma separated list of numbers and/or strings. \\
+    If you are asked for a number, don't use comma to write your number neither use units such as \$ or percent sign unless specified otherwise. \\
+    If you are asked for a string, don't use articles, neither abbreviations (e.g. for cities), and write the digits in plain text unless specified otherwise. \\
+    If you are asked for a comma separated list, apply the above rules depending of whether the element to be put in the list is a number or a string.
+    \\
+    \\
+    \textbf{\benchmark{} Question:} In the film Goldfinger, what color was the object that James Bond concealed himself and his companion Pussy Galore at the end of the film? If there are multiple colors, put them in a comma-separated list in alphabetical order.
+    \\
+    \\
+    \textbf{GPT4 (Web browsing):} 
+    \\
+    \\ Browsing Bing:
+    \begin{tcolorbox}[colframe=RoyalBlue, colback=gray!10]
+    \faSearch \hspace{.1cm} ``Goldfinger ending scene object color'' \\
+    \\
+    \faMousePointer \hspace{.1cm} Goldfinger (1964) ending / spoiler \\
+    \\
+    \faNavicon \hspace{.1cm} Reading content \\
+    \\
+    \faSearch \hspace{.1cm} ``Goldfinger ending scene parachute color'' \\
+    \\
+    \faNavicon \hspace{.1cm} Reading content
+    \end{tcolorbox}
+FINAL ANSWER: \texttt{Orange, White} \hspace{.5cm}\textbf{Ground truth:} \texttt{orange, white} \textcolor{Green}{{\Large \checkmark}}
+
+
+    \end{tcolorbox}
+    \caption{The official GPT4 browsing plugin is able to refine its initial query based on the information it finds. This reasoning trace was obtained with the GPT4 browsing plugin version that was removed, and could not be reproduced with the new version.}
+    \label{fig:demo_gpt4_goldfinger}
+\end{figure}
+
+\begin{figure}[h!]
+    \small
+    \centering
+    \begin{tcolorbox}[colframe=RoyalBlue, colback=white]
+    \textbf{System prompt:} [Same system prompt as~\Cref{fig:demo_gpt4_goldfinger}.]
+    \\
+    \\
+    \textbf{\benchmark{} Question:} A standard Rubik's cube has been broken into cubes making up its sides. The cubes are jumbled, and one is removed. There are 6 cubes with one colored face, 12 edge cubes with two colored faces, and 8 corner cubes with three colored faces. All blue cubes have been found. All cubes directly left, right, above, and below the orange center cube have been found, along with the center cube. The green corners have all been found, along with all green that borders yellow. For all orange cubes found, the opposite face's cubes have been found. The removed cube has two colors on its faces. What are they? Answer using a comma separated list, with the colors ordered alphabetically.
+    \\
+    \\
+    \textbf{GPT4:} 
+    \\
+    To solve this, let’s break it down step by step and visualize a standard Rubik's cube:
+\begin{itemize}
+    \item A standard Rubik’s Cube has 6 faces: Front, Back, Left, Right, Up, Down.
+    \item Each face has a center cube (which determines the color of that face), surrounded by 4 edges and 4 corners.
+    \item Each edge has two colors, and each corner has three colors.
+\end{itemize}
+
+Cube Structure:
+\begin{itemize}
+    \item Orange: Front
+    \item Red: Back
+    \item Blue: Left
+    \item Green: Right
+    \item White: Up
+    \item Yellow: Down
+\end{itemize}
+
+Step-by-Step Analysis:
+\begin{itemize}
+    \item All blue cubes have been found.
+    \item All cubes directly left, right, above, and below the orange center cube have been found, along with the center cube.
+    \item This means the central, top, bottom, left, and right orange cubes have been found.
+    \item All green corners have been found, along with all green that borders yellow.
+    \item This means all green-yellow edges and corners have been found.
+    \item For all orange cubes found, the opposite face’s cubes have been found.
+    \item This means all the red cubes opposite the found orange cubes have been found.
+\end{itemize}
+
+Solution Approach:
+Since the removed cube has two colors on its faces, it must be an edge cube. To determine which one is missing, we should look for the edge cube that is not accounted for by the given conditions.
+\begin{itemize}
+    \item All blue cubes found, which means all blue edges and corners are found.
+    \item The orange center, and all surrounding it, are found, and hence the opposite reds are found too.
+    \item All green corners are found, and green that borders yellow are found too.
+    \item By deducting the cubes found from the total cubes, we will find the missing cube, which is the edge cube between the red and yellow faces.
+\end{itemize}
+
+FINAL ANSWER: \texttt{Red, Yellow} \hspace{.5cm}\textbf{Ground truth:} \texttt{green, white} \textcolor{red}{\Large \ding{55}}
+
+
+    \end{tcolorbox}
+    \caption{GPT4 and other assistants struggle on puzzles, which often are Level 1 questions.}
+    \label{fig:demo_gpt4_rubikscube}
+\end{figure}
+
+
+\end{document}

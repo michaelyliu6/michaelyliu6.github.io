@@ -39,22 +39,21 @@ hideCitation: true
 ## Dataset curation
 - FineWeb - https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1
 
-## LLM Training 
+## Training 
 - How to Scale Your Model: A Systems View of LLMs on TPUs - https://jax-ml.github.io/scaling-book/
 - The Ultra-Scale Playbook: Training LLMs on GPU Clusters - https://huggingface.co/spaces/nanotron/ultrascale-playbook
 
-## LLM Inference
+## Inference
 - SGLang - https://github.com/sgl-project/sglang
 - vLLM - https://github.com/vllm-project/vllm
 - TensorRT - https://github.com/NVIDIA/TensorRT
-
-## 
 
 ## Blogs & Newsletters
 - Gwern - https://www.gwern.net/
 - Lillian Weng's Lil' Log - https://lilianweng.github.io/
 - Epoch AI - https://epoch.ai/blog
 - SemiAnalysis - https://www.semianalysis.com/
+- Import AI by Jack Clark - https://importai.substack.com/
 - AI News - https://buttondown.com/ainews/
 - Rohan's Bytes - https://rohanpaul.substack.com/
 

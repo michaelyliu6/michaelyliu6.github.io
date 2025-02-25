@@ -23,16 +23,19 @@
     <loc>http://localhost:1313/posts/alignment/</loc>
     <lastmod>2024-02-15T07:07:07+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/rlhf/</loc>
+    <loc>http://localhost:1313/posts/predictions/</loc>
     <lastmod>2024-02-15T07:07:07+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/agents/</loc>
-    <lastmod>2024-01-14T07:07:07+01:00</lastmod>
+    <loc>http://localhost:1313/posts/rlhf/</loc>
+    <lastmod>2024-02-15T07:07:07+01:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/deepseek-vl2/</loc>
     <lastmod>2024-01-14T07:07:07+01:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/my-first-post/</loc>
+    <lastmod>2024-01-14T07:07:07+01:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/agents/</loc>
     <lastmod>2024-01-14T07:07:07+01:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/categories/</loc>
