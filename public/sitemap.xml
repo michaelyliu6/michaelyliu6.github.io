@@ -20,10 +20,10 @@
     <loc>http://localhost:1313/about/</loc>
     <lastmod>2024-02-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/alignment/</loc>
+    <loc>http://localhost:1313/posts/predictions/</loc>
     <lastmod>2024-02-15T07:07:07+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/predictions/</loc>
+    <loc>http://localhost:1313/posts/alignment/</loc>
     <lastmod>2024-02-15T07:07:07+01:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/rlhf/</loc>
@@ -41,6 +41,8 @@
     <loc>http://localhost:1313/categories/</loc>
   </url><url>
     <loc>http://localhost:1313/learning-resources/</loc>
+  </url><url>
+    <loc>http://localhost:1313/projects/</loc>
   </url><url>
     <loc>http://localhost:1313/tags/</loc>
   </url>

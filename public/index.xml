@@ -162,7 +162,6 @@
 &lt;li&gt;The &amp;ldquo;most important century&amp;rdquo; blog post series - &lt;a href=&#34;https://www.cold-takes.com/most-important-century&#34;&gt;https://www.cold-takes.com/most-important-century&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Anthropic&amp;rsquo;s Alignment Science Blog - &lt;a href=&#34;https://alignment.anthropic.com/&#34;&gt;https://alignment.anthropic.com/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Anthropic&amp;rsquo;s Transformer Circuits Thread - &lt;a href=&#34;https://transformer-circuits.pub/&#34;&gt;https://transformer-circuits.pub/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;LessWrong - &lt;a href=&#34;https://www.lesswrong.com/&#34;&gt;https://www.lesswrong.com/&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;diffusion&#34;&gt;Diffusion&lt;/h2&gt;
 &lt;ul&gt;
@@ -183,16 +182,14 @@
 &lt;li&gt;OpenHands - &lt;a href=&#34;https://github.com/All-Hands-AI/OpenHands&#34;&gt;https://github.com/All-Hands-AI/OpenHands&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Must-Read Papers for the 8 Problems of Agents - &lt;a href=&#34;https://www.latent.space/p/2024-agents&#34;&gt;https://www.latent.space/p/2024-agents&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;dataset-curation&#34;&gt;Dataset curation&lt;/h2&gt;
+&lt;h2 id=&#34;llm-training&#34;&gt;LLM Training&lt;/h2&gt;
 &lt;ul&gt;
+&lt;li&gt;Allen Institute - &lt;a href=&#34;https://allenai.org/&#34;&gt;https://allenai.org/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;FineWeb - &lt;a href=&#34;https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1&#34;&gt;https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;training&#34;&gt;Training&lt;/h2&gt;
-&lt;ul&gt;
 &lt;li&gt;How to Scale Your Model: A Systems View of LLMs on TPUs - &lt;a href=&#34;https://jax-ml.github.io/scaling-book/&#34;&gt;https://jax-ml.github.io/scaling-book/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;The Ultra-Scale Playbook: Training LLMs on GPU Clusters - &lt;a href=&#34;https://huggingface.co/spaces/nanotron/ultrascale-playbook&#34;&gt;https://huggingface.co/spaces/nanotron/ultrascale-playbook&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;inference&#34;&gt;Inference&lt;/h2&gt;
+&lt;h2 id=&#34;llm-inference&#34;&gt;LLM Inference&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;SGLang - &lt;a href=&#34;https://github.com/sgl-project/sglang&#34;&gt;https://github.com/sgl-project/sglang&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;vLLM - &lt;a href=&#34;https://github.com/vllm-project/vllm&#34;&gt;https://github.com/vllm-project/vllm&lt;/a&gt;&lt;/li&gt;
@@ -203,10 +200,25 @@
 &lt;li&gt;Gwern - &lt;a href=&#34;https://www.gwern.net/&#34;&gt;https://www.gwern.net/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Lillian Weng&amp;rsquo;s Lil&amp;rsquo; Log - &lt;a href=&#34;https://lilianweng.github.io/&#34;&gt;https://lilianweng.github.io/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Epoch AI - &lt;a href=&#34;https://epoch.ai/blog&#34;&gt;https://epoch.ai/blog&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;LessWrong - &lt;a href=&#34;https://www.lesswrong.com/&#34;&gt;https://www.lesswrong.com/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;SemiAnalysis - &lt;a href=&#34;https://www.semianalysis.com/&#34;&gt;https://www.semianalysis.com/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Import AI by Jack Clark - &lt;a href=&#34;https://importai.substack.com/&#34;&gt;https://importai.substack.com/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;AI News - &lt;a href=&#34;https://buttondown.com/ainews/&#34;&gt;https://buttondown.com/ainews/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Rohan&amp;rsquo;s Bytes - &lt;a href=&#34;https://rohanpaul.substack.com/&#34;&gt;https://rohanpaul.substack.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;OpenAI Research - &lt;a href=&#34;https://openai.com/research/index/&#34;&gt;https://openai.com/research/index/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Qwen - &lt;a href=&#34;https://qwenlm.github.io/blog/&#34;&gt;https://qwenlm.github.io/blog/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;documentation&#34;&gt;Documentation&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;DeepSeek - &lt;a href=&#34;https://api-docs.deepseek.com/&#34;&gt;https://api-docs.deepseek.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Anthropic - &lt;a href=&#34;https://docs.anthropic.com/en/api/getting-started&#34;&gt;https://docs.anthropic.com/en/api/getting-started&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;OpenAI - &lt;a href=&#34;https://platform.openai.com/docs/overview&#34;&gt;https://platform.openai.com/docs/overview&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Weights &amp;amp; Biases - &lt;a href=&#34;https://docs.wandb.ai/quickstart/&#34;&gt;https://docs.wandb.ai/quickstart/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Instructor - &lt;a href=&#34;https://python.useinstructor.com/&#34;&gt;https://python.useinstructor.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Pydantic - &lt;a href=&#34;https://docs.pydantic.dev/latest/&#34;&gt;https://docs.pydantic.dev/latest/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;AISI Instruct - &lt;a href=&#34;https://inspect.ai-safety-institute.org.uk/&#34;&gt;https://inspect.ai-safety-institute.org.uk/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Gym - &lt;a href=&#34;https://www.gymlibrary.dev/index.html&#34;&gt;https://www.gymlibrary.dev/index.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;HuggingFace - &lt;a href=&#34;https://huggingface.co/docs/&#34;&gt;https://huggingface.co/docs/&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;essential-fundamentals&#34;&gt;Essential Fundamentals&lt;/h2&gt;
 &lt;ul&gt;
@@ -230,7 +242,14 @@
       <link>http://localhost:1313/projects/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/projects/</guid>
-      <description></description>
+      <description>&lt;h2 id=&#34;reinforcement-learning-implementations&#34;&gt;Reinforcement Learning Implementations&lt;/h2&gt;
+&lt;p&gt;&lt;img alt=&#34;Reinforcement Learning&#34; loading=&#34;lazy&#34; src=&#34;http://localhost:1313/assets/images/rl-project-image.png&#34;&gt;&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;Image Prompt&lt;/summary&gt;
+&lt;i&gt;An anime-style scene depicting a group of cute robot characters in a world made of classic Atari game elements. In the foreground, an excited robot with glowing eyes and animated facial expressions has just successfully navigated through a Pac-Man-style maze filled with colorful dots and ghosts. The robot stands triumphantly at the maze exit, surrounded by sparkling reward particles and a floating &#39;10000 POINTS&#39; text in retro pixelated font. Behind it, the conquered maze shows its successful path highlighted in glowing light. From the successful robot&#39;s core, streams of colorful data and code are flowing back to three other robot characters waiting at different Atari-inspired challenges: one facing a wall of Space Invaders aliens, another preparing to bounce a Breakout ball with a paddle, and a third positioned before a Pong game setup. Each watching robot has holographic displays showing the successful algorithm and strategy being shared. All robots have distinct anime designs with expressive digital eyes, sleek bodies with retro gaming color schemes (reds, blues, yellows), and cute proportions. The background features a pixelated landscape with more Atari game elements including Adventure dragons and Asteroids space rocks. The scene is rendered in vibrant anime style with clean lines, digital effects, and the characteristic glow of arcade screens illuminating the robots&#39; metallic surfaces.&lt;/i&gt; - Generated by Flux 1.1 Pro
+&lt;br&gt;&lt;br&gt;
+&lt;/details&gt;
+&lt;p&gt;A comprehensive collection of reinforcement learning algorithms from classical methods to modern deep RL approaches. This project includes implementations of multi-armed bandits, SARSA, Q-Learning, DQN, PPO, and RLHF with thorough documentation and experimental results. Built with Python, PyTorch, Gymnasium (OpenAI Gym), and WandB, showcasing expertise in algorithm implementation and data visualization.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

@@ -7,7 +7,6 @@ TocOpen: false
 hideCitation: true
 ---
 
-
 ## Podcasts
 - Dwarkesh Patel - https://www.youtube.com/c/DwarkeshPatel
 - Latent Space - https://www.youtube.com/@LatentSpacePod
@@ -18,7 +17,6 @@ hideCitation: true
 - The "most important century" blog post series - https://www.cold-takes.com/most-important-century
 - Anthropic's Alignment Science Blog - https://alignment.anthropic.com/
 - Anthropic's Transformer Circuits Thread - https://transformer-circuits.pub/
-- LessWrong - https://www.lesswrong.com/
 
 ## Diffusion
 - From Deep Learning Foundations to Stable Diffusion - https://course.fast.ai/Lessons/part2.html
@@ -36,14 +34,13 @@ hideCitation: true
 - OpenHands - https://github.com/All-Hands-AI/OpenHands 
 - Must-Read Papers for the 8 Problems of Agents - https://www.latent.space/p/2024-agents
 
-## Dataset curation
+## LLM Training 
+- Allen Institute - https://allenai.org/
 - FineWeb - https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1
-
-## Training 
 - How to Scale Your Model: A Systems View of LLMs on TPUs - https://jax-ml.github.io/scaling-book/
 - The Ultra-Scale Playbook: Training LLMs on GPU Clusters - https://huggingface.co/spaces/nanotron/ultrascale-playbook
 
-## Inference
+## LLM Inference
 - SGLang - https://github.com/sgl-project/sglang
 - vLLM - https://github.com/vllm-project/vllm
 - TensorRT - https://github.com/NVIDIA/TensorRT
@@ -52,10 +49,24 @@ hideCitation: true
 - Gwern - https://www.gwern.net/
 - Lillian Weng's Lil' Log - https://lilianweng.github.io/
 - Epoch AI - https://epoch.ai/blog
+- LessWrong - https://www.lesswrong.com/
 - SemiAnalysis - https://www.semianalysis.com/
 - Import AI by Jack Clark - https://importai.substack.com/
 - AI News - https://buttondown.com/ainews/
 - Rohan's Bytes - https://rohanpaul.substack.com/
+- OpenAI Research - https://openai.com/research/index/
+- Qwen - https://qwenlm.github.io/blog/
+
+## Documentation
+- DeepSeek - https://api-docs.deepseek.com/
+- Anthropic - https://docs.anthropic.com/en/api/getting-started
+- OpenAI - https://platform.openai.com/docs/overview
+- Weights & Biases - https://docs.wandb.ai/quickstart/
+- Instructor - https://python.useinstructor.com/
+- Pydantic - https://docs.pydantic.dev/latest/
+- AISI Instruct - https://inspect.ai-safety-institute.org.uk/
+- Gym - https://www.gymlibrary.dev/index.html
+- HuggingFace - https://huggingface.co/docs/
 
 ## Essential Fundamentals
 - ARENA - https://github.com/callummcdougall/ARENA_3.0
@@ -75,9 +86,9 @@ This is my personal collection of AI learning resources that I've found valuable
 1. To help me keep track of the vast and fascinating world of AI learning materials
 2. To democratize access to AI knowledge
 
-I've often met people who seemed impossibly knowledgeable, only to realize later that the gap wasn't about innate ability - it was about consistent, incremental learning over time. Their expertise wasn't built overnight, but through daily exploration, spaced repetition, and gradually connecting dots between different domains. Some went deep into specific areas while others built broad foundations across many topics, but they all shared one thing in common: they showed up every day to learn something new. This page aims to make my "iceberg" of knowledge visible and accessible to everyone, whether you prefer to dive deep into specific topics or build a wider understanding of the field.
+I've often met people who seemed impossibly knowledgeable, only to realize later that the gap wasn't about innate ability - it was about consistent, incremental learning over time. Their expertise wasn't built overnight, but through daily exploration, spaced repetition, and gradually connecting dots between different domains. This page aims to make my "iceberg" of knowledge visible and accessible to everyone, whether you prefer to dive deep into specific topics or build a wider understanding of the field.
 
-Fair warning: some of these resources can be a dense collection of resources. Each link here opens up its own universe of knowledge - some are living resources that grow daily, others are rabbit holes so deep they might never be fully explored. Rather than providing a structured curriculum, think of this as a map of intellectual wormholes - each one potentially leading to vast new territories of knowledge. Some resources might seem overwhelming at first, but that's intentional - they're meant to be reference points you can return to as you grow. This is also not an exhaustive list, but should help point you in the right direction. 
+Fair warning: some of these resources can be a dense collection of resources. Rather than providing a structured curriculum, think of this as a map of intellectual wormholes - each one potentially leading to vast new territories of knowledge. Some resources might seem overwhelming at first, but that's intentional - they're meant to be reference points you can return to as you grow. This is also not an exhaustive list, but should help point you in the right direction. 
 
 While I maintain this primarily for my own reference and keep it bookmarked for daily use, I hope it serves as a valuable resource for anyone interested in diving deep into AI development. Consider this a living document that grows and evolves with the field. 
 

@@ -76,7 +76,7 @@ menu:
           weight: 10
         - identifier: projects
           name: Projects
-          url: https://github.com/michaelyliu6
+          url: /projects/
           weight: 15
         - identifier: learning-resources
           name: Learning Resources
