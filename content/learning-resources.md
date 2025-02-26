@@ -54,6 +54,7 @@ hideCitation: true
 ## Newsletters
 - AI News - https://buttondown.com/ainews/
 - Latent Space - https://www.latent.space/
+- China Talk - https://www.chinatalk.media/
 - Import AI by Jack Clark - https://importai.substack.com/
 - Rohan's Bytes - https://rohanpaul.substack.com/
 
