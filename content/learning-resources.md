@@ -7,8 +7,9 @@ TocOpen: false
 hideCitation: true
 ---
 
-## Podcasts
+## Youtube Channels/Podcasts
 - Dwarkesh Patel - https://www.youtube.com/c/DwarkeshPatel
+- AI Explained - https://www.youtube.com/@aiexplained-official
 - Latent Space - https://www.youtube.com/@LatentSpacePod
 - 80 000 hours - https://www.youtube.com/@eightythousandhours
 - Cognitive Revolution - https://www.youtube.com/@CognitiveRevolutionPodcast
@@ -20,6 +21,9 @@ hideCitation: true
 
 ## Diffusion
 - From Deep Learning Foundations to Stable Diffusion - https://course.fast.ai/Lessons/part2.html
+
+## Leaked System Prompts
+- Leaked System Prompts - https://github.com/jujumilk3/leaked-system-prompts
 
 ## Reinforcement Learning
 - Reinforcement Learning by Richard S. Sutton and Andrew G. Barto - https://www.andrew.cmu.edu/course/10-703/textbook/BartoSutton.pdf

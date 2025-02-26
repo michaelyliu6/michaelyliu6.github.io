@@ -78,11 +78,8 @@
       <link>http://localhost:1313/posts/predictions/</link>
       <pubDate>Thu, 15 Feb 2024 07:07:07 +0100</pubDate>
       <guid>http://localhost:1313/posts/predictions/</guid>
-      <description>&lt;h2 id=&#34;prediction-1-the-iphone-moment-wont-happen&#34;&gt;Prediction 1: The iPhone Moment won&amp;rsquo;t happen&lt;/h2&gt;
-&lt;h2 id=&#34;prediction-2-inference-as-a-percentage-of-total-compute-will-increase&#34;&gt;Prediction 2: Inference as a percentage of total compute will increase&lt;/h2&gt;
-&lt;h2 id=&#34;prediction-3-post-training-will-be-the-dominant-paradigm-for-llm-development&#34;&gt;Prediction 3: Post-training will be the dominant paradigm for LLM development&lt;/h2&gt;
-&lt;h2 id=&#34;prediction-4-visual-understanding-in-llms-will-the-next-unlock-for-agent-capabilities&#34;&gt;Prediction 4: Visual Understanding in LLMs will the next unlock for Agent Capabilities&lt;/h2&gt;
-&lt;h2 id=&#34;prediction-5-multi-agent-systems-will-be-the-next-big-thing-in-llm-applications&#34;&gt;Prediction 5: Multi-agent systems will be the next big thing in LLM applications&lt;/h2&gt;</description>
+      <description>&lt;p&gt;2024 was a crazy year for AI, and it&amp;rsquo;s looking like 2025 is going to be even crazier. We have AI &amp;ldquo;expert&amp;rdquo;, Gary Marcus predicting that Deep Learning is hitting a wall and that the market is&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m a little late to the party as we are already a month into 2025, but none the less, here are my predictions for AI in 2025. To keep things spicy, I omitted the obvious predictions like &amp;ldquo;the cost of intelligence will go down&amp;rdquo; or &amp;ldquo;hallucinations won&amp;rsquo;t be solved&amp;rdquo;.&lt;/p&gt;</description>
     </item>
     <item>
       <title>AI Alignment</title>
@@ -150,9 +147,10 @@
       <link>http://localhost:1313/learning-resources/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/learning-resources/</guid>
-      <description>&lt;h2 id=&#34;podcasts&#34;&gt;Podcasts&lt;/h2&gt;
+      <description>&lt;h2 id=&#34;youtube-channelspodcasts&#34;&gt;Youtube Channels/Podcasts&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Dwarkesh Patel - &lt;a href=&#34;https://www.youtube.com/c/DwarkeshPatel&#34;&gt;https://www.youtube.com/c/DwarkeshPatel&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;AI Explained - &lt;a href=&#34;https://www.youtube.com/@aiexplained-official&#34;&gt;https://www.youtube.com/@aiexplained-official&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Latent Space - &lt;a href=&#34;https://www.youtube.com/@LatentSpacePod&#34;&gt;https://www.youtube.com/@LatentSpacePod&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;80 000 hours - &lt;a href=&#34;https://www.youtube.com/@eightythousandhours&#34;&gt;https://www.youtube.com/@eightythousandhours&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Cognitive Revolution - &lt;a href=&#34;https://www.youtube.com/@CognitiveRevolutionPodcast&#34;&gt;https://www.youtube.com/@CognitiveRevolutionPodcast&lt;/a&gt;&lt;/li&gt;
@@ -166,6 +164,10 @@
 &lt;h2 id=&#34;diffusion&#34;&gt;Diffusion&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;From Deep Learning Foundations to Stable Diffusion - &lt;a href=&#34;https://course.fast.ai/Lessons/part2.html&#34;&gt;https://course.fast.ai/Lessons/part2.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;leaked-system-prompts&#34;&gt;Leaked System Prompts&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Leaked System Prompts - &lt;a href=&#34;https://github.com/jujumilk3/leaked-system-prompts&#34;&gt;https://github.com/jujumilk3/leaked-system-prompts&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;reinforcement-learning&#34;&gt;Reinforcement Learning&lt;/h2&gt;
 &lt;ul&gt;
