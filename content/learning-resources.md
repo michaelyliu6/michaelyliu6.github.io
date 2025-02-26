@@ -13,73 +13,66 @@ hideCitation: true
 - Latent Space - https://www.youtube.com/@LatentSpacePod
 - 80 000 hours - https://www.youtube.com/@eightythousandhours
 - Cognitive Revolution - https://www.youtube.com/@CognitiveRevolutionPodcast
+- Neel Nanda - https://www.youtube.com/@neelnanda2469
 
-## AI Alignment and Interpretability 
-- The "most important century" blog post series - https://www.cold-takes.com/most-important-century
-- Anthropic's Alignment Science Blog - https://alignment.anthropic.com/
-- Anthropic's Transformer Circuits Thread - https://transformer-circuits.pub/
+## Github Repos
+- LLM Inference
+  - SGLang - https://github.com/sgl-project/sglang
+  - vLLM - https://github.com/vllm-project/vllm
+  - TensorRT - https://github.com/NVIDIA/TensorRT
+- System Prompts
+  - Leaked System Prompts - https://github.com/jujumilk3/leaked-system-prompts
+- Agents
+  - smolagents - https://github.com/huggingface/smolagents
+  - OpenHands (formerly OpenDevin) - https://github.com/All-Hands-AI/OpenHands 
 
-## Diffusion
-- From Deep Learning Foundations to Stable Diffusion - https://course.fast.ai/Lessons/part2.html
+## Blogs
+- GOATs
+  - Gwern - https://www.gwern.net/
+  - Lillian Weng's Lil' Log - https://lilianweng.github.io/
+- Alignment and Interpretability
+  - Anthropic's Alignment Science Blog - https://alignment.anthropic.com/
+  - Anthropic's Transformer Circuits Thread - https://transformer-circuits.pub/
+  - LessWrong - https://www.lesswrong.com/
+- Reinforcement Learning
+  - RLHF Book - https://rlhfbook.com/
+- Industry Trends
+  - Epoch AI - https://epoch.ai/blog
+  - SemiAnalysis - https://www.semianalysis.com/
+- Agents
+  - Anthropic: Building effective agents - https://www.anthropic.com/research/building-effective-agents
+  - Google: Agents Whitepaper - https://www.kaggle.com/whitepaper-agents
+- LLM Training
+  - FineWeb - https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1
+  - How to Scale Your Model: A Systems View of LLMs on TPUs - https://jax-ml.github.io/scaling-book/
+  - The Ultra-Scale Playbook: Training LLMs on GPU Clusters - https://huggingface.co/spaces/nanotron/ultrascale-playbook
 
-## Leaked System Prompts
-- Leaked System Prompts - https://github.com/jujumilk3/leaked-system-prompts
-
-## Reinforcement Learning
+## Textbooks
 - Reinforcement Learning by Richard S. Sutton and Andrew G. Barto - https://www.andrew.cmu.edu/course/10-703/textbook/BartoSutton.pdf
-- AlphaGo Documentary - https://youtu.be/WXuK6gekU1Y?si=uuPxNmTrpUNwzPA5
-- RLHF Book - https://rlhfbook.com/
+- Generative AI System Design Interview - https://www.amazon.com/Generative-AI-System-Design-Interview/dp/1736049143
 
-## Agents
-- Anthropic: Building effective agents - https://www.anthropic.com/research/building-effective-agents
-- Google: Agents Whitepaper - https://www.kaggle.com/whitepaper-agents
-- Advanced Large Language Model Agents: Berkley MOOC - https://llmagents-learning.org/sp25
-- smolagents - https://github.com/huggingface/smolagents
-- OpenHands - https://github.com/All-Hands-AI/OpenHands 
-- Must-Read Papers for the 8 Problems of Agents - https://www.latent.space/p/2024-agents
-
-## LLM Training 
-- Allen Institute - https://allenai.org/
-- FineWeb - https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1
-- How to Scale Your Model: A Systems View of LLMs on TPUs - https://jax-ml.github.io/scaling-book/
-- The Ultra-Scale Playbook: Training LLMs on GPU Clusters - https://huggingface.co/spaces/nanotron/ultrascale-playbook
-
-## LLM Inference
-- SGLang - https://github.com/sgl-project/sglang
-- vLLM - https://github.com/vllm-project/vllm
-- TensorRT - https://github.com/NVIDIA/TensorRT
-
-## Blogs & Newsletters
-- Gwern - https://www.gwern.net/
-- Lillian Weng's Lil' Log - https://lilianweng.github.io/
-- Epoch AI - https://epoch.ai/blog
-- LessWrong - https://www.lesswrong.com/
-- SemiAnalysis - https://www.semianalysis.com/
-- Import AI by Jack Clark - https://importai.substack.com/
+## Newsletters
 - AI News - https://buttondown.com/ainews/
+- Latent Space - https://www.latent.space/
+- Import AI by Jack Clark - https://importai.substack.com/
 - Rohan's Bytes - https://rohanpaul.substack.com/
-- OpenAI Research - https://openai.com/research/index/
-- Qwen - https://qwenlm.github.io/blog/
 
-## Documentation
-- DeepSeek - https://api-docs.deepseek.com/
-- Anthropic - https://docs.anthropic.com/en/api/getting-started
-- OpenAI - https://platform.openai.com/docs/overview
-- Weights & Biases - https://docs.wandb.ai/quickstart/
-- Instructor - https://python.useinstructor.com/
-- Pydantic - https://docs.pydantic.dev/latest/
-- AISI Instruct - https://inspect.ai-safety-institute.org.uk/
-- Gym - https://www.gymlibrary.dev/index.html
-- HuggingFace - https://huggingface.co/docs/
-
-## Essential Fundamentals
-- ARENA - https://github.com/callummcdougall/ARENA_3.0
-- Neel Nanda's Mechanistic Interpretability Walkthroughs - https://www.youtube.com/@neelnanda2469
+## Courses 
+- Hugging Face - https://huggingface.co/courses
+- Advanced Large Language Model Agents: Berkley MOOC - https://llmagents-learning.org/sp25
+- AI Research Engineer Accelerator (ARENA) - https://github.com/callummcdougall/ARENA_3.0
 - Andrej Karpathy's Zero to Hero Series - https://karpathy.ai/zero-to-hero.html
-- The Bitter Lesson - http://www.incompleteideas.net/IncIdeas/BitterLesson.html
-- Stanford CS25: V4 I Hyung Won Chung of OpenAI (2:05 - 15:18) - https://youtu.be/orDKvo8h71o?si=oFd2l7YQzOoGat1q
-- Andrew Ng's Career Advice / Reading Research Papers https://youtu.be/733m6qBH-jI?si=OLaGzeqvuObpjl9H
+- From Deep Learning Foundations to Stable Diffusion - https://course.fast.ai/Lessons/part2.html
 - DeepLearning.AI specializations (short courses are skippable imo) - https://www.deeplearning.ai/
+
+## Timeless Essays/Videos
+- The Bitter Lesson - http://www.incompleteideas.net/IncIdeas/BitterLesson.html
+- The "most important century" blog post series - https://www.cold-takes.com/most-important-century
+- Situational Awareness - https://situational-awareness.ai/
+- Machines of Loving Grace - https://darioamodei.com/machines-of-loving-grace
+- Stanford CS25: V4 I Hyung Won Chung of OpenAI (2:05 - 15:18) - https://youtu.be/orDKvo8h71o?si=oFd2l7YQzOoGat1q
+- AlphaGo Documentary - https://youtu.be/WXuK6gekU1Y?si=uuPxNmTrpUNwzPA5
+- Andrew Ng's Career Advice / Reading Research Papers https://youtu.be/733m6qBH-jI?si=OLaGzeqvuObpjl9H
 
 ## LeetCode
 - NeetCode - https://neetcode.io/
