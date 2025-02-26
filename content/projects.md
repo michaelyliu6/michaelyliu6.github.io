@@ -1,6 +1,6 @@
 +++
 title = 'Projects'
-draft = true
+draft = false
 showToc = true
 TocOpen = true
 hideCitation = true
@@ -21,12 +21,16 @@ A comprehensive collection of reinforcement learning algorithms from classical m
 
 [View Project on GitHub](https://github.com/michaelyliu6/reinforcement-learning)
 
-<!-- <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
-  <img src="/assets/images/rl-project-image.png" alt="Reinforcement Learning" style="width: 200px; height: auto;" />
-  <div>
-    A comprehensive collection of reinforcement learning algorithms from classical methods to modern deep RL approaches. This project includes implementations of multi-armed bandits, SARSA, Q-Learning, DQN, PPO, and RLHF with thorough documentation and experimental results. Built with Python, PyTorch, and Gymnasium (OpenAI Gym), showcasing expertise in algorithm implementation and data visualization.
-    <br><br>
-    <a href="https://github.com/michaelyliu6/reinforcement-learning">View Project on GitHub</a>
-  </div>
-</div> -->
+## LLM Evaluation Framework
+![LLM Evaluation](/assets/images/llm-eval-image.png)
+<details>
+<summary>Image Prompt</summary>
+<i>An anime-style scene showcasing a recursive AI evaluation laboratory. In the foreground, a scientist character with glasses and a digital tablet is orchestrating a multi-layered evaluation system. The central feature is a striking "evaluation inception" visualization - a series of nested, glowing rings representing LLMs evaluating other LLMs. Each ring contains AI entities analyzing the output of inner-ring AIs, with data flowing between layers. One AI character is generating test cases, passing them to a second AI that's producing responses, while a third AI is scoring those responses with complex metrics floating around it. A fourth AI is analyzing those scores and refining the evaluation criteria, creating a perfect loop. Holographic displays show this recursive process with labels like "Meta-Evaluation Layer 3" and "Alignment Verification Loop." In the background, several agent robots navigate a Wikipedia-themed maze, but now they're being observed by evaluator robots taking notes on clipboards. The laboratory features fractal-like screens showing the same evaluation patterns repeating at different scales. Digital metrics flow between systems in colorful streams, with some screens showing "Evaluator Bias Analysis" and "Meta-Alignment Testing." The entire scene has a recursive aesthetic with evaluation processes visibly nested within each other, all rendered in vibrant anime style with expressive AI characters showing varying degrees of concentration as they evaluate their peers.</i>
+<br><br>
+
+</details>
+
+A comprehensive framework for evaluating Large Language Models through multiple methodologies. This project implements alignment testing procedures (recreating the "Faking Alignment" research), sophisticated dataset generation capabilities, and agent-based evaluation techniques including Wikipedia navigation challenges. Built with Python, integrates with major LLM APIs (OpenAI, Anthropic), and leverages type-safe structures with Pydantic, demonstrating expertise in AI safety research and evaluation methodologies.
+
+[View Project on GitHub](https://github.com/michaelyliu6/llm-evals)
 
