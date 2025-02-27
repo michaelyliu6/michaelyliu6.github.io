@@ -147,7 +147,17 @@
       <link>http://localhost:1313/learning-resources/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/learning-resources/</guid>
-      <description>&lt;h2 id=&#34;youtube-channelspodcasts&#34;&gt;Youtube Channels/Podcasts&lt;/h2&gt;
+      <description>&lt;h2 id=&#34;timeless-essaysvideos&#34;&gt;Timeless Essays/Videos&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;The Bitter Lesson - &lt;a href=&#34;http://www.incompleteideas.net/IncIdeas/BitterLesson.html&#34;&gt;http://www.incompleteideas.net/IncIdeas/BitterLesson.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;The &amp;ldquo;most important century&amp;rdquo; blog post series - &lt;a href=&#34;https://www.cold-takes.com/most-important-century&#34;&gt;https://www.cold-takes.com/most-important-century&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Situational Awareness - &lt;a href=&#34;https://situational-awareness.ai/&#34;&gt;https://situational-awareness.ai/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Machines of Loving Grace - &lt;a href=&#34;https://darioamodei.com/machines-of-loving-grace&#34;&gt;https://darioamodei.com/machines-of-loving-grace&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Stanford CS25: V4 I Hyung Won Chung of OpenAI (2:05 - 15:18) - &lt;a href=&#34;https://youtu.be/orDKvo8h71o?si=oFd2l7YQzOoGat1q&#34;&gt;https://youtu.be/orDKvo8h71o?si=oFd2l7YQzOoGat1q&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;AlphaGo Documentary - &lt;a href=&#34;https://youtu.be/WXuK6gekU1Y?si=uuPxNmTrpUNwzPA5&#34;&gt;https://youtu.be/WXuK6gekU1Y?si=uuPxNmTrpUNwzPA5&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Andrew Ng&amp;rsquo;s Career Advice / Reading Research Papers &lt;a href=&#34;https://youtu.be/733m6qBH-jI?si=OLaGzeqvuObpjl9H&#34;&gt;https://youtu.be/733m6qBH-jI?si=OLaGzeqvuObpjl9H&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;youtube-channelspodcasts&#34;&gt;Youtube Channels/Podcasts&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Dwarkesh Patel - &lt;a href=&#34;https://www.youtube.com/c/DwarkeshPatel&#34;&gt;https://www.youtube.com/c/DwarkeshPatel&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;AI Explained - &lt;a href=&#34;https://www.youtube.com/@aiexplained-official&#34;&gt;https://www.youtube.com/@aiexplained-official&lt;/a&gt;&lt;/li&gt;
@@ -156,26 +166,14 @@
 &lt;li&gt;Cognitive Revolution - &lt;a href=&#34;https://www.youtube.com/@CognitiveRevolutionPodcast&#34;&gt;https://www.youtube.com/@CognitiveRevolutionPodcast&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Neel Nanda - &lt;a href=&#34;https://www.youtube.com/@neelnanda2469&#34;&gt;https://www.youtube.com/@neelnanda2469&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;github-repos&#34;&gt;Github Repos&lt;/h2&gt;
+&lt;h2 id=&#34;courses&#34;&gt;Courses&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;LLM Inference
-&lt;ul&gt;
-&lt;li&gt;SGLang - &lt;a href=&#34;https://github.com/sgl-project/sglang&#34;&gt;https://github.com/sgl-project/sglang&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;vLLM - &lt;a href=&#34;https://github.com/vllm-project/vllm&#34;&gt;https://github.com/vllm-project/vllm&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;TensorRT - &lt;a href=&#34;https://github.com/NVIDIA/TensorRT&#34;&gt;https://github.com/NVIDIA/TensorRT&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;System Prompts
-&lt;ul&gt;
-&lt;li&gt;Leaked System Prompts - &lt;a href=&#34;https://github.com/jujumilk3/leaked-system-prompts&#34;&gt;https://github.com/jujumilk3/leaked-system-prompts&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Agents
-&lt;ul&gt;
-&lt;li&gt;smolagents - &lt;a href=&#34;https://github.com/huggingface/smolagents&#34;&gt;https://github.com/huggingface/smolagents&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;OpenHands (formerly OpenDevin) - &lt;a href=&#34;https://github.com/All-Hands-AI/OpenHands&#34;&gt;https://github.com/All-Hands-AI/OpenHands&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
+&lt;li&gt;AI Research Engineer Accelerator (ARENA) - &lt;a href=&#34;https://github.com/callummcdougall/ARENA_3.0&#34;&gt;https://github.com/callummcdougall/ARENA_3.0&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Hugging Face - &lt;a href=&#34;https://huggingface.co/courses&#34;&gt;https://huggingface.co/courses&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Advanced Large Language Model Agents: Berkley MOOC - &lt;a href=&#34;https://llmagents-learning.org/sp25&#34;&gt;https://llmagents-learning.org/sp25&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Andrej Karpathy&amp;rsquo;s Zero to Hero Series - &lt;a href=&#34;https://karpathy.ai/zero-to-hero.html&#34;&gt;https://karpathy.ai/zero-to-hero.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;From Deep Learning Foundations to Stable Diffusion - &lt;a href=&#34;https://course.fast.ai/Lessons/part2.html&#34;&gt;https://course.fast.ai/Lessons/part2.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;DeepLearning.AI specializations (short courses are skippable imo) - &lt;a href=&#34;https://www.deeplearning.ai/&#34;&gt;https://www.deeplearning.ai/&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;blogs&#34;&gt;Blogs&lt;/h2&gt;
 &lt;ul&gt;
@@ -217,6 +215,27 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2 id=&#34;github-repos&#34;&gt;Github Repos&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;LLM Inference
+&lt;ul&gt;
+&lt;li&gt;SGLang - &lt;a href=&#34;https://github.com/sgl-project/sglang&#34;&gt;https://github.com/sgl-project/sglang&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;vLLM - &lt;a href=&#34;https://github.com/vllm-project/vllm&#34;&gt;https://github.com/vllm-project/vllm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;TensorRT - &lt;a href=&#34;https://github.com/NVIDIA/TensorRT&#34;&gt;https://github.com/NVIDIA/TensorRT&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;System Prompts
+&lt;ul&gt;
+&lt;li&gt;Leaked System Prompts - &lt;a href=&#34;https://github.com/jujumilk3/leaked-system-prompts&#34;&gt;https://github.com/jujumilk3/leaked-system-prompts&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Agents
+&lt;ul&gt;
+&lt;li&gt;smolagents - &lt;a href=&#34;https://github.com/huggingface/smolagents&#34;&gt;https://github.com/huggingface/smolagents&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;OpenHands (formerly OpenDevin) - &lt;a href=&#34;https://github.com/All-Hands-AI/OpenHands&#34;&gt;https://github.com/All-Hands-AI/OpenHands&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2 id=&#34;textbooks&#34;&gt;Textbooks&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Reinforcement Learning by Richard S. Sutton and Andrew G. Barto - &lt;a href=&#34;https://www.andrew.cmu.edu/course/10-703/textbook/BartoSutton.pdf&#34;&gt;https://www.andrew.cmu.edu/course/10-703/textbook/BartoSutton.pdf&lt;/a&gt;&lt;/li&gt;
@@ -230,24 +249,11 @@
 &lt;li&gt;Import AI by Jack Clark - &lt;a href=&#34;https://importai.substack.com/&#34;&gt;https://importai.substack.com/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Rohan&amp;rsquo;s Bytes - &lt;a href=&#34;https://rohanpaul.substack.com/&#34;&gt;https://rohanpaul.substack.com/&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;courses&#34;&gt;Courses&lt;/h2&gt;
+&lt;h2 id=&#34;tools&#34;&gt;Tools&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;Hugging Face - &lt;a href=&#34;https://huggingface.co/courses&#34;&gt;https://huggingface.co/courses&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Advanced Large Language Model Agents: Berkley MOOC - &lt;a href=&#34;https://llmagents-learning.org/sp25&#34;&gt;https://llmagents-learning.org/sp25&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;AI Research Engineer Accelerator (ARENA) - &lt;a href=&#34;https://github.com/callummcdougall/ARENA_3.0&#34;&gt;https://github.com/callummcdougall/ARENA_3.0&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Andrej Karpathy&amp;rsquo;s Zero to Hero Series - &lt;a href=&#34;https://karpathy.ai/zero-to-hero.html&#34;&gt;https://karpathy.ai/zero-to-hero.html&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;From Deep Learning Foundations to Stable Diffusion - &lt;a href=&#34;https://course.fast.ai/Lessons/part2.html&#34;&gt;https://course.fast.ai/Lessons/part2.html&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;DeepLearning.AI specializations (short courses are skippable imo) - &lt;a href=&#34;https://www.deeplearning.ai/&#34;&gt;https://www.deeplearning.ai/&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;timeless-essaysvideos&#34;&gt;Timeless Essays/Videos&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;The Bitter Lesson - &lt;a href=&#34;http://www.incompleteideas.net/IncIdeas/BitterLesson.html&#34;&gt;http://www.incompleteideas.net/IncIdeas/BitterLesson.html&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;The &amp;ldquo;most important century&amp;rdquo; blog post series - &lt;a href=&#34;https://www.cold-takes.com/most-important-century&#34;&gt;https://www.cold-takes.com/most-important-century&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Situational Awareness - &lt;a href=&#34;https://situational-awareness.ai/&#34;&gt;https://situational-awareness.ai/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Machines of Loving Grace - &lt;a href=&#34;https://darioamodei.com/machines-of-loving-grace&#34;&gt;https://darioamodei.com/machines-of-loving-grace&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Stanford CS25: V4 I Hyung Won Chung of OpenAI (2:05 - 15:18) - &lt;a href=&#34;https://youtu.be/orDKvo8h71o?si=oFd2l7YQzOoGat1q&#34;&gt;https://youtu.be/orDKvo8h71o?si=oFd2l7YQzOoGat1q&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;AlphaGo Documentary - &lt;a href=&#34;https://youtu.be/WXuK6gekU1Y?si=uuPxNmTrpUNwzPA5&#34;&gt;https://youtu.be/WXuK6gekU1Y?si=uuPxNmTrpUNwzPA5&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Andrew Ng&amp;rsquo;s Career Advice / Reading Research Papers &lt;a href=&#34;https://youtu.be/733m6qBH-jI?si=OLaGzeqvuObpjl9H&#34;&gt;https://youtu.be/733m6qBH-jI?si=OLaGzeqvuObpjl9H&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Cursor - &lt;a href=&#34;https://www.cursor.com/&#34;&gt;https://www.cursor.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;alphaXiv - &lt;a href=&#34;https://www.alphaxiv.org/explore&#34;&gt;https://www.alphaxiv.org/explore&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Gitingest - &lt;a href=&#34;https://gitingest.com/&#34;&gt;https://gitingest.com/&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;leetcode&#34;&gt;LeetCode&lt;/h2&gt;
 &lt;ul&gt;
