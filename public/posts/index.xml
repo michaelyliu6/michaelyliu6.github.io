@@ -64,12 +64,13 @@
 &lt;p&gt;The intended audience of this post is someone who has a solid understanding of Deep Learning and GPT2.&lt;/p&gt;</description>
     </item>
     <item>
-      <title>5 Predictions for AI in 2025</title>
+      <title>&#34;Real&#34; Reinforcement Learning will create the strongest technical moats</title>
       <link>http://localhost:1313/posts/predictions/</link>
-      <pubDate>Thu, 15 Feb 2024 07:07:07 +0100</pubDate>
+      <pubDate>Fri, 16 Feb 2024 07:07:07 +0100</pubDate>
       <guid>http://localhost:1313/posts/predictions/</guid>
-      <description>&lt;p&gt;2024 was a crazy year for AI, and it&amp;rsquo;s looking like 2025 is going to be even crazier. We have AI &amp;ldquo;expert&amp;rdquo;, Gary Marcus predicting that Deep Learning is hitting a wall and that the market is&lt;/p&gt;
-&lt;p&gt;I&amp;rsquo;m a little late to the party as we are already a month into 2025, but none the less, here are my predictions for AI in 2025. To keep things spicy, I omitted the obvious predictions like &amp;ldquo;the cost of intelligence will go down&amp;rdquo; or &amp;ldquo;hallucinations won&amp;rsquo;t be solved&amp;rdquo;.&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;strong&gt;Certainty: 8/10&lt;/strong&gt;
+&lt;strong&gt;Importance: 9/10&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The AI landscape has undergone rapid shifts in recent years. While 2023-2024 saw the commoditization of pre-training and supervised fine-tuning, 2025 will mark the emergence of &amp;ldquo;real&amp;rdquo; Reinforcement Learning (RL) as the primary technical moat in AI development. Unlike pre-training, which focuses on learning statistical correlations from massive datasets, RL allows models to actively explore solution spaces and discover novel strategies that generalize beyond static training data.&lt;/p&gt;</description>
     </item>
     <item>
       <title>AI Alignment</title>

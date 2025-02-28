@@ -17,9 +17,15 @@ hideCitation = true
 
 A comprehensive collection of reinforcement learning algorithms from classical methods to modern deep RL approaches. This project includes implementations of multi-armed bandits, SARSA, Q-Learning, DQN, PPO, and RLHF with thorough documentation and experimental results. Built with Python, PyTorch, Gymnasium (OpenAI Gym), and WandB, showcasing expertise in algorithm implementation and data visualization.
 
-
-
 [View Project on GitHub](https://github.com/michaelyliu6/reinforcement-learning)
+
+References:
+- Reinforcement Learning by Richard S. Sutton and Andrew G. Barto - https://www.andrew.cmu.edu/course/10-703/textbook/BartoSutton.pdf
+- Playing Atari with Deep Reinforcement Learning - https://arxiv.org/pdf/1312.5602
+- An introduction to Policy Gradient methods - Deep Reinforcement Learning - https://www.youtube.com/watch?v=5P7I-xPq8u8
+- Q-Learning - https://link.springer.com/content/pdf/10.1007/BF00992698.pdf
+
+
 
 ## LLM Evaluation Framework
 ![LLM Evaluation](/assets/images/llm-eval-image.png)

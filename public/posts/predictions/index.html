@@ -5,10 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="noindex, nofollow">
-<title>5 Predictions for AI in 2025 | ML&#39;s Blog</title>
+<title>&#34;Real&#34; Reinforcement Learning will create the strongest technical moats | ML&#39;s Blog</title>
 <meta name="keywords" content="">
-<meta name="description" content="2024 was a crazy year for AI, and it&rsquo;s looking like 2025 is going to be even crazier. We have AI &ldquo;expert&rdquo;, Gary Marcus predicting that Deep Learning is hitting a wall and that the market is
-I&rsquo;m a little late to the party as we are already a month into 2025, but none the less, here are my predictions for AI in 2025. To keep things spicy, I omitted the obvious predictions like &ldquo;the cost of intelligence will go down&rdquo; or &ldquo;hallucinations won&rsquo;t be solved&rdquo;.">
+<meta name="description" content="Certainty: 8/10
+Importance: 9/10
+The AI landscape has undergone rapid shifts in recent years. While 2023-2024 saw the commoditization of pre-training and supervised fine-tuning, 2025 will mark the emergence of &ldquo;real&rdquo; Reinforcement Learning (RL) as the primary technical moat in AI development. Unlike pre-training, which focuses on learning statistical correlations from massive datasets, RL allows models to actively explore solution spaces and discover novel strategies that generalize beyond static training data.">
 <meta name="author" content="Michael Liu">
 <link rel="canonical" href="http://localhost:1313/posts/predictions/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.ae03dc1363b0d274c8a5b8f4ef4b43ec376146d505cc14962ea16577e875c413.css" integrity="sha256-rgPcE2Ow0nTIpbj070tD7DdhRtUFzBSWLqFld&#43;h1xBM=" rel="preload stylesheet" as="style">
@@ -159,15 +160,9 @@ window.MathJax = {
   <header class="post-header">
     <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
     <h1 class="post-title entry-hint-parent">
-      5 Predictions for AI in 2025
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
+      &#34;Real&#34; Reinforcement Learning will create the strongest technical moats
     </h1>
-    <div class="post-meta"><span title='2024-02-15 07:07:07 +0100 +0100'>February 15, 2024</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Michael Liu
+    <div class="post-meta"><span title='2024-02-16 07:07:07 +0100 +0100'>February 16, 2024</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;Michael Liu
 
 </div>
   </header> <aside id="toc-container" class="toc-container wide">
@@ -179,15 +174,27 @@ window.MathJax = {
 
         <div class="inner"><ul>
                 <li>
-                    <a href="#prediction-1-the-iphone-moment-wont-happen" aria-label="Prediction 1: The iPhone Moment won&rsquo;t happen">Prediction 1: The iPhone Moment won&rsquo;t happen</a></li>
+                    <a href="#the-limitations-of-rlhf-and-the-promise-of-real-rl" aria-label="The Limitations of RLHF and the Promise of &ldquo;Real&rdquo; RL">The Limitations of RLHF and the Promise of &ldquo;Real&rdquo; RL</a></li>
                 <li>
-                    <a href="#prediction-2-inference-as-a-percentage-of-total-compute-will-increase" aria-label="Prediction 2: Inference as a percentage of total compute will increase">Prediction 2: Inference as a percentage of total compute will increase</a></li>
+                    <a href="#why-rl-will-be-the-next-ai-moat" aria-label="Why RL Will Be the Next AI Moat">Why RL Will Be the Next AI Moat</a><ul>
+                        
                 <li>
-                    <a href="#prediction-3-post-training-techniques-will-prove-to-be-strong-technical-moats" aria-label="Prediction 3: Post-training techniques will prove to be strong technical moats">Prediction 3: Post-training techniques will prove to be strong technical moats</a></li>
+                    <a href="#proprietary-environments-as-a-barrier-to-entry" aria-label="Proprietary Environments as a Barrier to Entry">Proprietary Environments as a Barrier to Entry</a></li>
                 <li>
-                    <a href="#prediction-4-2025-will-be-the-year-of-agents-but-most-people-wont-notice" aria-label="Prediction 4: 2025 will be the year of Agents, but most people won&rsquo;t notice">Prediction 4: 2025 will be the year of Agents, but most people won&rsquo;t notice</a></li>
+                    <a href="#debugging-rl-the-unseen-complexity" aria-label="Debugging RL: The Unseen Complexity">Debugging RL: The Unseen Complexity</a></li>
                 <li>
-                    <a href="#prediction-5-multi-agent-systems-will-be-the-next-big-thing-in-llm-applications" aria-label="Prediction 5: Multi-agent systems will be the next big thing in LLM applications">Prediction 5: Multi-agent systems will be the next big thing in LLM applications</a>
+                    <a href="#compute-and-experimentation-the-ultimate-differentiator" aria-label="Compute and Experimentation: The Ultimate Differentiator">Compute and Experimentation: The Ultimate Differentiator</a></li>
+                <li>
+                    <a href="#proprietary-data-from-99-to-99999-reliability" aria-label="Proprietary Data: From 99% to 99.999% Reliability">Proprietary Data: From 99% to 99.999% Reliability</a></li>
+                <li>
+                    <a href="#reward-design-the-art-and-science-of-rl" aria-label="Reward Design: The Art and Science of RL">Reward Design: The Art and Science of RL</a></li></ul>
+                </li>
+                <li>
+                    <a href="#the-moat-effect-why-rl-will-define-ai-leadership" aria-label="The Moat Effect: Why RL Will Define AI Leadership">The Moat Effect: Why RL Will Define AI Leadership</a></li>
+                <li>
+                    <a href="#where-rl-will-shine-first" aria-label="Where RL Will Shine First">Where RL Will Shine First</a></li>
+                <li>
+                    <a href="#the-future-competitive-landscape" aria-label="The Future Competitive Landscape">The Future Competitive Landscape</a>
                 </li>
             </ul>
         </div>
@@ -271,24 +278,30 @@ window.MathJax = {
     }
 </script>
 
-  <div class="post-content"><p>2024 was a crazy year for AI, and it&rsquo;s looking like 2025 is going to be even crazier. We have AI &ldquo;expert&rdquo;, Gary Marcus predicting that Deep Learning is hitting a wall and that the market is</p>
-<p>I&rsquo;m a little late to the party as we are already a month into 2025, but none the less, here are my predictions for AI in 2025. To keep things spicy, I omitted the obvious predictions like &ldquo;the cost of intelligence will go down&rdquo; or &ldquo;hallucinations won&rsquo;t be solved&rdquo;.</p>
-<h2 id="prediction-1-the-iphone-moment-wont-happen">Prediction 1: The iPhone Moment won&rsquo;t happen<a hidden class="anchor" aria-hidden="true" href="#prediction-1-the-iphone-moment-wont-happen">#</a></h2>
-<p>Certainty: 9/10
-Importance: 9/10</p>
-<p>By iPhone moment, I mean a consumer-facing product that makes AI accessible to the masses.</p>
-<h2 id="prediction-2-inference-as-a-percentage-of-total-compute-will-increase">Prediction 2: Inference as a percentage of total compute will increase<a hidden class="anchor" aria-hidden="true" href="#prediction-2-inference-as-a-percentage-of-total-compute-will-increase">#</a></h2>
-<p>Certainty: 8/10
-Importance: 8/10</p>
-<h2 id="prediction-3-post-training-techniques-will-prove-to-be-strong-technical-moats">Prediction 3: Post-training techniques will prove to be strong technical moats<a hidden class="anchor" aria-hidden="true" href="#prediction-3-post-training-techniques-will-prove-to-be-strong-technical-moats">#</a></h2>
-<p>Certainty: 8/10
-Importance: 8/10</p>
-<h2 id="prediction-4-2025-will-be-the-year-of-agents-but-most-people-wont-notice">Prediction 4: 2025 will be the year of Agents, but most people won&rsquo;t notice<a hidden class="anchor" aria-hidden="true" href="#prediction-4-2025-will-be-the-year-of-agents-but-most-people-wont-notice">#</a></h2>
-<p>Certainty: 7/10
-Importance: 7/10</p>
-<h2 id="prediction-5-multi-agent-systems-will-be-the-next-big-thing-in-llm-applications">Prediction 5: Multi-agent systems will be the next big thing in LLM applications<a hidden class="anchor" aria-hidden="true" href="#prediction-5-multi-agent-systems-will-be-the-next-big-thing-in-llm-applications">#</a></h2>
-<p>Certainty: 7/10
-Importance: 7/10</p>
+  <div class="post-content"><p><strong>Certainty: 8/10</strong>
+<strong>Importance: 9/10</strong></p>
+<p>The AI landscape has undergone rapid shifts in recent years. While 2023-2024 saw the commoditization of pre-training and supervised fine-tuning, 2025 will mark the emergence of &ldquo;real&rdquo; Reinforcement Learning (RL) as the primary technical moat in AI development. Unlike pre-training, which focuses on learning statistical correlations from massive datasets, RL allows models to actively explore solution spaces and discover novel strategies that generalize beyond static training data.</p>
+<h2 id="the-limitations-of-rlhf-and-the-promise-of-real-rl">The Limitations of RLHF and the Promise of &ldquo;Real&rdquo; RL<a hidden class="anchor" aria-hidden="true" href="#the-limitations-of-rlhf-and-the-promise-of-real-rl">#</a></h2>
+<p>Unlike RLHF (Reinforcement Learning from Human Feedback), which optimizes for human approval rather than actual task performance, genuine RL with sparse rewards will enable models to solve complex end-to-end tasks autonomously. RLHF is fundamentally limited because it optimizes for a proxy objective (what looks good to humans) rather than directly solving problems correctly. Furthermore, models quickly learn to game reward models when trained with RLHF for extended periods. In contrast, true RL with sparse rewards—similar to what powered AlphaGo&rsquo;s breakthrough—will create significant competitive advantages for several reasons.</p>
+<h2 id="why-rl-will-be-the-next-ai-moat">Why RL Will Be the Next AI Moat<a hidden class="anchor" aria-hidden="true" href="#why-rl-will-be-the-next-ai-moat">#</a></h2>
+<h3 id="proprietary-environments-as-a-barrier-to-entry">Proprietary Environments as a Barrier to Entry<a hidden class="anchor" aria-hidden="true" href="#proprietary-environments-as-a-barrier-to-entry">#</a></h3>
+<p>Creating effective sandboxes for RL agents requires substantial engineering effort that cannot be easily replicated. Companies that build perfect environments tailored to their specific domains will gain lasting advantages as these environments represent significant intellectual property that&rsquo;s difficult to reverse-engineer or leak through espionage. Unlike pre-training architectures that can be replicated through academic papers, these specialized environments combine domain expertise with technical implementation in ways that are much harder to reproduce. The environment design itself becomes a form of tacit knowledge that doesn&rsquo;t transfer easily between organizations.</p>
+<h3 id="debugging-rl-the-unseen-complexity">Debugging RL: The Unseen Complexity<a hidden class="anchor" aria-hidden="true" href="#debugging-rl-the-unseen-complexity">#</a></h3>
+<p>Debugging RL systems presents unique challenges compared to pre-training. While pre-training errors are typically local and feedback is immediate, RL suffers from non-local errors, noisy performance metrics, and delayed feedback. This makes expertise in RL debugging incredibly valuable and creates a talent moat that will be difficult for competitors to overcome. The debugging process for RL involves identifying complex causal chains across multiple timesteps, requiring specialized tooling and expertise that will take years to develop. Companies that build these capabilities first will maintain significant leads.</p>
+<h3 id="compute-and-experimentation-the-ultimate-differentiator">Compute and Experimentation: The Ultimate Differentiator<a hidden class="anchor" aria-hidden="true" href="#compute-and-experimentation-the-ultimate-differentiator">#</a></h3>
+<p>Successful RL will require massive computational resources dedicated to failed experiments—likely more than what&rsquo;s required for pre-training. As new datacenters come online throughout 2025, the gap between resource-rich companies and others will widen substantially. The ability to run thousands of failed experiments before finding successful approaches will become a critical differentiator. This is fundamentally different from pre-training, where scaling laws are relatively well-understood. In RL, the relationship between compute investment and performance improvement is far more stochastic, favoring organizations that can afford to explore the solution space more thoroughly.</p>
+<p>This computational divide is further exacerbated by the nature of RL training itself. While pre-training and supervised fine-tuning benefit from high parallelization and efficient prefilling of prompts, RL methods are more decode-heavy and sequential. Each policy update typically requires generating complete responses rather than just predicting the next token, making the process inherently less efficient at scale. This computational profile means that even with equivalent hardware, RL experimentation consumes disproportionately more resources than other training paradigms.</p>
+<h3 id="proprietary-data-from-99-to-99999-reliability">Proprietary Data: From 99% to 99.999% Reliability<a hidden class="anchor" aria-hidden="true" href="#proprietary-data-from-99-to-99999-reliability">#</a></h3>
+<p>While proprietary data showed limited advantages in pre-training (where RAG proved more effective), it will finally prove decisive in RL by pushing performance from 99% to 99.999% reliability—the difference between market winners and also-rans. This proprietary data advantage will be particularly pronounced in domain-specific applications where companies have accumulated unique interaction histories. Unlike pre-training, where data diversity matters more than specificity, RL benefits enormously from data that captures rare edge cases and unusual interaction patterns that only emerge in production environments.</p>
+<h3 id="reward-design-the-art-and-science-of-rl">Reward Design: The Art and Science of RL<a hidden class="anchor" aria-hidden="true" href="#reward-design-the-art-and-science-of-rl">#</a></h3>
+<p>Designing effective reward functions without introducing reward hacking or specification gaming requires rare intuition and creativity. Companies with talent that can anticipate these pitfalls will save enormous resources and avoid damaging public failures. This &ldquo;evaluation artistry&rdquo; will become a prized skill set, with certain individuals possessing the empathy for models and foresight to design robust reward mechanisms becoming highly sought after. The challenge of reward design is fundamentally different from loss function design in supervised learning, as it requires anticipating how agents might exploit loopholes in ways that aren&rsquo;t apparent from static datasets.</p>
+<h2 id="the-moat-effect-why-rl-will-define-ai-leadership">The Moat Effect: Why RL Will Define AI Leadership<a hidden class="anchor" aria-hidden="true" href="#the-moat-effect-why-rl-will-define-ai-leadership">#</a></h2>
+<p>These advantages compound in ways that create insurmountable leads. Companies that develop better environments collect better data, which improves their models, which generates more useful data, creating a virtuous cycle that competitors can&rsquo;t easily break into. Additionally, the trust established by avoiding catastrophic failures becomes its own moat—organizations that demonstrate reliable, safe RL systems will be permitted to deploy in increasingly sensitive domains, generating even more valuable data and experience.</p>
+<p>Effective deployment will likely involve hierarchical oversight systems, where larger models supervise smaller ones, stepping in when the primary agent gets stuck. Human oversight becomes the final backstop, but the goal will be minimizing human intervention through this cascade of increasingly capable oversight models. Companies that perfect this hierarchy will achieve both safety and scalability.</p>
+<h2 id="where-rl-will-shine-first">Where RL Will Shine First<a hidden class="anchor" aria-hidden="true" href="#where-rl-will-shine-first">#</a></h2>
+<p>We&rsquo;ll likely see the first breakthroughs in domains with verifiable rewards (mathematics, coding) and contained environments with clear success metrics. Customer service stands out as a particularly promising early application—not only does it offer measurable outcomes, but the worst-case scenarios are relatively contained, where a suboptimal interaction might frustrate a customer but rarely leads to catastrophic consequences. Companies like Sierra are well-positioned to lead this transition with their focus on agent-based systems. These initial domains will serve as proving grounds for techniques that will later be applied to more complex problems. Beyond these easily verifiable areas, however, the path forward remains highly uncertain. How to effectively define, measure, and optimize for rewards in subjective or open-ended domains without clear ground truth continues to be a significant open research question that will likely take longer to resolve.</p>
+<h2 id="the-future-competitive-landscape">The Future Competitive Landscape<a hidden class="anchor" aria-hidden="true" href="#the-future-competitive-landscape">#</a></h2>
+<p>The implications are significant: while base models may continue to commoditize, the ability to create effective RL systems will concentrate power among companies with the right expertise, data, and compute resources. Open source efforts may struggle to keep pace in this new paradigm, as the domain-specific nature of effective RL environments favors concentrated corporate efforts. While open source has successfully replicated many pre-training advances, RL requires concentrated investment in specific domains rather than general capabilities, making it less amenable to distributed development efforts.</p>
 
 
   </div>
@@ -296,11 +309,11 @@ Importance: 7/10</p>
     <h1 id="citation">Citation<a hidden class="anchor" aria-hidden="true" href="#citation">#</a></h1>
     <p><br>Cited as:</p>
     <blockquote>
-      <p>Michael Liu. (Feb 2024). 5 Predictions for AI in 2025. ML&#39;s Blog. http://localhost:1313/posts/predictions/</p>
+      <p>Michael Liu. (Feb 2024). &#34;Real&#34; Reinforcement Learning will create the strongest technical moats. ML&#39;s Blog. http://localhost:1313/posts/predictions/</p>
     </blockquote>
     <p>Or</p>
     <pre tabindex="0"><code>@article{predictions,
-  title   = "5 Predictions for AI in 2025",
+  title   = "&#34;Real&#34; Reinforcement Learning will create the strongest technical moats",
   author  = "Michael Liu",
   journal = "ML&#39;s Blog",
   year    = "2024",
