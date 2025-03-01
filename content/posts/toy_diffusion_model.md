@@ -4,9 +4,6 @@ date = 2024-12-20T07:07:07+01:00
 draft = false
 +++
 
-
-## Introduction
-
 ## What even is Diffusion?
 
 Diffusion models approach generative modeling by mapping out probability distributions in high-dimensional spaces. Consider our dataset as a tiny sample from an enormous space of possible images. Our goal is to estimate which regions of this vast space have high probability according to our target distribution.

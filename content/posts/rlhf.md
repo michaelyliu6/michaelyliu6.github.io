@@ -1,6 +1,6 @@
 +++
 title = 'Training Language Models with Reinforcement Learning from Human Feedback'
-date = 2024-02-15T07:07:07+01:00
+date = 2025-02-15T07:07:07+01:00
 draft = false
 ShowToc = true
 TocOpen = true

@@ -258,11 +258,40 @@ window.MathJax = {
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">&#34;Real&#34; Reinforcement Learning will create the strongest technical moats
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>The AI landscape has undergone rapid shifts in recent years. While 2023-2024 saw the commoditization of pre-training and supervised fine-tuning, 2025 will mark the emergence of “real” Reinforcement Learning (RL) as the primary technical moat in AI development. Unlike pre-training, which focuses on learning statistical correlations from massive datasets, RL allows models to actively explore solution spaces and discover novel strategies that generalize beyond static training data.
+The Limitations of RLHF and the Promise of “Real” RL Unlike RLHF (Reinforcement Learning from Human Feedback), which optimizes for human approval rather than actual task performance, genuine RL with sparse rewards will enable models to solve complex end-to-end tasks autonomously. RLHF is fundamentally limited because it optimizes for a proxy objective (what looks good to humans) rather than directly solving problems correctly. Furthermore, models quickly learn to game reward models when trained with RLHF for extended periods. In contrast, true RL with sparse rewards—similar to what powered AlphaGo’s breakthrough—will create significant competitive advantages for several reasons.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-02-16 07:07:07 +0100 +0100'>February 16, 2025</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;Michael Liu</footer>
+  <a class="entry-link" aria-label="post link to &#34;Real&#34; Reinforcement Learning will create the strongest technical moats" href="http://localhost:1313/posts/rl-predictions/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Training Language Models with Reinforcement Learning from Human Feedback
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Reinforcement Learning from Human Feedback (RLHF) is a technique used to fine-tune large language models (LLMs) to better align with human preferences. It involves training a reward model based on human feedback and then using reinforcement learning to optimize the LLM’s policy to maximize the reward.
+This process generally involves three key steps:
+Supervised Fine-tuning (SFT): An initial language model is fine-tuned on a dataset of high-quality demonstrations, where the model learns to imitate the provided examples.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-02-15 07:07:07 +0100 +0100'>February 15, 2025</span>&nbsp;·&nbsp;12 min&nbsp;·&nbsp;Michael Liu</footer>
+  <a class="entry-link" aria-label="post link to Training Language Models with Reinforcement Learning from Human Feedback" href="http://localhost:1313/posts/rlhf/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Toy Diffusion Model
     </h2>
   </header>
   <div class="entry-content">
-    <p>Introduction What even is Diffusion? Diffusion models approach generative modeling by mapping out probability distributions in high-dimensional spaces. Consider our dataset as a tiny sample from an enormous space of possible images. Our goal is to estimate which regions of this vast space have high probability according to our target distribution.
+    <p>What even is Diffusion? Diffusion models approach generative modeling by mapping out probability distributions in high-dimensional spaces. Consider our dataset as a tiny sample from an enormous space of possible images. Our goal is to estimate which regions of this vast space have high probability according to our target distribution.
 The core insight of diffusion is that if we add Gaussian noise to an image from our distribution, the resulting noisy image typically becomes less likely to belong to that distribution. This is an empirical observation about human perception - a shoe with a small amount of noise still looks like a shoe, but becomes less recognizable as more noise is added.
 ...</p>
   </div>
@@ -310,20 +339,6 @@ The intended audience of this post is someone who has a solid understanding of D
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">&#34;Real&#34; Reinforcement Learning will create the strongest technical moats
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>The AI landscape has undergone rapid shifts in recent years. While 2023-2024 saw the commoditization of pre-training and supervised fine-tuning, 2025 will mark the emergence of “real” Reinforcement Learning (RL) as the primary technical moat in AI development. Unlike pre-training, which focuses on learning statistical correlations from massive datasets, RL allows models to actively explore solution spaces and discover novel strategies that generalize beyond static training data.
-The Limitations of RLHF and the Promise of “Real” RL Unlike RLHF (Reinforcement Learning from Human Feedback), which optimizes for human approval rather than actual task performance, genuine RL with sparse rewards will enable models to solve complex end-to-end tasks autonomously. RLHF is fundamentally limited because it optimizes for a proxy objective (what looks good to humans) rather than directly solving problems correctly. Furthermore, models quickly learn to game reward models when trained with RLHF for extended periods. In contrast, true RL with sparse rewards—similar to what powered AlphaGo’s breakthrough—will create significant competitive advantages for several reasons.
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-02-16 07:07:07 +0100 +0100'>February 16, 2024</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;Michael Liu</footer>
-  <a class="entry-link" aria-label="post link to &#34;Real&#34; Reinforcement Learning will create the strongest technical moats" href="http://localhost:1313/posts/predictions/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
     <h2 class="entry-hint-parent">AI Alignment
       <span class="entry-hint" title="Draft">
         <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
@@ -340,21 +355,6 @@ We can conceptualize different combinations of capabilities and alignment:
   </div>
   <footer class="entry-footer"><span title='2024-02-15 07:07:07 +0100 +0100'>February 15, 2024</span>&nbsp;·&nbsp;15 min&nbsp;·&nbsp;Michael Liu</footer>
   <a class="entry-link" aria-label="post link to AI Alignment" href="http://localhost:1313/posts/alignment/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Training Language Models with Reinforcement Learning from Human Feedback
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Reinforcement Learning from Human Feedback (RLHF) is a technique used to fine-tune large language models (LLMs) to better align with human preferences. It involves training a reward model based on human feedback and then using reinforcement learning to optimize the LLM’s policy to maximize the reward.
-This process generally involves three key steps:
-Supervised Fine-tuning (SFT): An initial language model is fine-tuned on a dataset of high-quality demonstrations, where the model learns to imitate the provided examples.
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-02-15 07:07:07 +0100 +0100'>February 15, 2024</span>&nbsp;·&nbsp;12 min&nbsp;·&nbsp;Michael Liu</footer>
-  <a class="entry-link" aria-label="post link to Training Language Models with Reinforcement Learning from Human Feedback" href="http://localhost:1313/posts/rlhf/"></a>
 </article>
 
 <article class="post-entry"> 

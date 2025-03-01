@@ -7,8 +7,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Toy Diffusion Model | ML&#39;s Blog</title>
 <meta name="keywords" content="">
-<meta name="description" content="Introduction
-What even is Diffusion?
+<meta name="description" content="What even is Diffusion?
 Diffusion models approach generative modeling by mapping out probability distributions in high-dimensional spaces. Consider our dataset as a tiny sample from an enormous space of possible images. Our goal is to estimate which regions of this vast space have high probability according to our target distribution.
 The core insight of diffusion is that if we add Gaussian noise to an image from our distribution, the resulting noisy image typically becomes less likely to belong to that distribution. This is an empirical observation about human perception - a shoe with a small amount of noise still looks like a shoe, but becomes less recognizable as more noise is added.">
 <meta name="author" content="Michael Liu">
@@ -175,8 +174,6 @@ window.MathJax = {
 
         <div class="inner"><ul>
                 <li>
-                    <a href="#introduction" aria-label="Introduction">Introduction</a></li>
-                <li>
                     <a href="#what-even-is-diffusion" aria-label="What even is Diffusion?">What even is Diffusion?</a><ul>
                         
                 <li>
@@ -291,8 +288,7 @@ window.MathJax = {
     }
 </script>
 
-  <div class="post-content"><h2 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h2>
-<h2 id="what-even-is-diffusion">What even is Diffusion?<a hidden class="anchor" aria-hidden="true" href="#what-even-is-diffusion">#</a></h2>
+  <div class="post-content"><h2 id="what-even-is-diffusion">What even is Diffusion?<a hidden class="anchor" aria-hidden="true" href="#what-even-is-diffusion">#</a></h2>
 <p>Diffusion models approach generative modeling by mapping out probability distributions in high-dimensional spaces. Consider our dataset as a tiny sample from an enormous space of possible images. Our goal is to estimate which regions of this vast space have high probability according to our target distribution.</p>
 <p>The core insight of diffusion is that if we add Gaussian noise to an image from our distribution, the resulting noisy image typically becomes less likely to belong to that distribution. This is an empirical observation about human perception - a shoe with a small amount of noise still looks like a shoe, but becomes less recognizable as more noise is added.</p>
 <p>By controlling this forward process of adding noise, we create a path from high-probability regions (real images) to a simple distribution we know how to sample from (pure Gaussian noise). The diffusion model then learns the reverse process - how to take a noisy image and predict what the less noisy version would look like.

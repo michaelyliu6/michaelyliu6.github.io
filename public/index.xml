@@ -6,15 +6,34 @@
     <description>Recent content on ML&#39;s Blog</description>
     <generator>Hugo -- 0.140.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 20 Dec 2024 07:07:07 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 16 Feb 2025 07:07:07 +0100</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>&#34;Real&#34; Reinforcement Learning will create the strongest technical moats</title>
+      <link>http://localhost:1313/posts/rl-predictions/</link>
+      <pubDate>Sun, 16 Feb 2025 07:07:07 +0100</pubDate>
+      <guid>http://localhost:1313/posts/rl-predictions/</guid>
+      <description>&lt;p&gt;The AI landscape has undergone rapid shifts in recent years. While 2023-2024 saw the commoditization of pre-training and supervised fine-tuning, 2025 will mark the emergence of &amp;ldquo;real&amp;rdquo; Reinforcement Learning (RL) as the primary technical moat in AI development. Unlike pre-training, which focuses on learning statistical correlations from massive datasets, RL allows models to actively explore solution spaces and discover novel strategies that generalize beyond static training data.&lt;/p&gt;
+&lt;h2 id=&#34;the-limitations-of-rlhf-and-the-promise-of-real-rl&#34;&gt;The Limitations of RLHF and the Promise of &amp;ldquo;Real&amp;rdquo; RL&lt;/h2&gt;
+&lt;p&gt;Unlike RLHF (Reinforcement Learning from Human Feedback), which optimizes for human approval rather than actual task performance, genuine RL with sparse rewards will enable models to solve complex end-to-end tasks autonomously. RLHF is fundamentally limited because it optimizes for a proxy objective (what looks good to humans) rather than directly solving problems correctly. Furthermore, models quickly learn to game reward models when trained with RLHF for extended periods. In contrast, true RL with sparse rewards—similar to what powered AlphaGo&amp;rsquo;s breakthrough—will create significant competitive advantages for several reasons.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Training Language Models with Reinforcement Learning from Human Feedback</title>
+      <link>http://localhost:1313/posts/rlhf/</link>
+      <pubDate>Sat, 15 Feb 2025 07:07:07 +0100</pubDate>
+      <guid>http://localhost:1313/posts/rlhf/</guid>
+      <description>&lt;p&gt;Reinforcement Learning from Human Feedback (RLHF) is a technique used to fine-tune large language models (LLMs) to better align with human preferences. It involves training a reward model based on human feedback and then using reinforcement learning to optimize the LLM&amp;rsquo;s policy to maximize the reward.&lt;/p&gt;
+&lt;p&gt;This process generally involves three key steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Supervised Fine-tuning (SFT):&lt;/strong&gt; An initial language model is fine-tuned on a dataset of high-quality demonstrations, where the model learns to imitate the provided examples.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Toy Diffusion Model</title>
       <link>http://localhost:1313/posts/toy_diffusion_model/</link>
       <pubDate>Fri, 20 Dec 2024 07:07:07 +0100</pubDate>
       <guid>http://localhost:1313/posts/toy_diffusion_model/</guid>
-      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
-&lt;h2 id=&#34;what-even-is-diffusion&#34;&gt;What even is Diffusion?&lt;/h2&gt;
+      <description>&lt;h2 id=&#34;what-even-is-diffusion&#34;&gt;What even is Diffusion?&lt;/h2&gt;
 &lt;p&gt;Diffusion models approach generative modeling by mapping out probability distributions in high-dimensional spaces. Consider our dataset as a tiny sample from an enormous space of possible images. Our goal is to estimate which regions of this vast space have high probability according to our target distribution.&lt;/p&gt;
 &lt;p&gt;The core insight of diffusion is that if we add Gaussian noise to an image from our distribution, the resulting noisy image typically becomes less likely to belong to that distribution. This is an empirical observation about human perception - a shoe with a small amount of noise still looks like a shoe, but becomes less recognizable as more noise is added.&lt;/p&gt;</description>
     </item>
@@ -72,15 +91,6 @@
 &lt;p&gt;I most recently served as a Software Development Engineer II at Amazon Web Services (AWS), where I was a key member of the Data transfer Metering team. Our system processed 140 PB of data and $11 million in revenue daily, serving as a critical component of AWS&amp;rsquo;s infrastructure. During my tenure, I:&lt;/p&gt;</description>
     </item>
     <item>
-      <title>&#34;Real&#34; Reinforcement Learning will create the strongest technical moats</title>
-      <link>http://localhost:1313/posts/predictions/</link>
-      <pubDate>Fri, 16 Feb 2024 07:07:07 +0100</pubDate>
-      <guid>http://localhost:1313/posts/predictions/</guid>
-      <description>&lt;p&gt;The AI landscape has undergone rapid shifts in recent years. While 2023-2024 saw the commoditization of pre-training and supervised fine-tuning, 2025 will mark the emergence of &amp;ldquo;real&amp;rdquo; Reinforcement Learning (RL) as the primary technical moat in AI development. Unlike pre-training, which focuses on learning statistical correlations from massive datasets, RL allows models to actively explore solution spaces and discover novel strategies that generalize beyond static training data.&lt;/p&gt;
-&lt;h2 id=&#34;the-limitations-of-rlhf-and-the-promise-of-real-rl&#34;&gt;The Limitations of RLHF and the Promise of &amp;ldquo;Real&amp;rdquo; RL&lt;/h2&gt;
-&lt;p&gt;Unlike RLHF (Reinforcement Learning from Human Feedback), which optimizes for human approval rather than actual task performance, genuine RL with sparse rewards will enable models to solve complex end-to-end tasks autonomously. RLHF is fundamentally limited because it optimizes for a proxy objective (what looks good to humans) rather than directly solving problems correctly. Furthermore, models quickly learn to game reward models when trained with RLHF for extended periods. In contrast, true RL with sparse rewards—similar to what powered AlphaGo&amp;rsquo;s breakthrough—will create significant competitive advantages for several reasons.&lt;/p&gt;</description>
-    </item>
-    <item>
       <title>AI Alignment</title>
       <link>http://localhost:1313/posts/alignment/</link>
       <pubDate>Thu, 15 Feb 2024 07:07:07 +0100</pubDate>
@@ -89,17 +99,6 @@
 &lt;h2 id=&#34;capabilities-vs-alignment&#34;&gt;Capabilities vs Alignment&lt;/h2&gt;
 &lt;p&gt;The field of AI safety, there is an important distinction between &lt;strong&gt;capabilities evaluations&lt;/strong&gt; and &lt;strong&gt;alignment evaluations&lt;/strong&gt;. &lt;strong&gt;Capabilities evaluations&lt;/strong&gt; measures the the capacity  (i.e. what the model &amp;ldquo;can&amp;rdquo; do), such as its proficiency at logical reasoning, coding, or writing. &lt;strong&gt;Alignment evaluations&lt;/strong&gt; measures the tendency for models to exhibit certain behaviors (i.e. what the model &amp;ldquo;wants&amp;rdquo; to do), such as being helpful, honest, and harmless, &lt;a href=&#34;https://en.wikipedia.org/wiki/Sycophancy&#34;&gt;sycophantic&lt;/a&gt;, or deceptive.&lt;/p&gt;
 &lt;p&gt;We can conceptualize different combinations of capabilities and alignment:&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Training Language Models with Reinforcement Learning from Human Feedback</title>
-      <link>http://localhost:1313/posts/rlhf/</link>
-      <pubDate>Thu, 15 Feb 2024 07:07:07 +0100</pubDate>
-      <guid>http://localhost:1313/posts/rlhf/</guid>
-      <description>&lt;p&gt;Reinforcement Learning from Human Feedback (RLHF) is a technique used to fine-tune large language models (LLMs) to better align with human preferences. It involves training a reward model based on human feedback and then using reinforcement learning to optimize the LLM&amp;rsquo;s policy to maximize the reward.&lt;/p&gt;
-&lt;p&gt;This process generally involves three key steps:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Supervised Fine-tuning (SFT):&lt;/strong&gt; An initial language model is fine-tuned on a dataset of high-quality demonstrations, where the model learns to imitate the provided examples.&lt;/p&gt;</description>
     </item>
     <item>
       <title>DeepSeek-VL2</title>
