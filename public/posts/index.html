@@ -162,6 +162,20 @@ window.MathJax = {
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">Toy Diffusion Model
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Introduction What even is Diffusion? Diffusion models approach generative modeling by mapping out probability distributions in high-dimensional spaces. Consider our dataset as a tiny sample from an enormous space of possible images. Our goal is to estimate which regions of this vast space have high probability according to our target distribution.
+The core insight of diffusion is that if we add Gaussian noise to an image from our distribution, the resulting noisy image typically becomes less likely to belong to that distribution. This is an empirical observation about human perception - a shoe with a small amount of noise still looks like a shoe, but becomes less recognizable as more noise is added.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2024-12-20 07:07:07 +0100 +0100'>December 20, 2024</span>&nbsp;·&nbsp;19 min&nbsp;·&nbsp;Michael Liu</footer>
+  <a class="entry-link" aria-label="post link to Toy Diffusion Model" href="http://localhost:1313/posts/toy_diffusion_model/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">ML Papers
       <span class="entry-hint" title="Draft">
         <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
@@ -176,26 +190,6 @@ window.MathJax = {
   </div>
   <footer class="entry-footer"><span title='2024-12-14 07:07:07 +0100 +0100'>December 14, 2024</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Michael Liu</footer>
   <a class="entry-link" aria-label="post link to ML Papers" href="http://localhost:1313/posts/ml-papers/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Toy Diffusion Model
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Introduction Section 2: Background in Denoising Diffusion Probabilistic Models Equation 1: Reverse Process $p$ is a probability density function that represents the reverse process, the process of adding noise.
-Let’s start with the notation $p(x_T) = N(x_T; 0, I)$. $N$ is a normal distribution. $0$ is the mean (centered at zero). $I$ is the identity matrix representing the covariance (meaning that elements are independent with unit variance). It describes the distribution of completely random noise, which is the starting point $x_T$.
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2024-12-14 07:07:07 +0100 +0100'>December 14, 2024</span>&nbsp;·&nbsp;21 min&nbsp;·&nbsp;Michael Liu</footer>
-  <a class="entry-link" aria-label="post link to Toy Diffusion Model" href="http://localhost:1313/posts/part1_toy_model/"></a>
 </article>
 
 <article class="post-entry"> 
@@ -224,8 +218,8 @@ The intended audience of this post is someone who has a solid understanding of D
     </h2>
   </header>
   <div class="entry-content">
-    <p>Certainty: 8/10 Importance: 9/10
-The AI landscape has undergone rapid shifts in recent years. While 2023-2024 saw the commoditization of pre-training and supervised fine-tuning, 2025 will mark the emergence of “real” Reinforcement Learning (RL) as the primary technical moat in AI development. Unlike pre-training, which focuses on learning statistical correlations from massive datasets, RL allows models to actively explore solution spaces and discover novel strategies that generalize beyond static training data.
+    <p>The AI landscape has undergone rapid shifts in recent years. While 2023-2024 saw the commoditization of pre-training and supervised fine-tuning, 2025 will mark the emergence of “real” Reinforcement Learning (RL) as the primary technical moat in AI development. Unlike pre-training, which focuses on learning statistical correlations from massive datasets, RL allows models to actively explore solution spaces and discover novel strategies that generalize beyond static training data.
+The Limitations of RLHF and the Promise of “Real” RL Unlike RLHF (Reinforcement Learning from Human Feedback), which optimizes for human approval rather than actual task performance, genuine RL with sparse rewards will enable models to solve complex end-to-end tasks autonomously. RLHF is fundamentally limited because it optimizes for a proxy objective (what looks good to humans) rather than directly solving problems correctly. Furthermore, models quickly learn to game reward models when trained with RLHF for extended periods. In contrast, true RL with sparse rewards—similar to what powered AlphaGo’s breakthrough—will create significant competitive advantages for several reasons.
 ...</p>
   </div>
   <footer class="entry-footer"><span title='2024-02-16 07:07:07 +0100 +0100'>February 16, 2024</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;Michael Liu</footer>

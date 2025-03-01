@@ -1,11 +1,22 @@
 +++
 title = 'Toy Diffusion Model'
-date = 2024-12-14T07:07:07+01:00
-draft = true
+date = 2024-12-20T07:07:07+01:00
+draft = false
 +++
 
 
 ## Introduction
+
+## What even is Diffusion?
+
+Diffusion models approach generative modeling by mapping out probability distributions in high-dimensional spaces. Consider our dataset as a tiny sample from an enormous space of possible images. Our goal is to estimate which regions of this vast space have high probability according to our target distribution.
+
+The core insight of diffusion is that if we add Gaussian noise to an image from our distribution, the resulting noisy image typically becomes less likely to belong to that distribution. This is an empirical observation about human perception - a shoe with a small amount of noise still looks like a shoe, but becomes less recognizable as more noise is added.
+
+By controlling this forward process of adding noise, we create a path from high-probability regions (real images) to a simple distribution we know how to sample from (pure Gaussian noise). The diffusion model then learns the reverse process - how to take a noisy image and predict what the less noisy version would look like.
+This gives us a powerful way to generate new data. We start with random noise and repeatedly apply our learned denoising function, effectively "hill climbing" toward regions of higher probability in our distribution. At each step, the model pushes the sample toward becoming more like a realistic image from our dataset.
+Unlike traditional data augmentation where noised examples are treated as equally valid members of a class, diffusion models recognize that noised images are less likely members of the distribution, with their probability decreasing in proportion to the amount of noise added.
+
 
 <img src="/assets/images/references/paper_background.png" alt="Paper Background">
 <figcaption><code>Section 2: Background</code> in <a href="https://arxiv.org/pdf/2006.11239#page=2">Denoising Diffusion Probabilistic Models</a></figcaption>
@@ -121,8 +132,6 @@ def denormalize_img(img: t.Tensor) -> t.Tensor:
 plot_images(t.stack([imgs[0], normalize_img(imgs)[0], denormalize_img(normalize_img(imgs))[0]]), ["Original", "Normalized", "Denormalized"])
 ```
 
-    Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-0.40392154..0.58431375].
-
 
 
     
@@ -151,29 +160,10 @@ def variance_schedule(max_steps: int, min_noise: float = 0.0001, max_noise: floa
 ```
 
 
-```python
-steps = 200
-betas = variance_schedule(steps)
-
-plt.figure()
-plt.plot(range(steps), betas, 'b-', label='Noise Schedule')
-plt.title('Linear Noise Schedule')
-plt.xlabel('Step')
-plt.ylabel('Noise Amount')
-plt.grid(True, alpha=0.3)
-plt.tight_layout()
-plt.show()
-
-tests.toy_model_tests.test_variance_schedule(variance_schedule) # simple check for a linear function
-```
-
 
     
 ![png](/assets/images/part1_toy_model_files/part1_toy_model_15_0.png)
     
-
-
-    [32mtests.toy_model_tests.test_variance_schedule passed in 0.00s.[0m
 
 
 ## Forward (q) function
@@ -210,32 +200,9 @@ def q_eq2(x: t.Tensor, num_steps: int, betas: t.Tensor) -> t.Tensor:
     return x
 ```
 
-
-```python
-x = normalize_img(imgs[0])
-# x = normalize_img(gradient_images(1, (3, 16, 16))[0]) # Try with new random gradient
-
-q_x = []
-titles = []
-for num_steps in [1, 10, 50, 200]:
-    xt = q_eq2(x, num_steps, betas)
-    q_x.append(denormalize_img(xt))
-    titles.append(f"Equation 2 after {num_steps} step(s)")
-
-q_x.append(denormalize_img(t.randn_like(xt)))
-titles.append("Random Gaussian noise")
-
-plot_images(t.stack(q_x), titles)
-tests.toy_model_tests.test_q_eq2(q_eq2, variance_schedule, x) # check after lots of steps, the image is close to a standard Gaussian
-```
-
-
     
 ![png](/assets/images/part1_toy_model_files/part1_toy_model_19_0.png)
     
-
-
-    [32mtests.toy_model_tests.test_q_eq2 passed in 0.31s.[0m
 
 
 After 50 steps, we can barely make out the colors of the original gradient. After 200 steps, the image looks like random Gaussian noise. As we go from left to right, we start a high signal with most of the image strucutre preserved, but as well continue taking steps, we go from noisy image to pure noise.
@@ -260,26 +227,9 @@ def q_eq4(x: t.Tensor, num_steps: int, betas: t.Tensor) -> t.Tensor:
 ```
 
 
-```python
-q_x = []
-titles = []
-for num_steps in [1, 10, 50, 200]:
-    xt = q_eq4(x, num_steps, betas)
-    q_x.append(denormalize_img(xt))
-    titles.append(f"Equation 2 after {num_steps} step(s)")
-
-plot_images(t.stack(q_x), titles)
-tests.toy_model_tests.test_q_eq4(q_eq4, variance_schedule, x) # check after lots of steps, the image is close to a standard Gaussian
-```
-
-
     
 ![png](/assets/images/part1_toy_model_files/part1_toy_model_23_0.png)
     
-
-
-    [32mtests.toy_model_tests.test_q_eq4 passed in 0.00s.[0m
-
 
 ## Noise Schedule
 
@@ -367,10 +317,6 @@ def noise_img(
         repeat(x_scale, "b -> b c h w", c=C, h=H, w=W) * img
         + repeat(noise_scale, "b -> b c h w", c=C, h=H, w=W) * noise
     )
-    assert num_steps.shape == (B,)
-    assert noise.shape == (B, C, H, W)
-    assert noised.shape == (B, C, H, W)
-    return num_steps, noise, noised
 ```
 
 
@@ -384,28 +330,19 @@ for i in range(img.shape[0]):
     images = t.stack([img[i], noise[i], denormalize_img(noised[i])])
     titles = [f"Batch {i}: Original Gradient", f"Batch {i}: Unscaled Noise", f"Batch {i}: Gradient with Noise Applied"]
     plot_images(images, titles)    
-tests.toy_model_tests.test_noise_img(noise_img, NoiseSchedule, gradient_images, normalize_img) # check after lots of steps, the image is close to a standard Gaussian
 ```
-
-    Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-3.4266975..2.9296658].
 
 
 
     
 ![png](/assets/images/part1_toy_model_files/part1_toy_model_28_1.png)
-    
 
-
-    Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-3.1897902..2.674112].
 
 
 
     
 ![png](/assets/images/part1_toy_model_files/part1_toy_model_28_3.png)
     
-
-
-    [32mtests.toy_model_tests.test_noise_img passed in 0.10s.[0m
 
 
 ## Reconstruct
@@ -439,7 +376,6 @@ def reconstruct(
 reconstructed = reconstruct(noised, noise, num_steps, noise_schedule)
 denorm = denormalize_img(reconstructed)
 plot_images(t.stack([img[0], denorm[0]]), ["Original Gradient", "Reconstruction"])
-tests.toy_model_tests.test_reconstruct(denorm, img) # check that reconstruction matches the original
 ```
 
 
@@ -447,8 +383,6 @@ tests.toy_model_tests.test_reconstruct(denorm, img) # check that reconstruction 
 ![png](/assets/images/part1_toy_model_files/part1_toy_model_30_0.png)
     
 
-
-    [32mtests.toy_model_tests.test_reconstruct passed in 0.00s.[0m
 
 
 ## Toy Diffusion Model Definition
@@ -545,16 +479,12 @@ model = ToyDiffuser(model_config)
 out = model(imgs, n_steps)
 
 plot_images(denormalize_img(out[0]).detach().unsqueeze(0), ["Noise prediction of untrained model"])
-tests.toy_model_tests.test_toy_diffuser(ToyDiffuser, ToyDiffuserConfig) # check that the sizes match what is expected
 ```
 
 
     
 ![png](/assets/images/part1_toy_model_files/part1_toy_model_35_0.png)
     
-
-
-    [32mtests.toy_model_tests.test_toy_diffuser passed in 0.00s.[0m
 
 
 ## Training
@@ -911,99 +841,3 @@ for i, s in enumerate(samples):
 ![png](/assets/images/part1_toy_model_files/part1_toy_model_47_8.png)
     
 
-
-
-```python
-def sample(self, shape, device, ddim_steps=None, eta=0.0):
-    """
-    Generate samples using DDIM.
-
-    Args:
-        shape: Shape of the output tensor (e.g., [batch_size, channels, height, width]).
-        device: Device to run the sampling on (e.g., 'cuda' or 'cpu').
-        ddim_steps: Number of sampling steps (if None, defaults to self.timesteps).
-        eta: Controls the degree of stochasticity (0 = deterministic).
-
-    Returns:
-        Generated samples.
-    """
-    ddim_steps = ddim_steps or self.timesteps
-    x_t = torch.randn(shape, device=device)  # Start from pure Gaussian noise
-    step_size = self.timesteps // ddim_steps
-
-    for i in range(0, self.timesteps, step_size):
-        t = self.timesteps - i - 1
-        t_next = max(t - step_size, 0)
-
-        t_tensor = torch.full((shape[0],), t, device=device, dtype=torch.long)
-        t_next_tensor = torch.full((shape[0],), t_next, device=device, dtype=torch.long)
-
-        predicted_noise = self.model(x_t, t_tensor)
-
-
-        # Compute the deterministic step
-        mean = (self.sqrt_alpha_cumprod[t_next] * x_t - self.sqrt_one_minus_alpha_cumprod[t_next] * predicted_noise) / self. sqrt_alpha_cumprod[t]
-
-        if eta > 0 and t > 0:
-            # Add noise for stochasticity
-            noise = torch.randn_like(x_t)
-            variance = eta * torch.sqrt(self.sqrt_one_minus_alpha_cumprod[t_next])
-            x_t = mean + variance * noise
-        else:
-            x_t = mean
-
-    return x_t
-```
-
-
-```python
-def sample(model: ToyDiffuser, n_samples: int, return_all_steps: bool = False) -> Union[t.Tensor, list[t.Tensor]]:
-    """
-    Sample, following Algorithm 2 in the DDPM paper
-
-    model: The trained noise-predictor
-    n_samples: The number of samples to generate
-    return_all_steps: if true, return a list of the reconstructed tensors generated at each step, rather than just the final reconstructed image tensor.
-
-    out: shape (B, C, H, W), the denoised images
-    """
-    schedule = model.noise_schedule
-    assert schedule is not None
-    
-    model.eval()
-
-    shape = (n_samples, *model.img_shape)
-    B, C, H, W = shape
-    x = t.randn(shape, device=schedule.device) # Line 1: initalize a sample from a standard Gaussian
-
-    if return_all_steps:
-        all_steps = [(x.cpu().clone())]
-
-    for step in tqdm(reversed(range(0, len(schedule))), total=len(schedule)): # Line 2
-        num_steps = t.full((n_samples,), fill_value=step, device=schedule.device)
-
-        if step > 0: # Line 3: add a random sample of noise except for the last iteration
-            sigma = schedule.beta(step)
-            noise_term = sigma * t.randn_like(x)
-        else:
-            noise_term = 0
-
-        pred = model(x, num_steps) # predict what the noise add was at $t$
-
-        pred_scale = schedule.beta(step) / ((1 - schedule.alpha_bar(step)).sqrt()) # how much do we scale our preidction
-        denoised_scale = 1 / schedule.alpha(step).sqrt() # adjust for the total time
-
-        # Line 4:
-        # Remove the predicted noise from our current sample
-        # Scale the results according to the noise level
-        # add some random noise (except for step 0)
-        x = denoised_scale * (x - pred_scale * pred) + noise_term
-
-        if return_all_steps: # log x at intermediate steps
-            all_steps.append(x.cpu().clone()) 
-
-    # Line 6: Return final x or all intermediate steps
-    if return_all_steps: 
-        return all_steps
-    return x
-```

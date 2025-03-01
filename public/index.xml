@@ -6,8 +6,18 @@
     <description>Recent content on ML&#39;s Blog</description>
     <generator>Hugo -- 0.140.0</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 14 Dec 2024 07:07:07 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 20 Dec 2024 07:07:07 +0100</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Toy Diffusion Model</title>
+      <link>http://localhost:1313/posts/toy_diffusion_model/</link>
+      <pubDate>Fri, 20 Dec 2024 07:07:07 +0100</pubDate>
+      <guid>http://localhost:1313/posts/toy_diffusion_model/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;h2 id=&#34;what-even-is-diffusion&#34;&gt;What even is Diffusion?&lt;/h2&gt;
+&lt;p&gt;Diffusion models approach generative modeling by mapping out probability distributions in high-dimensional spaces. Consider our dataset as a tiny sample from an enormous space of possible images. Our goal is to estimate which regions of this vast space have high probability according to our target distribution.&lt;/p&gt;
+&lt;p&gt;The core insight of diffusion is that if we add Gaussian noise to an image from our distribution, the resulting noisy image typically becomes less likely to belong to that distribution. This is an empirical observation about human perception - a shoe with a small amount of noise still looks like a shoe, but becomes less recognizable as more noise is added.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>ML Papers</title>
       <link>http://localhost:1313/posts/ml-papers/</link>
@@ -34,18 +44,6 @@
 &lt;h2 id=&#34;deepseekmath-pushing-the-limits-of-mathematical-reasoning-in-open-language-models&#34;&gt;DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models&lt;/h2&gt;
 &lt;p&gt;DeepSeek (Apr 2024) &lt;a href=&#34;https://arxiv.org/pdf/2401.06066&#34;&gt;https://arxiv.org/pdf/2401.06066&lt;/a&gt;
 &lt;img src=&#34;http://localhost:1313/assets/images/ml-papers/grpo.png&#34;&gt;&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Toy Diffusion Model</title>
-      <link>http://localhost:1313/posts/part1_toy_model/</link>
-      <pubDate>Sat, 14 Dec 2024 07:07:07 +0100</pubDate>
-      <guid>http://localhost:1313/posts/part1_toy_model/</guid>
-      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
-&lt;img src=&#34;http://localhost:1313/assets/images/references/paper_background.png&#34; alt=&#34;Paper Background&#34;&gt;
-&lt;figcaption&gt;&lt;code&gt;Section 2: Background&lt;/code&gt; in &lt;a href=&#34;https://arxiv.org/pdf/2006.11239#page=2&#34;&gt;Denoising Diffusion Probabilistic Models&lt;/a&gt;&lt;/figcaption&gt;
-&lt;h3 id=&#34;equation-1-reverse-process&#34;&gt;Equation 1: Reverse Process&lt;/h3&gt;
-&lt;p&gt;$p$ is a &lt;strong&gt;probability density function&lt;/strong&gt; that represents the &lt;strong&gt;reverse&lt;/strong&gt; process, the process of adding noise.&lt;/p&gt;
-&lt;p&gt;Let&amp;rsquo;s start with the notation $p(x_T) = N(x_T; 0, I)$. $N$ is a normal distribution. $0$ is the mean (centered at zero). $I$ is the identity matrix representing the covariance (meaning that elements are independent with unit variance). It describes the distribution of completely random noise, which is the starting point $x_T$.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Understanding Modern LLM Architectures with DeepSeek-V3</title>
@@ -78,9 +76,9 @@
       <link>http://localhost:1313/posts/predictions/</link>
       <pubDate>Fri, 16 Feb 2024 07:07:07 +0100</pubDate>
       <guid>http://localhost:1313/posts/predictions/</guid>
-      <description>&lt;p&gt;&lt;strong&gt;Certainty: 8/10&lt;/strong&gt;
-&lt;strong&gt;Importance: 9/10&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;The AI landscape has undergone rapid shifts in recent years. While 2023-2024 saw the commoditization of pre-training and supervised fine-tuning, 2025 will mark the emergence of &amp;ldquo;real&amp;rdquo; Reinforcement Learning (RL) as the primary technical moat in AI development. Unlike pre-training, which focuses on learning statistical correlations from massive datasets, RL allows models to actively explore solution spaces and discover novel strategies that generalize beyond static training data.&lt;/p&gt;</description>
+      <description>&lt;p&gt;The AI landscape has undergone rapid shifts in recent years. While 2023-2024 saw the commoditization of pre-training and supervised fine-tuning, 2025 will mark the emergence of &amp;ldquo;real&amp;rdquo; Reinforcement Learning (RL) as the primary technical moat in AI development. Unlike pre-training, which focuses on learning statistical correlations from massive datasets, RL allows models to actively explore solution spaces and discover novel strategies that generalize beyond static training data.&lt;/p&gt;
+&lt;h2 id=&#34;the-limitations-of-rlhf-and-the-promise-of-real-rl&#34;&gt;The Limitations of RLHF and the Promise of &amp;ldquo;Real&amp;rdquo; RL&lt;/h2&gt;
+&lt;p&gt;Unlike RLHF (Reinforcement Learning from Human Feedback), which optimizes for human approval rather than actual task performance, genuine RL with sparse rewards will enable models to solve complex end-to-end tasks autonomously. RLHF is fundamentally limited because it optimizes for a proxy objective (what looks good to humans) rather than directly solving problems correctly. Furthermore, models quickly learn to game reward models when trained with RLHF for extended periods. In contrast, true RL with sparse rewards—similar to what powered AlphaGo&amp;rsquo;s breakthrough—will create significant competitive advantages for several reasons.&lt;/p&gt;</description>
     </item>
     <item>
       <title>AI Alignment</title>
@@ -268,14 +266,14 @@
       <link>http://localhost:1313/projects/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/projects/</guid>
-      <description>&lt;h2 id=&#34;reinforcement-learning-implementations&#34;&gt;Reinforcement Learning Implementations&lt;/h2&gt;
-&lt;p&gt;&lt;img alt=&#34;Reinforcement Learning&#34; loading=&#34;lazy&#34; src=&#34;http://localhost:1313/assets/images/rl-project-image.png&#34;&gt;&lt;/p&gt;
+      <description>&lt;h2 id=&#34;gpt-2-transformer-implementation-and-mechanistic-interpretability-experimentation&#34;&gt;GPT-2 Transformer Implementation and Mechanistic Interpretability Experimentation&lt;/h2&gt;
+&lt;p&gt;&lt;img alt=&#34;GPT-2 Transformer&#34; loading=&#34;lazy&#34; src=&#34;http://localhost:1313/assets/images/gpt2-transformer-image.png&#34;&gt;&lt;/p&gt;
 &lt;details&gt;
 &lt;summary&gt;Image Prompt&lt;/summary&gt;
-&lt;i&gt;An anime-style scene depicting a group of cute robot characters in a world made of classic Atari game elements. In the foreground, an excited robot with glowing eyes and animated facial expressions has just successfully navigated through a Pac-Man-style maze filled with colorful dots and ghosts. The robot stands triumphantly at the maze exit, surrounded by sparkling reward particles and a floating &#39;10000 POINTS&#39; text in retro pixelated font. Behind it, the conquered maze shows its successful path highlighted in glowing light. From the successful robot&#39;s core, streams of colorful data and code are flowing back to three other robot characters waiting at different Atari-inspired challenges: one facing a wall of Space Invaders aliens, another preparing to bounce a Breakout ball with a paddle, and a third positioned before a Pong game setup. Each watching robot has holographic displays showing the successful algorithm and strategy being shared. All robots have distinct anime designs with expressive digital eyes, sleek bodies with retro gaming color schemes (reds, blues, yellows), and cute proportions. The background features a pixelated landscape with more Atari game elements including Adventure dragons and Asteroids space rocks. The scene is rendered in vibrant anime style with clean lines, digital effects, and the characteristic glow of arcade screens illuminating the robots&#39; metallic surfaces.&lt;/i&gt; - Generated by Flux 1.1 Pro
+&lt;i&gt;An anime-style visualization of a transformer architecture laboratory. In the foreground, a character with digital glasses is analyzing a glowing, multi-layered neural network structure. The central feature is an exploded view of a transformer block with attention heads visualized as colorful beams connecting token representations. Each attention head is depicted as a unique anime-style entity with its own personality, examining different aspects of the input text. The scene shows multiple screens displaying attention patterns, with one large display showing how different heads attend to different parts of a sentence. Another screen visualizes the internal representations of words transforming as they pass through each layer. The laboratory features circuit diagrams floating in holographic displays, showing the flow of information through the model with particular emphasis on induction heads and trigram detection circuits. In the background, several smaller anime characters represent different components of the architecture: embedding lookup tables, feed-forward networks, and layer normalization. The entire scene is bathed in a blue-green digital glow, with streams of token embeddings flowing between components. Mathematical equations for attention mechanisms and layer transformations are elegantly integrated into the scene&#39;s design elements. The visualization combines technical accuracy with an artistic anime aesthetic, making the complex architecture both beautiful and comprehensible.&lt;/i&gt;
 &lt;br&gt;&lt;br&gt;
 &lt;/details&gt;
-&lt;p&gt;A comprehensive collection of reinforcement learning algorithms from classical methods to modern deep RL approaches. This project includes implementations of multi-armed bandits, SARSA, Q-Learning, DQN, PPO, and RLHF with thorough documentation and experimental results. Built with Python, PyTorch, Gymnasium (OpenAI Gym), and WandB, showcasing expertise in algorithm implementation and data visualization.&lt;/p&gt;</description>
+&lt;p&gt;A comprehensive implementation and exploration of transformer-based language models, focusing on GPT-2 architecture and mechanistic interpretability. This project features three main components: a clean, educational GPT-2 implementation from scratch with detailed documentation of tokenization, attention mechanisms, and transformer building blocks; advanced mechanistic interpretability tools for analyzing model internals including attention patterns, feature representations, and circuit behavior; and a production-ready lightweight implementation with efficient training pipelines. The codebase demonstrates expertise in PyTorch, transformer architecture design, natural language processing techniques, and cutting-edge interpretability methods for understanding how language models work internally.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

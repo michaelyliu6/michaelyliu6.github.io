@@ -6,6 +6,25 @@ TocOpen = true
 hideCitation = true
 +++
 
+## GPT-2 Transformer Implementation and Mechanistic Interpretability Experimentation
+![GPT-2 Transformer](/assets/images/gpt2-transformer-image.png)
+<details>
+<summary>Image Prompt</summary>
+<i>An anime-style visualization of a transformer architecture laboratory. In the foreground, a character with digital glasses is analyzing a glowing, multi-layered neural network structure. The central feature is an exploded view of a transformer block with attention heads visualized as colorful beams connecting token representations. Each attention head is depicted as a unique anime-style entity with its own personality, examining different aspects of the input text. The scene shows multiple screens displaying attention patterns, with one large display showing how different heads attend to different parts of a sentence. Another screen visualizes the internal representations of words transforming as they pass through each layer. The laboratory features circuit diagrams floating in holographic displays, showing the flow of information through the model with particular emphasis on induction heads and trigram detection circuits. In the background, several smaller anime characters represent different components of the architecture: embedding lookup tables, feed-forward networks, and layer normalization. The entire scene is bathed in a blue-green digital glow, with streams of token embeddings flowing between components. Mathematical equations for attention mechanisms and layer transformations are elegantly integrated into the scene's design elements. The visualization combines technical accuracy with an artistic anime aesthetic, making the complex architecture both beautiful and comprehensible.</i>
+<br><br>
+
+</details>
+
+A comprehensive implementation and exploration of transformer-based language models, focusing on GPT-2 architecture and mechanistic interpretability. This project features three main components: a clean, educational GPT-2 implementation from scratch with detailed documentation of tokenization, attention mechanisms, and transformer building blocks; advanced mechanistic interpretability tools for analyzing model internals including attention patterns, feature representations, and circuit behavior; and a production-ready lightweight implementation with efficient training pipelines. The codebase demonstrates expertise in PyTorch, transformer architecture design, natural language processing techniques, and cutting-edge interpretability methods for understanding how language models work internally.
+
+[View Project on GitHub](https://github.com/michaelyliu6/gpt2-transformer)
+
+References:
+- Attention Is All You Need - https://arxiv.org/abs/1706.03762
+- Language Models are Few-Shot Learners (GPT-3) - https://arxiv.org/abs/2005.14165
+- A Mathematical Framework for Transformer Circuits - https://transformer-circuits.pub/2021/framework/index.html
+- Interpreting GPT: the logit lens - https://www.alignmentforum.org/posts/AcKRB8wDpdaN6v6ru/interpreting-gpt-the-logit-lens
+
 ## Reinforcement Learning Implementations
 ![Reinforcement Learning](/assets/images/rl-project-image.png)
 <details>
@@ -26,12 +45,13 @@ References:
 - Q-Learning - https://link.springer.com/content/pdf/10.1007/BF00992698.pdf
 
 
+---
 
-## LLM Evaluation Framework
+## LLM Evaluation and Agent Framework
 ![LLM Evaluation](/assets/images/llm-eval-image.png)
 <details>
 <summary>Image Prompt</summary>
-<i>An anime-style scene showcasing a recursive AI evaluation laboratory. In the foreground, a scientist character with glasses and a digital tablet is orchestrating a multi-layered evaluation system. The central feature is a striking "evaluation inception" visualization - a series of nested, glowing rings representing LLMs evaluating other LLMs. Each ring contains AI entities analyzing the output of inner-ring AIs, with data flowing between layers. One AI character is generating test cases, passing them to a second AI that's producing responses, while a third AI is scoring those responses with complex metrics floating around it. A fourth AI is analyzing those scores and refining the evaluation criteria, creating a perfect loop. Holographic displays show this recursive process with labels like "Meta-Evaluation Layer 3" and "Alignment Verification Loop." In the background, several agent robots navigate a Wikipedia-themed maze, but now they're being observed by evaluator robots taking notes on clipboards. The laboratory features fractal-like screens showing the same evaluation patterns repeating at different scales. Digital metrics flow between systems in colorful streams, with some screens showing "Evaluator Bias Analysis" and "Meta-Alignment Testing." The entire scene has a recursive aesthetic with evaluation processes visibly nested within each other, all rendered in vibrant anime style with expressive AI characters showing varying degrees of concentration as they evaluate their peers.</i>
+<i>An anime-style scene showcasing a recursive AI evaluation laboratory. In the foreground, a scientist character with glasses and a digital tablet is orchestrating a multi-layered evaluation system. The central feature is a striking "evaluation inception" visualization - a series of nested, glowing rings representing LLMs evaluating other LLMs. Each ring contains AI entities analyzing the output of inner-ring AIs, with data flowing between layers. One AI character is generating test cases, passing them to a second AI that's producing responses, while a third AI is scoring those responses with complex metrics floating around it. A fourth AI is analyzing those scores and refining the evaluation criteria, creating a perfect loop. Holographic displays show this recursive process with labels like "Meta-Evaluation Layer 3" and "Alignment Verification Loop." In the background, several agent robots navigate a Wikipedia-themed maze, but now they're being observed by evaluator robots taking notes on clipboards. The laboratory features fractal-like screens showing the same evaluation patterns repeating at different scales. Digital metrics flow between systems in colorful streams, with some screens showing "Evaluator Bias Analysis" and "Meta-Alignment Testing." The entire scene has a recursive aesthetic with evaluation processes visibly nested within each other, all rendered in vibrant anime style with expressive AI characters showing varying degrees of concentration as they evaluate their peers.</i> - Generated by Flux 1.1 Pro
 <br><br>
 
 </details>
@@ -39,4 +59,24 @@ References:
 A comprehensive framework for evaluating Large Language Models through multiple methodologies. This project implements alignment testing procedures (recreating the "Faking Alignment" research), sophisticated dataset generation capabilities, and agent-based evaluation techniques including Wikipedia navigation challenges. Built with Python, integrates with major LLM APIs (OpenAI, Anthropic), and leverages type-safe structures with Pydantic, demonstrating expertise in AI safety research and evaluation methodologies.
 
 [View Project on GitHub](https://github.com/michaelyliu6/llm-evals)
+
+---
+
+## Diffusion and Multimodal Models Implementation
+![Diffusion Models](/assets/images/diffusion-image.png)
+<details>
+<summary>Image Prompt</summary>
+<i>An anime-style tech laboratory scene visualizing diffusion image generation. A central anime character with digital glasses operates a futuristic console labeled 'DIFFUSION MODEL' with multiple screens showing the same image at different denoising steps. The main display shows a 3D visualization of probability space, where noise visibly transforms into multiple diverse anime images: a vibrant cityscape, a magical girl character, and a futuristic mecha. Each generation step is marked with glowing nodes on an upward path, with t=1000 at the bottom (pure noise) and t=0 at the peak (clear images). The noise-to-image transition is clearly shown as particles coalescing into recognizable forms as they ascend the probability gradient.Floating holographic displays around the console show close-ups of the denoising process: one display shows sequential image frames evolving from static to clarity, another shows a visual representation of noise prediction at each step. A third display shows a heat map of where the model is focusing its attention during the current denoising step.The character manipulates particle streams flowing between time steps, with each stream containing tiny image fragments that become progressively more defined as they approach t=0. The lighting transitions from chaotic blue-purple for the noisy regions to structured golden light for the final image.The laboratory walls display animated equations and diagrams specifically showing the forward and reverse diffusion processes, with arrows indicating the direction of optimization. Above it all, a banner reads 'Denoising Diffusion Probabilistic Model' in stylized anime text.The scene includes multiple small denoising stages visible as floating platforms, each showing the diverse anime images getting clearer as the algorithm climbs toward the optimal distribution at the summit. Small holographic labels identify key concepts in the diffusion process: 'noise prediction,' 'variance scheduling,' and 'sampling path optimization.'.</i> - Generated by Flux 1.1 Pro
+<br><br>
+
+</details>
+
+A comprehensive implementation of state-of-the-art diffusion models and multimodal architectures from scratch. This project features implementations of Denoising Diffusion Probabilistic Models (DDPM), Denoising Diffusion Implicit Models (DDIM), and CLIP (Contrastive Language-Image Pre-training). The codebase includes sophisticated U-Net architectures with attention mechanisms, classifier and CLIP guidance techniques for conditional generation, and various sampling methods. Built with PyTorch and integrated with Weights & Biases for experiment tracking, this project demonstrates expertise in generative AI, probabilistic modeling, and multimodal learning for applications including text-to-image generation, style transfer, and zero-shot classification.
+
+[View Project on GitHub](https://github.com/michaelyliu6/diffusion-models)
+
+References:
+- Denoising Diffusion Probabilistic Models - https://arxiv.org/abs/2006.11239
+- Denoising Diffusion Implicit Models - https://arxiv.org/abs/2010.02502
+- Learning Transferable Visual Models From Natural Language Supervision - https://arxiv.org/abs/2103.00020
 

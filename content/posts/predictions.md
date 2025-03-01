@@ -6,8 +6,6 @@ showToc = true
 TocOpen = true
 +++
 
-**Certainty: 8/10** 
-**Importance: 9/10**
 
 The AI landscape has undergone rapid shifts in recent years. While 2023-2024 saw the commoditization of pre-training and supervised fine-tuning, 2025 will mark the emergence of "real" Reinforcement Learning (RL) as the primary technical moat in AI development. Unlike pre-training, which focuses on learning statistical correlations from massive datasets, RL allows models to actively explore solution spaces and discover novel strategies that generalize beyond static training data.
 
