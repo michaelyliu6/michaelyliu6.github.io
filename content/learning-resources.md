@@ -53,12 +53,16 @@ hideCitation: true
   - The Ultra-Scale Playbook: Training LLMs on GPU Clusters - https://huggingface.co/spaces/nanotron/ultrascale-playbook
 
 ## Github Repos
+- System Prompts
+  - Leaked System Prompts - https://github.com/jujumilk3/leaked-system-prompts
 - LLM Inference
   - SGLang - https://github.com/sgl-project/sglang
   - vLLM - https://github.com/vllm-project/vllm
   - TensorRT - https://github.com/NVIDIA/TensorRT
-- System Prompts
-  - Leaked System Prompts - https://github.com/jujumilk3/leaked-system-prompts
+- Reinforcement Learning
+  - verl - https://github.com/volcengine/verl
+  - trl - https://github.com/huggingface/trl
+  - Search-R1 - https://github.com/PeterGriffinJin/Search-R1
 - Agents
   - smolagents - https://github.com/huggingface/smolagents
   - OpenHands (formerly OpenDevin) - https://github.com/All-Hands-AI/OpenHands 

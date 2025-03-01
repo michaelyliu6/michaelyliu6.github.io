@@ -215,6 +215,11 @@
 &lt;/ul&gt;
 &lt;h2 id=&#34;github-repos&#34;&gt;Github Repos&lt;/h2&gt;
 &lt;ul&gt;
+&lt;li&gt;System Prompts
+&lt;ul&gt;
+&lt;li&gt;Leaked System Prompts - &lt;a href=&#34;https://github.com/jujumilk3/leaked-system-prompts&#34;&gt;https://github.com/jujumilk3/leaked-system-prompts&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;li&gt;LLM Inference
 &lt;ul&gt;
 &lt;li&gt;SGLang - &lt;a href=&#34;https://github.com/sgl-project/sglang&#34;&gt;https://github.com/sgl-project/sglang&lt;/a&gt;&lt;/li&gt;
@@ -222,9 +227,11 @@
 &lt;li&gt;TensorRT - &lt;a href=&#34;https://github.com/NVIDIA/TensorRT&#34;&gt;https://github.com/NVIDIA/TensorRT&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;System Prompts
+&lt;li&gt;Reinforcement Learning
 &lt;ul&gt;
-&lt;li&gt;Leaked System Prompts - &lt;a href=&#34;https://github.com/jujumilk3/leaked-system-prompts&#34;&gt;https://github.com/jujumilk3/leaked-system-prompts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;verl - &lt;a href=&#34;https://github.com/volcengine/verl&#34;&gt;https://github.com/volcengine/verl&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;trl - &lt;a href=&#34;https://github.com/huggingface/trl&#34;&gt;https://github.com/huggingface/trl&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Search-R1 - &lt;a href=&#34;https://github.com/PeterGriffinJin/Search-R1&#34;&gt;https://github.com/PeterGriffinJin/Search-R1&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;Agents

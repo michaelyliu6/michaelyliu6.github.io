@@ -40,10 +40,13 @@ A comprehensive collection of reinforcement learning algorithms from classical m
 
 References:
 - Reinforcement Learning by Richard S. Sutton and Andrew G. Barto - https://www.andrew.cmu.edu/course/10-703/textbook/BartoSutton.pdf
+- Q-Learning - https://link.springer.com/content/pdf/10.1007/BF00992698.pdf
 - Playing Atari with Deep Reinforcement Learning - https://arxiv.org/pdf/1312.5602
 - An introduction to Policy Gradient methods - Deep Reinforcement Learning - https://www.youtube.com/watch?v=5P7I-xPq8u8
-- Q-Learning - https://link.springer.com/content/pdf/10.1007/BF00992698.pdf
-
+- Proximal Policy Optimization Algorithms - https://arxiv.org/pdf/1707.06347
+- The 37 Implementation Details of Proximal Policy Optimization - https://iclr-blog-track.github.io/2022/03/25/ppo-implementation-details/
+- Illustrating Reinforcement Learning from Human Feedback (RLHF) - https://huggingface.co/blog/rlhf
+- Training language models to follow instructions with human feedback - https://arxiv.org/pdf/2203.02155
 
 ---
 
@@ -56,9 +59,23 @@ References:
 
 </details>
 
-A comprehensive framework for evaluating Large Language Models through multiple methodologies. This project implements alignment testing procedures (recreating the "Faking Alignment" research), sophisticated dataset generation capabilities, and agent-based evaluation techniques including Wikipedia navigation challenges. Built with Python, integrates with major LLM APIs (OpenAI, Anthropic), and leverages type-safe structures with Pydantic, demonstrating expertise in AI safety research and evaluation methodologies.
+A comprehensive framework for evaluating Large Language Models through multiple methodologies. This project implements alignment testing procedures (recreating the "Faking Alignment" research), sophisticated dataset generation capabilities, and agent-based evaluation techniques including Wikipedia navigation challenges. Built with Python, integrates with major LLM APIs (OpenAI, Anthropic, Together), and leverages type-safe structures with Pydantic, demonstrating expertise in AI safety research and evaluation methodologies.
 
 [View Project on GitHub](https://github.com/michaelyliu6/llm-evals)
+
+References:
+- Alignment faking in large language models - https://arxiv.org/pdf/2412.14093
+- Discovering Language Model Behaviors with Model-Written Evaluations - https://arxiv.org/pdf/2212.09251
+- A starter guide for evals - https://www.alignmentforum.org/posts/2PiawPFJeyCQGcwXG/a-starter-guide-for-evals
+- LLM Powered Autonomous Agents - https://lilianweng.github.io/posts/2023-06-23-agent/
+- Evaluating Language-Model Agents on Realistic Autonomous Tasks - https://arxiv.org/pdf/2312.11671
+- Chain-of-Thought Prompting Elicits Reasoning in Large Language Models - https://arxiv.org/pdf/2201.11903
+- Large Language Models can Strategically Deceive their Users when Put Under Pressure - https://arxiv.org/pdf/2311.07590
+- Answering Questions by Meta-Reasoning over Multiple Chains of Thought - https://arxiv.org/pdf/2304.13007
+- Toolformer: Language Models Can Teach Themselves to Use Tools - https://arxiv.org/pdf/2302.04761
+- ReAct: Synergizing Reasoning and Acting in Language Models - https://arxiv.org/pdf/2210.03629
+- Reflexion: Language Agents with Verbal Reinforcement Learning - https://arxiv.org/pdf/2303.11366
+
 
 ---
 
