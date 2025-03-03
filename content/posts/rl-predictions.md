@@ -1,5 +1,5 @@
 +++
-title = '"Real" Reinforcement Learning will create the strongest technical moats'
+title = 'Why "real" Reinforcement Learning will create the strongest technical moats'
 date = 2025-02-16T07:07:07+01:00
 draft = false
 showToc = true

@@ -24,7 +24,7 @@ hideCitation: true
 - Neel Nanda - https://www.youtube.com/@neelnanda2469
 
 ## Courses 
-- AI Research Engineer Accelerator (ARENA) - https://github.com/callummcdougall/ARENA_3.0
+- Alignment Research Engineer Accelerator (ARENA) - https://github.com/callummcdougall/ARENA_3.0
 - Hugging Face - https://huggingface.co/courses
 - Advanced Large Language Model Agents: Berkley MOOC - https://llmagents-learning.org/sp25
 - Andrej Karpathy's Zero to Hero Series - https://karpathy.ai/zero-to-hero.html

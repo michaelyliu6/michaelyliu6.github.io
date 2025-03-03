@@ -13,7 +13,7 @@ I'm currently seeking roles in AI development.
 
 ## Professional Background
 
-I most recently served as a Software Development Engineer II at Amazon Web Services (AWS), where I was a key member of the Data transfer Metering team. Our system processed 140 PB of data and $11 million in revenue daily, serving as a critical component of AWS's infrastructure. During my tenure, I:
+I most recently served as a Software Development Engineer II at Amazon Web Services (AWS), where I was a key member of the Data Transfer Metering team. Our system processed 140 PB of data and $11 million in revenue daily, serving as a critical component of AWS's infrastructure. During my tenure, I:
 - Led cross-team initiatives for automating AWS region builds
 - Implemented storage optimizations resulting in ~600PB/month savings
 - Maintained 24/7 system reliability through on-call rotations and incident response
@@ -21,25 +21,14 @@ I most recently served as a Software Development Engineer II at Amazon Web Servi
 
 I hold a BS in Computer Science with a specialization in Machine Learning from the University of Maryland, College Park.
 
-<!-- ## Technical Interests -->
-
-<!-- My current focus areas include:
-
-- **AI Development**: Working on model capabilities, pre-training and post-training techniques, and AI applications
-- **AI Safety & Interpretability**: Exploring areas such as induction heads, superposition, sparse autoencoders, and understanding neural networks beyond the black box approach
-- **Software Engineering**: Building robust and scalable systems with a focus on reliability and performance -->
-
-## Current Learning Focus
+<!-- ## Current Learning Focus
 
 I'm currently deepening my expertise in:
 
 - **Transformer Architecture & Model Capabilities**: Studying pre-training and post-training techniques to enhance model performance and reliability
 - **Diffusion Models**: Implementing and experimenting with image generation architectures (e.g. DDPM/DDIM, )
 - **Reinforcement Learning**: Building and training agent systems with a focus on practical applications
-- **Model Interpretability**: Exploring techniques like sparse autoencoders, induction heads, and superposition to better understand model behavior
-
-## What I'm current working on
-- Advanced Large Language Model Agents MOOC - https://llmagents-learning.org/sp25
+- **Model Interpretability**: Exploring techniques like sparse autoencoders, induction heads, and superposition to better understand model behavior -->
 
 
 
