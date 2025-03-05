@@ -56,6 +56,7 @@ hideCitation: true
 - System Prompts
   - Leaked System Prompts - https://github.com/jujumilk3/leaked-system-prompts
 - LLM Inference
+  - EAGLE - https://github.com/SafeAILab/EAGLE
   - SGLang - https://github.com/sgl-project/sglang
   - vLLM - https://github.com/vllm-project/vllm
   - TensorRT - https://github.com/NVIDIA/TensorRT

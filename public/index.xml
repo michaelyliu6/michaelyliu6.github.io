@@ -129,6 +129,7 @@
 &lt;/li&gt;
 &lt;li&gt;LLM Inference
 &lt;ul&gt;
+&lt;li&gt;EAGLE - &lt;a href=&#34;https://github.com/SafeAILab/EAGLE&#34;&gt;https://github.com/SafeAILab/EAGLE&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;SGLang - &lt;a href=&#34;https://github.com/sgl-project/sglang&#34;&gt;https://github.com/sgl-project/sglang&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;vLLM - &lt;a href=&#34;https://github.com/vllm-project/vllm&#34;&gt;https://github.com/vllm-project/vllm&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;TensorRT - &lt;a href=&#34;https://github.com/NVIDIA/TensorRT&#34;&gt;https://github.com/NVIDIA/TensorRT&lt;/a&gt;&lt;/li&gt;

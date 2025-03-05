@@ -28,6 +28,7 @@ The codebase demonstrates expertise in PyTorch, transformer architecture design,
 
 <details>
 <summary>References</summary>
+- ARENA Chapter 1: Transformer Interpretability - <a href="https://arena-chapter1-transformer-interp.streamlit.app/">https://arena-chapter1-transformer-interp.streamlit.app/</a><br>
 - Attention Is All You Need - <a href="https://arxiv.org/pdf/1706.03762">https://arxiv.org/pdf/1706.03762</a><br>
 - Language Models are Unsupervised Multitask Learners (GPT-2) - <a href="https://arxiv.org/pdf/2005.14165">https://arxiv.org/pdf/2005.14165</a><br>
 - Language Models are Few-Shot Learners (GPT-3) - <a href="https://arxiv.org/pdf/2005.14165">https://arxiv.org/pdf/2005.14165</a><br>
@@ -44,7 +45,13 @@ The codebase demonstrates expertise in PyTorch, transformer architecture design,
 ![Reinforcement Learning](/assets/images/rl-project-image.png)
 
 
-A comprehensive collection of reinforcement learning algorithms from classical methods to modern deep RL approaches. This project includes implementations of multi-armed bandits, SARSA, Q-Learning, DQN, PPO, and RLHF with thorough documentation and experimental results. Built with Python, PyTorch, Gymnasium (OpenAI Gym), and WandB, showcasing expertise in algorithm implementation and data visualization.
+This project implements a range of RL techniques, culminating in Reinforcement Learning from Human Feedback (RLHF) for transformer language models. It demonstrates a progression from basic RL (multi-armed bandits, Q-learning) to advanced methods (DQN, PPO, and RLHF). This project features four main components:
+
+1. Covers core RL concepts and implements classic bandit algorithms (Epsilon-Greedy, UCB, etc.) using `gymnasium`.
+2. Introduces model-free RL with Q-Learning, SARSA, and Deep Q-Networks (DQN), including a replay buffer. Uses CartPole and probe environments.
+3. Implements Proximal Policy Optimization (PPO), a policy-gradient algorithm, with an actor-critic architecture, GAE, and a clipped surrogate objective.  Applies to CartPole (and Atari work in progress).
+4. Applies RL to train transformer language models using human feedback (simulated).  Includes a value head, reward function, KL divergence penalty, and a complete RLHF training loop using `transformer_lens`.
+   
 
 [View Project on GitHub](https://github.com/michaelyliu6/reinforcement-learning)
 
@@ -57,6 +64,7 @@ A comprehensive collection of reinforcement learning algorithms from classical m
 
 <details>
 <summary>References</summary>
+- ARENA Chapter 2: Reinforcement Learning - <a href="https://arena-chapter2-rl.streamlit.app/">https://arena-chapter2-rl.streamlit.app/</a><br>
 - Reinforcement Learning by Richard S. Sutton and Andrew G. Barto - <a href="https://www.andrew.cmu.edu/course/10-703/textbook/BartoSutton.pdf">https://www.andrew.cmu.edu/course/10-703/textbook/BartoSutton.pdf</a><br>
 - Q-Learning - <a href="https://link.springer.com/content/pdf/10.1007/BF00992698.pdf">https://link.springer.com/content/pdf/10.1007/BF00992698.pdf</a><br>
 - Playing Atari with Deep Reinforcement Learning - <a href="https://arxiv.org/pdf/1312.5602">https://arxiv.org/pdf/1312.5602</a><br>
@@ -73,8 +81,13 @@ A comprehensive collection of reinforcement learning algorithms from classical m
 ## LLM Evaluation and Agent Framework
 ![LLM Evaluation](/assets/images/llm-eval-image.png)
 
+This project investigates the emergent behaviors of Large Language Models (LLMs) through a rigorous evaluation framework, emphasizing AI safety and alignment. The work encompasses the development and assessment of LLM-based agents, the automated generation of adversarial test cases, and the application of the `inspect` library for structured evaluation. Key areas of investigation include:
 
-A comprehensive framework for evaluating Large Language Models through multiple methodologies. This project implements alignment testing procedures (recreating the "Faking Alignment" research), sophisticated dataset generation capabilities, and agent-based evaluation techniques including Wikipedia navigation challenges. Built with Python, integrates with major LLM APIs (OpenAI, Anthropic, Together), and leverages type-safe structures with Pydantic, demonstrating expertise in AI safety research and evaluation methodologies.
+*   **Agent-Based Evaluation:** Construction of autonomous agents leveraging LLM APIs, including the implementation of function calling for tool interaction. A "WikiGame" agent is developed to exemplify complex agent architectures and analyze failure modes.
+*   **Alignment Falsification:** Replication of findings from *Alignment Faking in Large Language Models*, demonstrating the potential for deceptive behavior in LLMs under varying deployment contexts. This highlights critical vulnerabilities in current LLM deployment strategies.
+*   **Dataset Generation via Meta-Evaluation:** Automated generation of multiple-choice question datasets using LLMs, employing techniques such as few-shot prompting and iterative refinement. Concurrency is leveraged via `ThreadPoolExecutor` for efficient dataset creation.
+*   **Structured Evaluation with `inspect`:** Utilization of the `inspect` library to conduct systematic evaluations. This includes defining custom `solvers` to manipulate model inputs, `scorers` to quantify model outputs, and `tasks` to orchestrate the evaluation pipeline.
+
 
 [View Project on GitHub](https://github.com/michaelyliu6/llm-evals)
 
@@ -87,6 +100,7 @@ A comprehensive framework for evaluating Large Language Models through multiple 
 
 <details>
 <summary>References</summary>
+- ARENA Chapter 3: LLM Evaluations - <a href="https://arena-chapter3-llm-evals.streamlit.app/">https://arena-chapter3-llm-evals.streamlit.app/</a><br>
 - Alignment faking in large language models - <a href="https://arxiv.org/pdf/2412.14093">https://arxiv.org/pdf/2412.14093</a><br>
 - Discovering Language Model Behaviors with Model-Written Evaluations - <a href="https://arxiv.org/pdf/2212.09251">https://arxiv.org/pdf/2212.09251</a><br>
 - A starter guide for evals - <a href="https://www.alignmentforum.org/posts/2PiawPFJeyCQGcwXG/a-starter-guide-for-evals">https://www.alignmentforum.org/posts/2PiawPFJeyCQGcwXG/a-starter-guide-for-evals</a><br>
@@ -107,19 +121,19 @@ A comprehensive framework for evaluating Large Language Models through multiple 
 ![Diffusion Models](/assets/images/diffusion-image.png)
 
 
-A comprehensive implementation of state-of-the-art diffusion models and multimodal architectures from scratch. This project features implementations of Denoising Diffusion Probabilistic Models (DDPM), Denoising Diffusion Implicit Models (DDIM), and CLIP (Contrastive Language-Image Pre-training). The codebase includes sophisticated U-Net architectures with attention mechanisms, classifier and CLIP guidance techniques for conditional generation, and various sampling methods. Built with PyTorch and integrated with Weights & Biases for experiment tracking, this project demonstrates expertise in generative AI, probabilistic modeling, and multimodal learning for applications including text-to-image generation, style transfer, and zero-shot classification.
-
+A comprehensive implementation of a 2 MLP layer + U-Net diffusion models and multimodal architectures from scratch. This project features implementations of Denoising Diffusion Probabilistic Models (DDPM), Denoising Diffusion Implicit Models (DDIM), and CLIP (Contrastive Language-Image Pre-training). The codebase includes sophisticated U-Net architectures with attention mechanisms, classifier and CLIP guidance techniques for conditional generation, and various sampling methods. Built with PyTorch and integrated with Weights & Biases for experiment tracking.
 [View Project on GitHub](https://github.com/michaelyliu6/diffusion-models)
 
 <details>
 <summary>Image Prompt</summary>
-<i>An anime-style tech laboratory scene visualizing diffusion image generation. A central anime character with digital glasses operates a futuristic console labeled 'DIFFUSION MODEL' with multiple screens showing the same image at different denoising steps. The main display shows a 3D visualization of probability space, where noise visibly transforms into multiple diverse anime images: a vibrant cityscape, a magical girl character, and a futuristic mecha. Each generation step is marked with glowing nodes on an upward path, with t=1000 at the bottom (pure noise) and t=0 at the peak (clear images). The noise-to-image transition is clearly shown as particles coalescing into recognizable forms as they ascend the probability gradient. Floating holographic displays around the console show close-ups of the denoising process: one display shows sequential image frames evolving from static to clarity, another shows a visual representation of noise prediction at each step. A third display shows a heat map of where the model is focusing its attention during the current denoising step. The character manipulates particle streams flowing between time steps, with each stream containing tiny image fragments that become progressively more defined as they approach t=0. The lighting transitions from chaotic blue-purple for the noisy regions to structured golden light for the final image. The laboratory walls display animated equations and diagrams specifically showing the forward and reverse diffusion processes, with arrows indicating the direction of optimization. Above it all, a banner reads 'Denoising Diffusion Probabilistic Model' in stylized anime text. The scene includes multiple small denoising stages visible as floating platforms, each showing the diverse anime images getting clearer as the algorithm climbs toward the optimal distribution at the summit. Small holographic labels identify key concepts in the diffusion process: 'noise prediction,' 'variance scheduling,' and 'sampling path optimization.'.</i> - Generated by Flux 1.1 Pro
+<i>An anime-style tech laboratory scene visualizing diffusion image generation. A central anime character with digital glasses operates a futuristic console labeled 'DIFFUSION MODEL' with multiple screens showing the same image at different denoising steps. The main display shows a 3D visualization of probability space with , where noise visibly transforms into multiple diverse anime images: HD of a cat, a cartoon of a friendly robot, and high definition landscape. Each generation step is marked with glowing nodes on an upward path, with t=1000 at the bottom (pure noise) and t=0 at the peak (clear images). The noise-to-image transition is clearly shown as particles coalescing into recognizable forms as they ascend the probability gradient. Floating holographic displays around the console show close-ups of the denoising process: one display shows sequential image frames evolving from static to clarity, another shows a visual representation of noise prediction at each step. A third display shows a heat map of where the model is focusing its attention during the current denoising step. The character manipulates particle streams flowing between time steps, with each stream containing tiny image fragments that become progressively more defined as they approach t=0. The lighting transitions from chaotic blue-purple for the noisy regions to structured golden light for the final image. The laboratory walls display animated equations and diagrams specifically showing the forward and reverse diffusion processes, with arrows indicating the direction of optimization. Above it all, a banner reads 'Denoising Diffusion Probabilistic Model' in stylized anime text. The scene includes multiple small denoising stages visible as floating platforms, each showing the diverse anime images getting clearer as the algorithm climbs toward the optimal distribution at the summit. Small holographic labels identify key concepts in the diffusion process: 'noise prediction,' 'variance scheduling,' and 'sampling path optimization.'</i> - Generated by Flux 1.1 Pro
 <br><br>
 
 </details>
 
 <details>
 <summary>References</summary>
+- ML for Alignment Bootcamp (MLAB) - <a href="https://github.com/Kiv/mlab2">https://github.com/Kiv/mlab2</a><br>
 - Denoising Diffusion Probabilistic Models - <a href="https://arxiv.org/pdf/2006.11239">https://arxiv.org/pdf/2006.11239</a><br>
 - Denoising Diffusion Implicit Models - <a href="https://arxiv.org/pdf/2010.02502">https://arxiv.org/pdf/2010.02502</a><br>
 - Learning Transferable Visual Models From Natural Language Supervision - <a href="https://arxiv.org/pdf/2103.00020">https://arxiv.org/pdf/2103.00020</a>
