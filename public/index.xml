@@ -31,7 +31,7 @@
     <item>
       <title>Toy Diffusion Model</title>
       <link>http://localhost:1313/posts/toy_diffusion_model/</link>
-      <pubDate>Fri, 20 Dec 2024 07:07:07 +0100</pubDate>
+      <pubDate>Fri, 10 Jan 2025 07:07:07 +0100</pubDate>
       <guid>http://localhost:1313/posts/toy_diffusion_model/</guid>
       <description>&lt;h2 id=&#34;what-even-is-diffusion&#34;&gt;What even is Diffusion?&lt;/h2&gt;
 &lt;p&gt;Diffusion models approach generative modeling by mapping out probability distributions in high-dimensional spaces. Consider our dataset as a tiny sample from an enormous space of possible images. Our goal is to estimate which regions of this vast space have high probability according to our target distribution.&lt;/p&gt;

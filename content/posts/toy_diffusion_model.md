@@ -1,6 +1,6 @@
 +++
 title = 'Toy Diffusion Model'
-date = 2024-12-20T07:07:07+01:00
+date = 2025-01-10T07:07:07+01:00
 draft = false
 +++
 
@@ -384,7 +384,7 @@ plot_images(t.stack([img[0], denorm[0]]), ["Original Gradient", "Reconstruction"
 
 ## Toy Diffusion Model Definition
 
-For our model architecture, we will be using a simple two-layer MLP.
+For our model architecture, we will be using a simple two-layer MLP. The original paper uses a U-Net architecture to represent complex and diverse image data structures, but since our dataset has a very simple structure, we can get away with this simple architecture.
 
 The algorithm for the forward pass is:
 1. Scale down the the number of steps to between [0, 1]
