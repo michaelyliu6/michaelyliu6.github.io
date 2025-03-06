@@ -303,9 +303,9 @@
 &lt;ul&gt;
 &lt;li&gt;a clean, educational GPT-2 implementation from scratch with detailed documentation and intuition&lt;/li&gt;
 &lt;li&gt;a production-ready lightweight implementation with efficient training pipelines&lt;/li&gt;
-&lt;li&gt;advanced mechanistic interpretability tools for analyzing model internals including attention patterns, feature representations, and circuit behavior&lt;/li&gt;
+&lt;li&gt;advanced mechanistic interpretability tools for analyzing model internals including attention patterns, induction heads, feature representations, and circuit behavior&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;The codebase demonstrates expertise in PyTorch, transformer architecture design, natural language processing techniques, and cutting-edge interpretability methods for understanding language model internals.&lt;/p&gt;</description>
+&lt;p&gt;Built with PyTorch, TransformerLens, and integrated with Weights &amp;amp; Biases for experiment tracking.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

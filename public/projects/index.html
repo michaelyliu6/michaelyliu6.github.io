@@ -13,9 +13,9 @@ A comprehensive implementation and exploration of transformer-based language mod
 
 a clean, educational GPT-2 implementation from scratch with detailed documentation and intuition
 a production-ready lightweight implementation with efficient training pipelines
-advanced mechanistic interpretability tools for analyzing model internals including attention patterns, feature representations, and circuit behavior
+advanced mechanistic interpretability tools for analyzing model internals including attention patterns, induction heads, feature representations, and circuit behavior
 
-The codebase demonstrates expertise in PyTorch, transformer architecture design, natural language processing techniques, and cutting-edge interpretability methods for understanding language model internals.">
+Built with PyTorch, TransformerLens, and integrated with Weights &amp; Biases for experiment tracking.">
 <meta name="author" content="Michael Liu">
 <link rel="canonical" href="http://localhost:55382/projects/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.ae03dc1363b0d274c8a5b8f4ef4b43ec376146d505cc14962ea16577e875c413.css" integrity="sha256-rgPcE2Ow0nTIpbj070tD7DdhRtUFzBSWLqFld&#43;h1xBM=" rel="preload stylesheet" as="style">
@@ -276,9 +276,9 @@ window.MathJax = {
 <ul>
 <li>a clean, educational GPT-2 implementation from scratch with detailed documentation and intuition</li>
 <li>a production-ready lightweight implementation with efficient training pipelines</li>
-<li>advanced mechanistic interpretability tools for analyzing model internals including attention patterns, feature representations, and circuit behavior</li>
+<li>advanced mechanistic interpretability tools for analyzing model internals including attention patterns, induction heads, feature representations, and circuit behavior</li>
 </ul>
-<p>The codebase demonstrates expertise in PyTorch, transformer architecture design, natural language processing techniques, and cutting-edge interpretability methods for understanding language model internals.</p>
+<p>Built with PyTorch, TransformerLens, and integrated with Weights &amp; Biases for experiment tracking.</p>
 <p><a href="https://github.com/michaelyliu6/gpt2-transformer">View Project on GitHub</a></p>
 <details>
 <summary>Image Prompt</summary>
@@ -301,12 +301,13 @@ window.MathJax = {
 <h2 id="reinforcement-learning-implementations">Reinforcement Learning Implementations<a hidden class="anchor" aria-hidden="true" href="#reinforcement-learning-implementations">#</a></h2>
 <p><img alt="Reinforcement Learning" loading="lazy" src="/assets/images/rl-project-image.png"></p>
 <p>This project implements a range of RL techniques, culminating in Reinforcement Learning from Human Feedback (RLHF) for transformer language models. It demonstrates a progression from basic RL (multi-armed bandits, Q-learning) to advanced methods (DQN, PPO, and RLHF). This project features four main components:</p>
-<ol>
-<li>Covers core RL concepts and implements classic bandit algorithms (Epsilon-Greedy, UCB, etc.) using <code>gymnasium</code>.</li>
-<li>Introduces model-free RL with Q-Learning, SARSA, and Deep Q-Networks (DQN), including a replay buffer. Uses CartPole and probe environments.</li>
-<li>Implements Proximal Policy Optimization (PPO), a policy-gradient algorithm, with an actor-critic architecture, GAE, and a clipped surrogate objective.  Applies to CartPole (and Atari work in progress).</li>
-<li>Applies RL to train transformer language models using human feedback (simulated).  Includes a value head, reward function, KL divergence penalty, and a complete RLHF training loop using <code>transformer_lens</code>.</li>
-</ol>
+<ul>
+<li>Core RL concepts by implementing classic bandit algorithms (Epsilon-Greedy, UCB, etc.) using <code>gymnasium</code>.</li>
+<li>Model-free RL with Q-Learning, SARSA, and Deep Q-Networks (DQN), including a replay buffer. Uses CartPole and probe environments.</li>
+<li>Policy-gradient algorithm, actor-critic architecture, GAE, and a clipped surrogate objective.  Applies to CartPole (and Atari work in progress).</li>
+<li>Applying RL to train transformer language models using human feedback (simulated).  Includes a value head, reward function, KL divergence penalty, and a complete RLHF training loop using <code>transformer_lens</code>.</li>
+</ul>
+<p>Built with PyTorch, OpenAI Gym, and integrated with Weights &amp; Biases for experiment tracking.</p>
 <p><a href="https://github.com/michaelyliu6/reinforcement-learning">View Project on GitHub</a></p>
 <details>
 <summary>Image Prompt</summary>
@@ -331,9 +332,9 @@ window.MathJax = {
 <p><img alt="LLM Evaluation" loading="lazy" src="/assets/images/llm-eval-image.png"></p>
 <p>This project investigates the emergent behaviors of Large Language Models (LLMs) through a rigorous evaluation framework, emphasizing AI safety and alignment. The work encompasses the development and assessment of LLM-based agents, the automated generation of adversarial test cases, and the application of the <code>inspect</code> library for structured evaluation. Key areas of investigation include:</p>
 <ul>
-<li><strong>Agent-Based Evaluation:</strong> Construction of autonomous agents leveraging LLM APIs, including the implementation of function calling for tool interaction. A &ldquo;WikiGame&rdquo; agent is developed to exemplify complex agent architectures and analyze failure modes.</li>
+<li><strong>Agent-Based Evaluation:</strong> Construction of autonomous agents leveraging LLM APIs, including the implementation of function calling for tool interaction. A &ldquo;WikiGame&rdquo; agent is developed using elicitation methods such as ReAct, Reflexion, etc, and evaluated on failure modes.</li>
 <li><strong>Alignment Falsification:</strong> Replication of findings from <a href="https://arxiv.org/pdf/2412.14093">Alignment Faking in Large Language Models</a>, demonstrating the potential for deceptive behavior in LLMs under varying deployment contexts, highlighting critical vulnerabilities in LLM deployment strategies.</li>
-<li><strong>Dataset Generation via Meta-Evaluation:</strong> Automated generation of multiple-choice question datasets using LLMs, employing techniques such as few-shot prompting and iterative refinement. Concurrency is leveraged via <code>ThreadPoolExecutor</code> for efficient dataset creation.</li>
+<li><strong>Dataset Generation via Meta-Evaluation:</strong> Threat Model design and Automated generation of multiple-choice question datasets using LLMs, employing techniques such as few-shot prompting and iterative refinement. Concurrency is leveraged via <code>ThreadPoolExecutor</code> for efficient dataset creation.</li>
 <li><strong>Structured Evaluation with <code>inspect</code>:</strong> Utilization of the <code>inspect</code> library to conduct systematic evaluations. This includes defining custom <code>solvers</code> to manipulate model inputs, <code>scorers</code> to quantify model outputs, and <code>tasks</code> to orchestrate the evaluation pipeline.</li>
 </ul>
 <p><a href="https://github.com/michaelyliu6/llm-evals">View Project on GitHub</a></p>
@@ -360,7 +361,8 @@ window.MathJax = {
 <hr>
 <h2 id="diffusion-and-multimodal-models-implementation">Diffusion and Multimodal Models Implementation<a hidden class="anchor" aria-hidden="true" href="#diffusion-and-multimodal-models-implementation">#</a></h2>
 <p><img alt="Diffusion Models" loading="lazy" src="/assets/images/diffusion-image.png"></p>
-<p>A comprehensive implementation of a 2 MLP layer + U-Net diffusion models and multimodal architectures from scratch. This project features implementations of Denoising Diffusion Probabilistic Models (DDPM), Denoising Diffusion Implicit Models (DDIM), and CLIP (Contrastive Language-Image Pre-training). The codebase includes sophisticated U-Net architectures with attention mechanisms, classifier and CLIP guidance techniques for conditional generation, and various sampling methods. Built with PyTorch and integrated with Weights &amp; Biases for experiment tracking.
+<p>A comprehensive implementation of a 2 MLP layer + U-Net diffusion models and multimodal architectures from scratch. This project features implementations of Denoising Diffusion Probabilistic Models (DDPM), Denoising Diffusion Implicit Models (DDIM), and CLIP (Contrastive Language-Image Pre-training). The codebase includes sophisticated U-Net architectures with attention mechanisms, classifier and CLIP guidance techniques for conditional generation, and various sampling methods.</p>
+<p>Built with PyTorch and integrated with Weights &amp; Biases for experiment tracking.
 <a href="https://github.com/michaelyliu6/diffusion-models">View Project on GitHub</a></p>
 <details>
 <summary>Image Prompt</summary>
