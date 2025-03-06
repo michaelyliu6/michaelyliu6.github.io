@@ -15,7 +15,7 @@ A comprehensive implementation and exploration of transformer-based language mod
 - a production-ready lightweight implementation with efficient training pipelines
 - advanced mechanistic interpretability tools for analyzing model internals including attention patterns, induction heads, feature representations, and circuit behavior
 
-Built with PyTorch, TransformerLens, and integrated with Weights & Biases for experiment tracking.
+Built with PyTorch, [TransformerLens](https://github.com/TransformerLensOrg/TransformerLens), and integrated with Weights & Biases for experiment tracking.
 
 [View Project on GitHub](https://github.com/michaelyliu6/gpt2-transformer)
 
@@ -83,12 +83,13 @@ Built with PyTorch, OpenAI Gym, and integrated with Weights & Biases for experim
 ## LLM Evaluation and Agent Framework
 ![LLM Evaluation](/assets/images/llm-eval-image.png)
 
-This project investigates the emergent behaviors of Large Language Models (LLMs) through a rigorous evaluation framework, emphasizing AI safety and alignment. The work encompasses the development and assessment of LLM-based agents, the automated generation of adversarial test cases, and the application of the `inspect` library for structured evaluation. Key areas of investigation include:
+This project investigates the emergent behaviors of Large Language Models (LLMs) through a rigorous evaluation framework, emphasizing AI safety and alignment. The work encompasses the development and assessment of LLM-based agents, the automated generation of adversarial test cases, and the application of the [`inspect`](https://inspect.ai-safety-institute.org.uk/) library for structured evaluation. Key areas of investigation include:
 
-- **Agent-Based Evaluation:** Construction of autonomous agents leveraging LLM APIs, including the implementation of function calling for tool interaction. A "WikiGame" agent is developed using elicitation methods such as ReAct, Reflexion, etc, and evaluated on failure modes.
-- **Alignment Falsification:** Replication of findings from [Alignment Faking in Large Language Models](https://arxiv.org/pdf/2412.14093), demonstrating the potential for deceptive behavior in LLMs under varying deployment contexts, highlighting critical vulnerabilities in LLM deployment strategies.
-- **Dataset Generation via Meta-Evaluation:** Threat Model design and Automated generation of multiple-choice question datasets using LLMs, employing techniques such as few-shot prompting and iterative refinement. Concurrency is leveraged via `ThreadPoolExecutor` for efficient dataset creation.
+
+- **Alignment Faking:** Replication of findings from [Alignment Faking in Large Language Models](https://arxiv.org/pdf/2412.14093), demonstrating the potential for deceptive behavior in LLMs under varying deployment contexts, highlighting critical vulnerabilities in LLM deployment strategies.
+- **Dataset Generation via Meta-Evaluation:** Threat Model design and automated generation of multiple-choice question datasets using LLMs, employing techniques such as few-shot prompting and iterative refinement. Concurrency is leveraged via `ThreadPoolExecutor` for efficient dataset creation.
 - **Structured Evaluation with `inspect`:** Utilization of the `inspect` library to conduct systematic evaluations. This includes defining custom `solvers` to manipulate model inputs, `scorers` to quantify model outputs, and `tasks` to orchestrate the evaluation pipeline.
+- **Agent-Based Evaluation:** Construction of autonomous agents leveraging LLM APIs, including the implementation of function calling for tool interaction. A "WikiGame" agent is developed using elicitation methods such as ReAct, Reflexion, etc, and evaluated on failure modes.
 
 
 [View Project on GitHub](https://github.com/michaelyliu6/llm-evals)
@@ -126,6 +127,8 @@ This project investigates the emergent behaviors of Large Language Models (LLMs)
 A comprehensive implementation of a 2 MLP layer + U-Net diffusion models and multimodal architectures from scratch. This project features implementations of Denoising Diffusion Probabilistic Models (DDPM), Denoising Diffusion Implicit Models (DDIM), and CLIP (Contrastive Language-Image Pre-training). The codebase includes sophisticated U-Net architectures with attention mechanisms, classifier and CLIP guidance techniques for conditional generation, and various sampling methods. 
 
 Built with PyTorch and integrated with Weights & Biases for experiment tracking.
+
+
 [View Project on GitHub](https://github.com/michaelyliu6/diffusion-models)
 
 <details>

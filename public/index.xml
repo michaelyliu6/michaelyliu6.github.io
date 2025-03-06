@@ -305,7 +305,7 @@
 &lt;li&gt;a production-ready lightweight implementation with efficient training pipelines&lt;/li&gt;
 &lt;li&gt;advanced mechanistic interpretability tools for analyzing model internals including attention patterns, induction heads, feature representations, and circuit behavior&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Built with PyTorch, TransformerLens, and integrated with Weights &amp;amp; Biases for experiment tracking.&lt;/p&gt;</description>
+&lt;p&gt;Built with PyTorch, &lt;a href=&#34;https://github.com/TransformerLensOrg/TransformerLens&#34;&gt;TransformerLens&lt;/a&gt;, and integrated with Weights &amp;amp; Biases for experiment tracking.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
