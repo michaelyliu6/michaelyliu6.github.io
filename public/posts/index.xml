@@ -30,7 +30,7 @@
 &lt;li&gt;&lt;code&gt;navigator&lt;/code&gt;: Navigate the game.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;system-prompt&#34;&gt;System Prompt&lt;/h3&gt;
-&lt;p&gt;The system prompt remains the same throughout the game. It is mostly tips and tricks about how to use the tools and a few short reminders about things that Claude is (i.e. don&amp;rsquo;t trust your own knowledge, use the knowledge base, etc.)&lt;/p&gt;</description>
+&lt;p&gt;The system prompt remains the same throughout the game. To my knowledge, this was never shown on stream. However, Anthropic claims &amp;ldquo;is mostly tips and tricks about how to use the tools and a few short reminders about things that Claude is (i.e. don&amp;rsquo;t trust your own knowledge, use the knowledge base, etc.)&amp;rdquo;.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Why &#34;real&#34; Reinforcement Learning will create the strongest technical moats</title>
