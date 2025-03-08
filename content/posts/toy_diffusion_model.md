@@ -14,6 +14,18 @@ By controlling this forward process of adding noise, we create a path from high-
 This gives us a powerful way to generate new data. We start with random noise and repeatedly apply our learned denoising function, effectively "hill climbing" toward regions of higher probability in our distribution. At each step, the model pushes the sample toward becoming more like a realistic image from our dataset.
 Unlike traditional data augmentation where noised examples are treated as equally valid members of a class, diffusion models recognize that noised images are less likely members of the distribution, with their probability decreasing in proportion to the amount of noise added.
 
+### The Reparameterization Trick
+
+A key insight that makes diffusion models computationally efficient is the "reparameterization trick." Instead of having our model predict the clean image directly from a noisy one (which would be challenging), we train it to predict the noise that was added.
+
+This approach has several advantages:
+1. It's easier for the model to learn what noise looks like than to directly reconstruct a clean image from a heavily corrupted one
+2. It allows us to use a simple MSE loss between the predicted noise and the actual noise we added
+3. It makes the training process more stable since the target (the noise) has a consistent statistical distribution
+4. It solves the problem of calculating gradients through random noise - by separating the randomness (sampling noise) from the parameters we're optimizing, we can backpropagate through the model effectively
+
+The reparameterization trick is what allows us to write our forward process in closed form (as we'll see in Equation 4) and efficiently train our model without having to simulate the entire forward diffusion process at each training step.
+
 
 <img src="/assets/images/references/paper_background.png" alt="Paper Background">
 <figcaption><code>Section 2: Background</code> in <a href="https://arxiv.org/pdf/2006.11239#page=2">Denoising Diffusion Probabilistic Models</a></figcaption>
