@@ -21,16 +21,15 @@ I most recently served as a Software Development Engineer II at Amazon Web Servi
 
 I hold a BS in Computer Science with a specialization in Machine Learning from the University of Maryland, College Park.
 
-<!-- ## Current Learning Focus
+## Current Focus
 
-I'm currently deepening my expertise in:
+I'm working on:
+- New blog post on Claude playing Pokemon
 
-- **Transformer Architecture & Model Capabilities**: Studying pre-training and post-training techniques to enhance model performance and reliability
-- **Diffusion Models**: Implementing and experimenting with image generation architectures (e.g. DDPM/DDIM, )
-- **Reinforcement Learning**: Building and training agent systems with a focus on practical applications
-- **Model Interpretability**: Exploring techniques like sparse autoencoders, induction heads, and superposition to better understand model behavior -->
-
-
+I'm learning about:
+- Longtermism 
+- Technological Determinism
+- AI Safety
 
 
 ## Connect With Me
