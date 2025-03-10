@@ -23,13 +23,14 @@ I hold a BS in Computer Science with a specialization in Machine Learning from t
 
 ## Current Focus
 
-I'm working on:
-- New blog post on Claude playing Pokemon
+<!-- I'm working on:
+- New blog post on Claude playing Pokemon -->
 
 I'm learning about:
+- AI Safety, Alignment, and Capabilities
 - Longtermism 
 - Technological Determinism
-- AI Safety and alignment
+
 
 
 ## Connect With Me
