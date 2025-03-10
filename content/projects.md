@@ -17,7 +17,7 @@ A comprehensive implementation and exploration of transformer-based language mod
 
 Built with PyTorch, [TransformerLens](https://github.com/TransformerLensOrg/TransformerLens), and integrated with Weights & Biases for experiment tracking.
 
-[View Project on GitHub](https://github.com/michaelyliu6/gpt2-transformer)
+[View Project on GitHub](https://github.com/michaelyliu6/transformers)
 
 <details>
 <summary>Image Prompt</summary>
@@ -129,7 +129,7 @@ A comprehensive implementation of a 2 MLP layer + U-Net diffusion models and mul
 Built with PyTorch and integrated with Weights & Biases for experiment tracking.
 
 
-[View Project on GitHub](https://github.com/michaelyliu6/diffusion-models)
+[View Project on GitHub](https://github.com/michaelyliu6/diffusion)
 
 <details>
 <summary>Image Prompt</summary>
