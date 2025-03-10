@@ -2,51 +2,51 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:55382/posts/claude-plays-pokemon/</loc>
-    <lastmod>2025-03-01T10:00:00-05:00</lastmod>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2025-03-10T10:00:00-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:55382/</loc>
-    <lastmod>2025-03-01T10:00:00-05:00</lastmod>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2025-03-10T10:00:00-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:55382/posts/</loc>
-    <lastmod>2025-03-01T10:00:00-05:00</lastmod>
+    <loc>http://localhost:1313/posts/claude-plays-pokemon/</loc>
+    <lastmod>2025-03-03T10:00:00-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:55382/posts/rl-predictions/</loc>
+    <loc>http://localhost:1313/posts/rl-predictions/</loc>
     <lastmod>2025-02-16T07:07:07+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:55382/posts/rlhf/</loc>
+    <loc>http://localhost:1313/posts/rlhf/</loc>
     <lastmod>2025-02-15T07:07:07+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:55382/posts/toy_diffusion_model/</loc>
+    <loc>http://localhost:1313/posts/toy_diffusion_model/</loc>
     <lastmod>2025-01-10T07:07:07+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:55382/posts/ml-papers/</loc>
+    <loc>http://localhost:1313/posts/ml-papers/</loc>
     <lastmod>2024-12-14T07:07:07+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:55382/posts/gpt2-to-deepseekv3/</loc>
+    <loc>http://localhost:1313/posts/gpt2-to-deepseekv3/</loc>
     <lastmod>2024-12-14T07:07:07+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:55382/about/</loc>
+    <loc>http://localhost:1313/about/</loc>
     <lastmod>2024-02-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:55382/posts/alignment/</loc>
+    <loc>http://localhost:1313/posts/alignment/</loc>
     <lastmod>2024-02-15T07:07:07+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:55382/posts/deepseek-vl2/</loc>
+    <loc>http://localhost:1313/posts/deepseek-vl2/</loc>
     <lastmod>2024-01-14T07:07:07+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:55382/posts/my-first-post/</loc>
+    <loc>http://localhost:1313/posts/my-first-post/</loc>
     <lastmod>2024-01-14T07:07:07+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:55382/posts/agents/</loc>
+    <loc>http://localhost:1313/posts/agents/</loc>
     <lastmod>2024-01-14T07:07:07+01:00</lastmod>
   </url><url>
-    <loc>http://localhost:55382/categories/</loc>
+    <loc>http://localhost:1313/categories/</loc>
   </url><url>
-    <loc>http://localhost:55382/learning-resources/</loc>
+    <loc>http://localhost:1313/learning-resources/</loc>
   </url><url>
-    <loc>http://localhost:55382/projects/</loc>
+    <loc>http://localhost:1313/projects/</loc>
   </url><url>
-    <loc>http://localhost:55382/tags/</loc>
+    <loc>http://localhost:1313/tags/</loc>
   </url>
 </urlset>

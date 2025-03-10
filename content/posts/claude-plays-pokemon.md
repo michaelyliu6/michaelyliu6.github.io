@@ -5,7 +5,7 @@ draft: false
 ---
 
 
-> **Warning**: This blog post was written based on the initial Claude Plays Pokemon livestream. The implementation appears to have changed since this analysis was written with new tools and potential new prompts. For the most up-to-date information, please refer to the latest livestream recordings.
+> **Warning**: This blog post was written based on the initial Claude Plays Pokemon livestream. The implementation appears to have changed since this analysis was written with new tools and potentially new prompts. For the most up-to-date information, please refer to the latest livestream recordings.
 
 
 ## Introduction
