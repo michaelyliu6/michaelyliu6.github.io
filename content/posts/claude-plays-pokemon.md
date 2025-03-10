@@ -1,11 +1,11 @@
 ---
 title: "Claude Plays Pokemon"
-date: 2025-03-01T10:00:00-05:00
+date: 2025-03-03T10:00:00-05:00
 draft: false
 ---
 
 
-> **Warning**: This blog post was written based on the initial Claude Plays Pokemon livestream. The implementation appears to have changed since this analysis was written. For the most up-to-date information, please refer to the latest livestream recordings.
+> **Warning**: This blog post was written based on the initial Claude Plays Pokemon livestream. The implementation appears to have changed since this analysis was written with new tools and potential new prompts. For the most up-to-date information, please refer to the latest livestream recordings.
 
 
 ## Introduction
