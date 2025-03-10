@@ -11,6 +11,7 @@ hideCitation: true
 - The "most important century" blog post series - https://www.cold-takes.com/most-important-century
 - Situational Awareness - https://situational-awareness.ai/
 - Machines of Loving Grace - https://darioamodei.com/machines-of-loving-grace
+- How Far Are We From An AI Einstein? - Adam Brown - https://www.youtube.com/watch?v=LjY0i2B-Avc
 - Stanford CS25: V4 I Hyung Won Chung of OpenAI (2:05 - 15:18) - https://youtu.be/orDKvo8h71o?si=oFd2l7YQzOoGat1q
 - AlphaGo Documentary - https://youtu.be/WXuK6gekU1Y?si=uuPxNmTrpUNwzPA5
 - Andrew Ng's Career Advice / Reading Research Papers https://youtu.be/733m6qBH-jI?si=OLaGzeqvuObpjl9H
