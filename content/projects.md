@@ -11,9 +11,9 @@ hideCitation = true
 
 
 A comprehensive implementation and exploration of transformer-based language models, focusing on GPT-2 architecture and mechanistic interpretability. This project features three main components: 
-- a clean, educational GPT-2 implementation from scratch with detailed documentation and intuition
-- a production-ready lightweight implementation with efficient training pipelines
-- advanced mechanistic interpretability tools for analyzing model internals including attention patterns, induction heads, feature representations, and circuit behavior
+- a production-ready lightweight implementation with efficient training pipelines based on Andrej Karpathy's [nanoGPT](https://github.com/karpathy/nanoGPT)
+- a clean, educational GPT-2 implementation from scratch with detailed documentation and intuition (includes sampling techniques with temperature, top-k, top-p, beam search and KV caching)
+- advanced mechanistic interpretability tools for analyzing model internals including attention patterns, induction heads, feature representations, circuit behavior, and toy models of superposition
 
 Built with PyTorch, [TransformerLens](https://github.com/TransformerLensOrg/TransformerLens), and integrated with Weights & Biases for experiment tracking.
 
