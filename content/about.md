@@ -29,7 +29,7 @@ I'm working on:
 I'm learning about:
 - Longtermism 
 - Technological Determinism
-- AI Safety
+- AI Safety and alignment
 
 
 ## Connect With Me

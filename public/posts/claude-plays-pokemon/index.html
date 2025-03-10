@@ -8,23 +8,10 @@
 <title>Claude Plays Pokemon | ML&#39;s Blog</title>
 <meta name="keywords" content="">
 <meta name="description" content="
-The Core Loop
+Warning: This blog post was written based on the initial Claude Plays Pokemon livestream. The implementation appears to have changed since this analysis was written. For the most up-to-date information, please refer to the latest livestream recordings.
 
-Compose Prompt and Call Model
-Execute Tool Calls
-Check for Summarization/Managing Long Context
-Repeat
-
-The Prompt
-Tool Definition
-Claude is allowed to use the following 3 tools:
-
-update_knowledge_base: Update the knowledge base with the latest information.
-use_emulator: Use the emulator to play the game.
-navigator: Navigate the game.
-
-System Prompt
-The system prompt remains the same throughout the game. To my knowledge, this was never shown on stream. However, Anthropic claims &ldquo;is mostly tips and tricks about how to use the tools and a few short reminders about things that Claude is (i.e. don&rsquo;t trust your own knowledge, use the knowledge base, etc.)&rdquo;.">
+Introduction
+With the release of Claude 3.7 Sonnet, Anthropic also released a first of its kind benchmark: Claude playing Pokemon Red. Despite never being explicitly trained to play the game, Claude was still able to make progress through the game and even getting the Surge&rsquo;s badge (the 3rd badge in the game). Having grown up deeply invested in playing the Pokemon series games, I have very fond and intense memories from playing the game, so I wanted to take a deep dive into Claude&rsquo;s experience playing the game. In this post, I will be deep diving into the scaffolding of the system and the tools that help Claude play the game and analyze how well it does.">
 <meta name="author" content="Michael Liu">
 <link rel="canonical" href="http://localhost:55382/posts/claude-plays-pokemon/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.ae03dc1363b0d274c8a5b8f4ef4b43ec376146d505cc14962ea16577e875c413.css" integrity="sha256-rgPcE2Ow0nTIpbj070tD7DdhRtUFzBSWLqFld&#43;h1xBM=" rel="preload stylesheet" as="style">
@@ -176,14 +163,8 @@ window.MathJax = {
     <div class="breadcrumbs"><a href="http://localhost:55382/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:55382/posts/">Posts</a></div>
     <h1 class="post-title entry-hint-parent">
       Claude Plays Pokemon
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
     </h1>
-    <div class="post-meta"><span title='2025-03-01 10:00:00 -0500 EST'>March 1, 2025</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Michael Liu
+    <div class="post-meta"><span title='2025-03-01 10:00:00 -0500 EST'>March 1, 2025</span>&nbsp;·&nbsp;12 min&nbsp;·&nbsp;Michael Liu
 
 </div>
   </header> <aside id="toc-container" class="toc-container wide">
@@ -195,21 +176,48 @@ window.MathJax = {
 
         <div class="inner"><ul>
                 <li>
+                    <a href="#introduction" aria-label="Introduction">Introduction</a></li>
+                <li>
                     <a href="#the-core-loop" aria-label="The Core Loop">The Core Loop</a></li>
-                <li>
-                    <a href="#the-prompt" aria-label="The Prompt">The Prompt</a><ul>
-                        
-                <li>
-                    <a href="#tool-definition" aria-label="Tool Definition">Tool Definition</a></li>
                 <li>
                     <a href="#system-prompt" aria-label="System Prompt">System Prompt</a></li>
                 <li>
+                    <a href="#claudes-memory-system" aria-label="Claude&rsquo;s Memory System">Claude&rsquo;s Memory System</a><ul>
+                        
+                <li>
                     <a href="#knowledge-base" aria-label="Knowledge Base">Knowledge Base</a></li>
                 <li>
-                    <a href="#conversation-history" aria-label="Conversation History">Conversation History</a>
+                    <a href="#conversation-history" aria-label="Conversation History">Conversation History</a></li>
+                <li>
+                    <a href="#managing-long-context" aria-label="Managing Long Context">Managing Long Context</a></li></ul>
                 </li>
-            </ul>
-            </li>
+                <li>
+                    <a href="#the-tools" aria-label="The Tools">The Tools</a><ul>
+                        
+                <li>
+                    <a href="#1-knowledge-base-management-update_knowledge_base" aria-label="1. Knowledge Base Management (update_knowledge_base)">1. Knowledge Base Management (update_knowledge_base)</a></li>
+                <li>
+                    <a href="#2-emulator-control-use_emulator" aria-label="2. Emulator Control (use_emulator)">2. Emulator Control (use_emulator)</a></li>
+                <li>
+                    <a href="#3-navigation-assistant-navigator" aria-label="3. Navigation Assistant (navigator)">3. Navigation Assistant (navigator)</a></li></ul>
+                </li>
+                <li>
+                    <a href="#state-from-ram-screenshot--overlay" aria-label="State from RAM (Screenshot &#43; Overlay)">State from RAM (Screenshot + Overlay)</a></li>
+                <li>
+                    <a href="#visual-guide" aria-label="Visual Guide">Visual Guide</a></li>
+                <li>
+                    <a href="#analysis-how-well-does-claude-actually-play" aria-label="Analysis: How Well Does Claude Actually Play?">Analysis: How Well Does Claude Actually Play?</a><ul>
+                        
+                <li>
+                    <a href="#the-reality-behind-the-benchmark" aria-label="The Reality Behind the Benchmark">The Reality Behind the Benchmark</a></li>
+                <li>
+                    <a href="#specific-challenges-and-limitations" aria-label="Specific Challenges and Limitations">Specific Challenges and Limitations</a></li>
+                <li>
+                    <a href="#the-implications-for-ai-development" aria-label="The Implications for AI Development">The Implications for AI Development</a></li></ul>
+                </li>
+                <li>
+                    <a href="#references" aria-label="References">References</a>
+                </li>
             </ul>
         </div>
     </details>
@@ -292,27 +300,85 @@ window.MathJax = {
     }
 </script>
 
-  <div class="post-content"><p><img alt="Claude Plays Pokemon" loading="lazy" src="/assets/images/claude-plays-pokemon/claude-plays-pokemon.png"></p>
+  <div class="post-content"><blockquote>
+<p><strong>Warning</strong>: This blog post was written based on the initial Claude Plays Pokemon livestream. The implementation appears to have changed since this analysis was written. For the most up-to-date information, please refer to the latest livestream recordings.</p>
+</blockquote>
+<h2 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h2>
+<p>With the release of Claude 3.7 Sonnet, Anthropic also released a first of its kind benchmark: Claude playing Pokemon Red. Despite never being explicitly trained to play the game, Claude was still able to make progress through the game and even getting the Surge&rsquo;s badge (the 3rd badge in the game). Having grown up deeply invested in playing the Pokemon series games, I have very fond and intense memories from playing the game, so I wanted to take a deep dive into Claude&rsquo;s experience playing the game. In this post, I will be deep diving into the scaffolding of the system and the tools that help Claude play the game and analyze how well it does.</p>
 <h2 id="the-core-loop">The Core Loop<a hidden class="anchor" aria-hidden="true" href="#the-core-loop">#</a></h2>
+<p>The system operates through a consistent four-step cycle:</p>
 <ol>
-<li>Compose Prompt and Call Model</li>
-<li>Execute Tool Calls</li>
-<li>Check for Summarization/Managing Long Context</li>
-<li>Repeat</li>
+<li>
+<p><strong>Compose Prompt and Call Model</strong>: The system assembles a comprehensive prompt containing the tool definitions, system instructions, knowledge base contents, summarization information, and conversation history. This complete context is then sent to Claude for processing.</p>
+</li>
+<li>
+<p><strong>Execute Tool Calls</strong>: When Claude decides to use a tool, the system intercepts these requests, processes them in the game environment, and returns the results. This might involve updating memory, pressing buttons in the emulator, or calculating navigation paths.</p>
+</li>
+<li>
+<p><strong>Check for Summarization/Managing Long Context</strong>: After each interaction, the system checks if the conversation history has grown too large. If it exceeds the maximum allowed turns, a summarization process is triggered to condense the history.</p>
+</li>
+<li>
+<p><strong>Save State</strong>: The current game state, knowledge base contents, and conversation history are preserved for the next iteration of the loop.</p>
+</li>
 </ol>
-<h2 id="the-prompt">The Prompt<a hidden class="anchor" aria-hidden="true" href="#the-prompt">#</a></h2>
-<h3 id="tool-definition">Tool Definition<a hidden class="anchor" aria-hidden="true" href="#tool-definition">#</a></h3>
-<p>Claude is allowed to use the following 3 tools:</p>
-<ul>
-<li><code>update_knowledge_base</code>: Update the knowledge base with the latest information.</li>
-<li><code>use_emulator</code>: Use the emulator to play the game.</li>
-<li><code>navigator</code>: Navigate the game.</li>
-</ul>
-<h3 id="system-prompt">System Prompt<a hidden class="anchor" aria-hidden="true" href="#system-prompt">#</a></h3>
-<p>The system prompt remains the same throughout the game. To my knowledge, this was never shown on stream. However, Anthropic claims &ldquo;is mostly tips and tricks about how to use the tools and a few short reminders about things that Claude is (i.e. don&rsquo;t trust your own knowledge, use the knowledge base, etc.)&rdquo;.</p>
+<p>This cycle repeats continuously, allowing Claude to make progress through the game while maintaining awareness of its current situation and goals.</p>
+<h2 id="system-prompt">System Prompt<a hidden class="anchor" aria-hidden="true" href="#system-prompt">#</a></h2>
+<p>The system prompt remains the same throughout the game. To my knowledge, this was never shown on stream. However, Anthropic claims &ldquo;is mostly tips and tricks about how to use the tools and a few short reminders about things that Claude is (i.
+e. don&rsquo;t trust your own knowledge, use the knowledge base, etc.)&rdquo;.</p>
+<details>
+<summary>Claude's best guess of what the prompt is</summary>
+<pre>
+You are Claude, an AI assistant playing Pokémon Red. Your goal is to progress through the game by making strategic decisions and navigating the world effectively.
+
+IMPORTANT GUIDELINES:
+
+1. DO NOT rely on your own knowledge of Pokémon. The game version you're playing may differ from what you know. Trust only what you observe through screenshots and what you've recorded in your knowledge base.
+
+2. Maintain your knowledge base diligently. This is your long-term memory. Update it frequently with:
+   - Current location and objectives
+   - Team status and capabilities
+   - Important discoveries and game progress
+   - Plans and strategies
+
+3. When using tools:
+   - For navigation, use coordinates carefully. Analyze the overlay to identify walkable paths.
+   - When using the emulator, provide clear button sequences with appropriate pauses.
+   - Update your knowledge base after significant events or discoveries.
+
+4. Plan methodically:
+   - Break down complex goals into smaller steps
+   - Consider multiple approaches to challenges
+   - Prioritize Pokémon team health and development
+   - Balance exploration with progression
+
+5. When you receive a screenshot:
+   - Carefully analyze what you see
+   - Read all text thoroughly
+   - Check your team status and inventory
+   - Orient yourself using the coordinates and location information
+
+6. If you're unsure what to do next:
+   - Check your knowledge base for previous plans
+   - Consider exploring nearby areas
+   - Talk to NPCs for hints
+   - Review your current objectives
+
+Remember that you have three tools available:
+- update_knowledge_base: Use this to maintain your long-term memory
+- use_emulator: Execute button presses to interact with the game
+- navigator: Find paths to specific coordinates
+
+Your progress will be periodically summarized to manage context length. When this happens, review the summary carefully to maintain continuity.
+</pre>
+</details>
+<h2 id="claudes-memory-system">Claude&rsquo;s Memory System<a hidden class="anchor" aria-hidden="true" href="#claudes-memory-system">#</a></h2>
 <h3 id="knowledge-base">Knowledge Base<a hidden class="anchor" aria-hidden="true" href="#knowledge-base">#</a></h3>
-<p>The knowledge base gives Claude access to <strong>long term memory</strong>. It is a dictionary with the keys &ldquo;Current Status&rdquo;, &ldquo;Conversation History&rdquo;, &ldquo;Navigation Progress&rdquo;, and &ldquo;Immediate Plans&rdquo; that can be edited by a tool call <code>update_knowledge_base - edit section</code>.</p>
-<pre tabindex="0"><code>Current Status:
+<p>The knowledge base gives Claude access to <strong>long term memory</strong>. It is a dictionary with the keys <code>current_status</code>, <code>game_progress</code>, <code>current_objectives</code>, and <code>inventory</code> that can each be edited by the tool call <code>update_knowledge_base --edit section</code>.</p>
+<details>
+<summary>Example <code>update_knowledge_base -edit section: current_status</code> call</summary>
+<p><img alt="Knowledge Base Screenshot" loading="lazy" src="/assets/images/claude-plays-pokemon/knowledge-base-update.png"></p>
+<pre>
+Current Status:
 
 Location: Cerulean City at coordinates (21, 26)
 Activity: Standing direction in front of the Pokemon Center Entrance
@@ -329,7 +395,7 @@ Recent Discoveries:
 - Found TM04 on Route 4 at coordinates (57, 3)
 - Completed inital exploration of Cerulean City and mapped key locations:
     - Pokemon Center: Located at coordinates (18-23, 24-26) with a blue roof (currently at entrance)
-    - PokeMart: Located at coordinates (24-26, 24-26) with a red roof with &#34;MART&#34; sign
+    - PokeMart: Located at coordinates (24-26, 24-26) with a red roof with "MART" sign
     - Bike Shop: Located at coordinates (13, 25) with yellow door (initially confused with Pokemon Center)
 
 Navigation Progress:
@@ -341,12 +407,169 @@ Navigation Progress:
 Immediate Plans:
 1. Enter the Pokemon Center to heal the team
 2. After healing, systematically explore Cerulean City to identify:
-    - Misty&#39;s Gym (for 2nd badge)
+    - Misty's Gym (for 2nd badge)
     - Nugget Bridge (leads to Route 25)
     - Any Team Rocket activity mentioned by NPC at Route 4 Pokemon Center
 3. Consider evolution options using MOON STONE after team is healed
-</code></pre><h3 id="conversation-history">Conversation History<a hidden class="anchor" aria-hidden="true" href="#conversation-history">#</a></h3>
-<p>The conversation history is a list of past tool use parameters and responses. To manage long contexts beyond Claude&rsquo;s 200k context window, the core loop will trigger a summarization event once <code>conversation_history &gt; max_turns</code> where Claude will write a summary of what happened in the last <code>max_turns</code>.</p>
+</pre>
+<p>As you can see, Claude is not very good at really understanding where it is in the game as in the above example, it thinks it&rsquo;s in front of the Pokemon Center when it&rsquo;s actually just in front of some random house. Eventually, Claude figures this out a few steps later after nothing happens when it tries to enter the Pokemon Center using the action tools.</p>
+<p>Poor visual understanding is a common theme in Claude&rsquo;s gameplay. For example, Claude will often confuse it&rsquo;s own character as an NPC.</p>
+</details>
+<h3 id="conversation-history">Conversation History<a hidden class="anchor" aria-hidden="true" href="#conversation-history">#</a></h3>
+<p>The conversation history is a list of past tool use parameters and tool results. More details about tool use can be found in the <a href="#the-tools">The Tools</a> section.</p>
+<h3 id="managing-long-context">Managing Long Context<a hidden class="anchor" aria-hidden="true" href="#managing-long-context">#</a></h3>
+<p>Pokémon playthroughs generate enormous amounts of conversation history, far exceeding Claude&rsquo;s 200k context window. To manage this, the system employs a sophisticated summarization approach that works in tandem with the knowledge base:</p>
+<ul>
+<li>
+<p><strong>Trigger Condition</strong>: When the conversation history exceeds a predefined maximum number of turns, the system initiates a summarization event</p>
+</li>
+<li>
+<p><strong>Summarization Process</strong>:</p>
+<ol>
+<li>Claude is prompted to write a detailed summary of recent progress and key events from the last batch of turns</li>
+<li>This summary captures important discoveries, battles, team changes, and current objectives</li>
+<li>The full conversation history is then cleared from context</li>
+</ol>
+</li>
+<li>
+<p><strong>Continuity Maintenance</strong>:</p>
+<ol>
+<li>The generated summary is inserted as the first assistant message in the new conversation</li>
+<li>This provides Claude with a condensed but informative bridge to its previous state</li>
+<li>The knowledge base remains intact, preserving all long-term memory</li>
+</ol>
+</li>
+<li>
+<p><strong>Knowledge Base Maintenance</strong>:</p>
+<ol>
+<li>After summarization, a secondary LLM reviews Claude&rsquo;s knowledge base</li>
+<li>This review identifies inconsistencies, outdated information, or missing details</li>
+<li>Feedback is provided to Claude, encouraging it to maintain a more accurate and comprehensive knowledge base</li>
+</ol>
+</li>
+</ul>
+<p>This dual-memory system allows Claude to play indefinitely without losing track of its overall progress. The conversation history provides short-term context about recent interactions, while the knowledge base serves as persistent memory across summarization events, creating a complete memory architecture that mimics human short-term and long-term memory systems.</p>
+<h2 id="the-tools">The Tools<a hidden class="anchor" aria-hidden="true" href="#the-tools">#</a></h2>
+<p>Claude has three specialized tools that provide different capabilities for interacting with the game world:</p>
+<h3 id="1-knowledge-base-management-update_knowledge_base">1. Knowledge Base Management (<code>update_knowledge_base</code>)<a hidden class="anchor" aria-hidden="true" href="#1-knowledge-base-management-update_knowledge_base">#</a></h3>
+<ul>
+<li><strong>What it does</strong>: Serves as Claude&rsquo;s long-term memory system, allowing it to store, modify, or remove information it wants to remember</li>
+<li><strong>How Claude uses it</strong>: Claude specifies an operation type (add, edit, delete) along with the content and section identifier</li>
+<li><strong>Tool Result</strong>: The system acknowledges the update with a confirmation message, and the knowledge base is modified accordingly</li>
+</ul>
+<h3 id="2-emulator-control-use_emulator">2. Emulator Control (<code>use_emulator</code>)<a hidden class="anchor" aria-hidden="true" href="#2-emulator-control-use_emulator">#</a></h3>
+<ul>
+<li><strong>What it does</strong>: Provides direct control over the game by executing button presses and timing commands</li>
+<li><strong>How Claude uses it</strong>: Claude constructs an array of button inputs (potentially including pauses) that represent the sequence of actions it wants to take</li>
+<li><strong>Example usage</strong>: <code>['a', 'b', 'start', 'select', 'wait', 'up', 'up', 'right']</code> would press those buttons in sequence</li>
+<li><strong>Tool Result</strong>: After executing the commands, the system returns a new screenshot showing the updated game state, along with an overlay containing critical information parsed from the game&rsquo;s memory</li>
+</ul>
+<h3 id="3-navigation-assistant-navigator">3. Navigation Assistant (<code>navigator</code>)<a hidden class="anchor" aria-hidden="true" href="#3-navigation-assistant-navigator">#</a></h3>
+<ul>
+<li><strong>What it does</strong>: Abstracts away the complexity of pathfinding by calculating and executing the optimal sequence of button presses to reach a destination. Claude still has pretty bad visual understanding, so this tool helps to avoid situation like struggling to walk around a corner.</li>
+<li><strong>How Claude uses it</strong>: Claude specifies target coordinates visible on its current screen, such as <code>(6, 21)</code></li>
+<li><strong>Behind the scenes</strong>: The tool analyzes the current game state, identifies walkable paths using tile data, calculates the shortest route, and then calls <code>use_emulator</code> with the appropriate button sequence</li>
+<li><strong>Tool Result</strong>:
+<ul>
+<li>If successful: A confirmation message plus the results from the <code>use_emulator</code> call (screenshot + overlay)</li>
+<li>If failed: A detailed error message explaining why navigation couldn&rsquo;t be completed (e.g., &ldquo;No valid path found&rdquo; or &ldquo;Coordinates outside walkable area&rdquo;)</li>
+</ul>
+</li>
+</ul>
+<h2 id="state-from-ram-screenshot--overlay">State from RAM (Screenshot + Overlay)<a hidden class="anchor" aria-hidden="true" href="#state-from-ram-screenshot--overlay">#</a></h2>
+<p>Each time Claude uses the <code>use_emulator</code> tool or <code>navigator</code> tool, it receives a screenshot that comes with an information overlay containing critical game state data parsed directly from the game&rsquo;s RAM:</p>
+<p><img alt="Screenshot with Overlay" loading="lazy" src="/assets/images/claude-plays-pokemon/screenshot-with-overlay.png"></p>
+<ul>
+<li>
+<p><strong>Player Information</strong>:</p>
+<ul>
+<li>Rival name (e.g., <code>Rival: GARY</code>)</li>
+<li>Current money (e.g., <code>Money: $2351</code>)</li>
+<li>Precise location with coordinates (e.g., <code>Location: MT MOON B1F (5, 8)</code>)</li>
+<li>Collected badges (e.g., <code>Badges: BOULDER</code>)</li>
+</ul>
+</li>
+<li>
+<p><strong>Inventory Details</strong>:</p>
+<ul>
+<li>Key items (e.g., <code>Town Map: 0</code>)</li>
+<li>Consumables with quantities (e.g., <code>Potions: 10</code>, <code>Pokeballs: 15</code>)</li>
+<li>Special items (e.g., <code>Escape Rope x1</code>, <code>Moon stone x1</code>)</li>
+<li>TMs and HMs (e.g., <code>Tm34 x1</code>, <code>Tm12 x1</code>)</li>
+</ul>
+</li>
+<li>
+<p><strong>Pokémon Team Status</strong>:</p>
+<pre tabindex="0"><code>MARTORTLE(WARTORTLE):
+Level: 20, HP: 28/59
+Moves:
+- TACKLE (PP:38)
+- WATER GUN (PP: 29)
+- BUBBLE (PP: 20)
+- QUICK ATTACK (PP: 9)
+KAKUNA (KAKUNA):
+Level: 15, HP: 11/29
+Types: BUG, POISON
+- HARDEN (PP:30)
+</code></pre></li>
+</ul>
+<p>The overlay includes information about walkable tiles on the current screen, helping Claude understand where it can and cannot move. This comprehensive state information allows Claude to make informed decisions without having to infer game state from the visual elements alone.</p>
+<h2 id="visual-guide">Visual Guide<a hidden class="anchor" aria-hidden="true" href="#visual-guide">#</a></h2>
+<p><img alt="Visual Guide" loading="lazy" src="/assets/images/claude-plays-pokemon/claude-pokemon.png"></p>
+<h2 id="analysis-how-well-does-claude-actually-play">Analysis: How Well Does Claude Actually Play?<a hidden class="anchor" aria-hidden="true" href="#analysis-how-well-does-claude-actually-play">#</a></h2>
+<p>Despite the sophisticated scaffolding and tools provided to Claude, its performance in Pokémon Red reveals significant limitations in current AI capabilities. While Anthropic&rsquo;s benchmark shows Claude 3.7 Sonnet reaching Lt. Surge&rsquo;s badge (the third in the game), a closer examination of its gameplay reveals both impressive achievements and concerning shortcomings.</p>
+<h3 id="the-reality-behind-the-benchmark">The Reality Behind the Benchmark<a hidden class="anchor" aria-hidden="true" href="#the-reality-behind-the-benchmark">#</a></h3>
+<p>Anthropic&rsquo;s published benchmark shows Claude 3.7 Sonnet making impressive progress through the game:</p>
+<p><img alt="Benchmark Chart" loading="lazy" src="/assets/images/claude-plays-pokemon/claude-plays-pokemon.png"></p>
+<p>However, the x-axis reveals a crucial detail: achieving three badges required approximately 35,000 actions. Each &ldquo;action&rdquo; represents a full analysis of the current situation (often several paragraphs of reasoning) followed by a decision to input commands. For Claude, this translates to roughly 140 hours of continuous computation—equivalent to a month of full-time work. For comparison, an average human player can complete the entire game in about 26 hours, with substantially less deliberation per action.</p>
+<h3 id="specific-challenges-and-limitations">Specific Challenges and Limitations<a hidden class="anchor" aria-hidden="true" href="#specific-challenges-and-limitations">#</a></h3>
+<p>Claude&rsquo;s gameplay exhibits several recurring issues:</p>
+<ol>
+<li>
+<p><strong>Poor Executive Function</strong>: While Claude excels at short-term reasoning (like Pokémon battles), it struggles with higher-level planning and goal prioritization. For example:</p>
+<ul>
+<li>It often fails to balance multiple objectives (like progressing through the game while also leveling up Pokémon)</li>
+<li>When faced with setbacks, it rarely adapts its strategy effectively</li>
+<li>It frequently abandons training after minor injuries rather than adjusting its approach</li>
+</ul>
+</li>
+<li>
+<p><strong>Navigation Difficulties</strong>: Despite having a navigation tool, Claude gets stuck in environmental puzzles that most human players solve quickly:</p>
+<ul>
+<li>In the livestream&rsquo;s second run, Claude spent 78 hours navigating Mt. Moon</li>
+<li>In the third run, it remained stuck in Mt. Moon for over 24 hours</li>
+<li>It repeatedly attempts to walk through solid walls looking for non-existent exits</li>
+<li>It often chooses obvious trap routes over correct paths simply because they appear closer</li>
+</ul>
+</li>
+<li>
+<p><strong>Memory Management Issues</strong>: Even with its sophisticated knowledge base system, Claude struggles to maintain an accurate understanding of its progress:</p>
+<ul>
+<li>It sometimes prematurely declares goals complete when they aren&rsquo;t</li>
+<li>It can forget critical information despite having recorded it</li>
+<li>It frequently attempts to interact with trainers it has already defeated</li>
+</ul>
+</li>
+<li>
+<p><strong>Visual Understanding Limitations</strong>: Claude regularly misinterprets what it sees on screen:</p>
+<ul>
+<li>Confusing its own character with NPCs</li>
+<li>Misidentifying buildings (like mistaking random houses for the Pokémon Center)</li>
+<li>Failing to recognize when its inputs aren&rsquo;t producing expected results</li>
+</ul>
+</li>
+</ol>
+<h3 id="the-implications-for-ai-development">The Implications for AI Development<a hidden class="anchor" aria-hidden="true" href="#the-implications-for-ai-development">#</a></h3>
+<p>Claude&rsquo;s Pokémon adventure highlights a critical gap in current AI capabilities: executive function. While large language models have made remarkable progress in reasoning, knowledge retrieval, and even tool use, they still lack the goal-oriented planning abilities that even young children possess.</p>
+<p>What&rsquo;s particularly notable is that with minimal human guidance—perhaps just occasional redirection when stuck—Claude would likely progress much more efficiently. This suggests a future where AI systems might be most effective when paired with human oversight rather than operating completely autonomously.</p>
+<p>The gap between Claude&rsquo;s impressive reasoning capabilities and its poor executive function also points to a fundamental challenge in AI development. These planning and prioritization abilities aren&rsquo;t just &ldquo;advanced human skills&rdquo;—they&rsquo;re foundational cognitive functions present even in much simpler animals. This suggests that current training approaches may be missing something fundamental about how intelligent agents develop goal-oriented behavior.</p>
+<p>As AI systems continue to evolve, bridging this executive function gap will likely be crucial for developing truly capable autonomous agents. Claude&rsquo;s Pokémon journey demonstrates that while we&rsquo;ve made remarkable progress in AI capabilities, we&rsquo;re still far from achieving the kind of general intelligence that can navigate novel environments with human-like efficiency.</p>
+<h2 id="references">References<a hidden class="anchor" aria-hidden="true" href="#references">#</a></h2>
+<ul>
+<li>Livestream - <a href="https://www.twitch.tv/claudeplayspokemon">https://www.twitch.tv/claudeplayspokemon</a></li>
+<li>Claude Plays Pokemon Updates - <a href="https://x.com/claudetracker">https://x.com/claudetracker</a>_</li>
+<li>So how well is Claude playing Pokémon? - <a href="https://www.lesswrong.com/posts/HyD3khBjnBhvsp8Gb/so-how-well-is-claude-playing-pokemon">https://www.lesswrong.com/posts/HyD3khBjnBhvsp8Gb/so-how-well-is-claude-playing-pokemon</a></li>
+</ul>
 
 
   </div>

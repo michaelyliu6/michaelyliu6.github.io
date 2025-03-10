@@ -13,24 +13,11 @@
       <link>http://localhost:55382/posts/claude-plays-pokemon/</link>
       <pubDate>Sat, 01 Mar 2025 10:00:00 -0500</pubDate>
       <guid>http://localhost:55382/posts/claude-plays-pokemon/</guid>
-      <description>&lt;p&gt;&lt;img alt=&#34;Claude Plays Pokemon&#34; loading=&#34;lazy&#34; src=&#34;http://localhost:55382/assets/images/claude-plays-pokemon/claude-plays-pokemon.png&#34;&gt;&lt;/p&gt;
-&lt;h2 id=&#34;the-core-loop&#34;&gt;The Core Loop&lt;/h2&gt;
-&lt;ol&gt;
-&lt;li&gt;Compose Prompt and Call Model&lt;/li&gt;
-&lt;li&gt;Execute Tool Calls&lt;/li&gt;
-&lt;li&gt;Check for Summarization/Managing Long Context&lt;/li&gt;
-&lt;li&gt;Repeat&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;the-prompt&#34;&gt;The Prompt&lt;/h2&gt;
-&lt;h3 id=&#34;tool-definition&#34;&gt;Tool Definition&lt;/h3&gt;
-&lt;p&gt;Claude is allowed to use the following 3 tools:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;update_knowledge_base&lt;/code&gt;: Update the knowledge base with the latest information.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;use_emulator&lt;/code&gt;: Use the emulator to play the game.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;navigator&lt;/code&gt;: Navigate the game.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;system-prompt&#34;&gt;System Prompt&lt;/h3&gt;
-&lt;p&gt;The system prompt remains the same throughout the game. To my knowledge, this was never shown on stream. However, Anthropic claims &amp;ldquo;is mostly tips and tricks about how to use the tools and a few short reminders about things that Claude is (i.e. don&amp;rsquo;t trust your own knowledge, use the knowledge base, etc.)&amp;rdquo;.&lt;/p&gt;</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Warning&lt;/strong&gt;: This blog post was written based on the initial Claude Plays Pokemon livestream. The implementation appears to have changed since this analysis was written. For the most up-to-date information, please refer to the latest livestream recordings.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;With the release of Claude 3.7 Sonnet, Anthropic also released a first of its kind benchmark: Claude playing Pokemon Red. Despite never being explicitly trained to play the game, Claude was still able to make progress through the game and even getting the Surge&amp;rsquo;s badge (the 3rd badge in the game). Having grown up deeply invested in playing the Pokemon series games, I have very fond and intense memories from playing the game, so I wanted to take a deep dive into Claude&amp;rsquo;s experience playing the game. In this post, I will be deep diving into the scaffolding of the system and the tools that help Claude play the game and analyze how well it does.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Why &#34;real&#34; Reinforcement Learning will create the strongest technical moats</title>
@@ -175,6 +162,7 @@
 &lt;li&gt;The &amp;ldquo;most important century&amp;rdquo; blog post series - &lt;a href=&#34;https://www.cold-takes.com/most-important-century&#34;&gt;https://www.cold-takes.com/most-important-century&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Situational Awareness - &lt;a href=&#34;https://situational-awareness.ai/&#34;&gt;https://situational-awareness.ai/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Machines of Loving Grace - &lt;a href=&#34;https://darioamodei.com/machines-of-loving-grace&#34;&gt;https://darioamodei.com/machines-of-loving-grace&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;How Far Are We From An AI Einstein? - Adam Brown - &lt;a href=&#34;https://www.youtube.com/watch?v=LjY0i2B-Avc&#34;&gt;https://www.youtube.com/watch?v=LjY0i2B-Avc&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Stanford CS25: V4 I Hyung Won Chung of OpenAI (2:05 - 15:18) - &lt;a href=&#34;https://youtu.be/orDKvo8h71o?si=oFd2l7YQzOoGat1q&#34;&gt;https://youtu.be/orDKvo8h71o?si=oFd2l7YQzOoGat1q&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;AlphaGo Documentary - &lt;a href=&#34;https://youtu.be/WXuK6gekU1Y?si=uuPxNmTrpUNwzPA5&#34;&gt;https://youtu.be/WXuK6gekU1Y?si=uuPxNmTrpUNwzPA5&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Andrew Ng&amp;rsquo;s Career Advice / Reading Research Papers &lt;a href=&#34;https://youtu.be/733m6qBH-jI?si=OLaGzeqvuObpjl9H&#34;&gt;https://youtu.be/733m6qBH-jI?si=OLaGzeqvuObpjl9H&lt;/a&gt;&lt;/li&gt;

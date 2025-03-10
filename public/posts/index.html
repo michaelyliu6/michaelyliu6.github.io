@@ -163,21 +163,14 @@ window.MathJax = {
 <article class="post-entry"> 
   <header class="entry-header">
     <h2 class="entry-hint-parent">Claude Plays Pokemon
-      <span class="entry-hint" title="Draft">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
-          <path
-            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
-        </svg>
-      </span>
     </h2>
   </header>
   <div class="entry-content">
-    <p>
-The Core Loop Compose Prompt and Call Model Execute Tool Calls Check for Summarization/Managing Long Context Repeat The Prompt Tool Definition Claude is allowed to use the following 3 tools:
-update_knowledge_base: Update the knowledge base with the latest information. use_emulator: Use the emulator to play the game. navigator: Navigate the game. System Prompt The system prompt remains the same throughout the game. To my knowledge, this was never shown on stream. However, Anthropic claims “is mostly tips and tricks about how to use the tools and a few short reminders about things that Claude is (i.e. don’t trust your own knowledge, use the knowledge base, etc.)”.
+    <p> Warning: This blog post was written based on the initial Claude Plays Pokemon livestream. The implementation appears to have changed since this analysis was written. For the most up-to-date information, please refer to the latest livestream recordings.
+Introduction With the release of Claude 3.7 Sonnet, Anthropic also released a first of its kind benchmark: Claude playing Pokemon Red. Despite never being explicitly trained to play the game, Claude was still able to make progress through the game and even getting the Surge’s badge (the 3rd badge in the game). Having grown up deeply invested in playing the Pokemon series games, I have very fond and intense memories from playing the game, so I wanted to take a deep dive into Claude’s experience playing the game. In this post, I will be deep diving into the scaffolding of the system and the tools that help Claude play the game and analyze how well it does.
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-03-01 10:00:00 -0500 EST'>March 1, 2025</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Michael Liu</footer>
+  <footer class="entry-footer"><span title='2025-03-01 10:00:00 -0500 EST'>March 1, 2025</span>&nbsp;·&nbsp;12 min&nbsp;·&nbsp;Michael Liu</footer>
   <a class="entry-link" aria-label="post link to Claude Plays Pokemon" href="http://localhost:55382/posts/claude-plays-pokemon/"></a>
 </article>
 
@@ -220,7 +213,7 @@ Supervised Fine-tuning (SFT): An initial language model is fine-tuned on a datas
 The core insight of diffusion is that if we add Gaussian noise to an image from our distribution, the resulting noisy image typically becomes less likely to belong to that distribution. This is an empirical observation about human perception - a shoe with a small amount of noise still looks like a shoe, but becomes less recognizable as more noise is added.
 ...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-01-10 07:07:07 +0100 +0100'>January 10, 2025</span>&nbsp;·&nbsp;19 min&nbsp;·&nbsp;Michael Liu</footer>
+  <footer class="entry-footer"><span title='2025-01-10 07:07:07 +0100 +0100'>January 10, 2025</span>&nbsp;·&nbsp;20 min&nbsp;·&nbsp;Michael Liu</footer>
   <a class="entry-link" aria-label="post link to Toy Diffusion Model" href="http://localhost:55382/posts/toy_diffusion_model/"></a>
 </article>
 

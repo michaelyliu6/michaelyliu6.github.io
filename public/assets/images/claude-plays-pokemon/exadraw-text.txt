@@ -1,0 +1,92 @@
+**About the Knowledge Base**
+
+*   The knowledge base gives Claude access to long term memory. It's basically just a Python dictionary, and it is rendered like this
+*   ```html
+    <section id="pokmeon">
+    I like pikachu because its cute and I like
+    how it electrecutes people
+    </section>
+    <section id="brock">
+    Brock stinks and I kicked his ass back
+    on step 3932
+    </section>
+    ```
+
+**The Prompt**
+
+*   Tool Definitions
+*   System Prompt
+*   Knowledge Base
+*   Blurb about how Summaries work
+*   Conversation History
+    *   Tool Use
+    *   Tool Result
+    *   ...
+    *   Tool Use
+    *   Tool Result
+    *   Tool Use
+    *   Tool Result
+
+**The Core Loop**
+
+*   Compose Prompt + Call Model
+*   Resolve Tools
+*   Check for Summarization
+*   Save State
+
+**The Tools**
+
+*   **`update_knowledge_base`**
+    *   What: Add to, edit, or delete content in knowledge base
+    *   How: Claude specifies an operation + content
+    *   Tool Result: Acknowledgement
+*   **`use_emulator`**
+    *   What: Executes a series of button presses + optional pauses for time to pass
+    *   How: Claude writes an array that looks like `['a', 'b', 'start', 'select']`
+    *   Tool Result: Screenshot + Overlay
+
+*   **`navigator`**
+    *   What: Finds the path to selected coordinates on screen, and executes button presses to get there. Calls `use_emulator` for execution.
+    *   How: Claude specifies coordinates in its current view, i.e. `(6, 21)`
+    *   Tool Result:
+        *   If Failed to Find: Return helpful error message
+        *   If Success: Success Message + Result from `use_emulator`
+
+**State from RAM (Screenshot + Overlay)**
+*   `Rival: GARY`
+*   `Money: $2351`
+*   `Location: MT MOON B1F (5, 8)`
+*   `Badges: BOULDER`
+*   `Town Map: 0`
+*   `Potions: 10`
+*   `Pokeballs : 15`
+*   `Escape Rope x1`
+*   `Tm34 x1`
+*   `Tm12 x1`
+*   `Moon stone x1`
+*   Display:
+    *   ```
+        MARTORTLE(WARTORTLE):
+        Level: 20, HP: 28/59
+        Moves:
+        - TACKLE (PP:38)
+        -WATER GUN (PP: 29)
+        - BUBBLE (PP: 20)
+        - QUICK ATTACK (PP: 9)
+        KAKUNA (KAKUNA):
+        Level: 15, HP: 11/29
+        Types: BUG, POISON
+        - HARDEN (PP:30)
+        ```
+*   \+ Helpful reminders
+
+**Summarization / Managing Long Context**
+
+*   Rollouts are way too long for the 200k context window, so we need some way to manage context. I've found progressive Summarization to work well
+*   Once conversation history > max_turns, we trigger a summarization event
+*   This has Claude write a summary of their recent progress / what happened in the last max_turns.
+*   Then we clear the full conversation history and insert the summary as the first assistant message, and Claude resumes its journey
+*   Finally, another LLM is called to inspect the first LLM's knowledge base and to provide feedback -- this helps ensure the agent does more frequent maintenance of its knowledge base
+*   This overlay comes from reading the tiles on the screen and checking if they are walkable
+*   This info is all parsed directly from the RAM of the game, Claude Code is very good at this task.
+
