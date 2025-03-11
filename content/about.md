@@ -32,7 +32,15 @@ I'm learning about:
 - Progress Studies
 - Longtermism 
 
+## Favorite Memes
 
+![This is normal](/assets/images/memes/this-is-normal.png)
+
+
+
+![Shoggoth](/assets/images/memes/shoggoth.png)
+
+![bitter lesson](/assets/images/memes/bitter-lesson.png)
 
 
 ## Connect With Me
