@@ -95,4 +95,83 @@
 .dark .zoom-button:hover {
     background: rgba(255, 255, 255, 0.1);
     color: #fff;
+}
+
+/* Fullscreen overlay styles */
+.fullscreen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fullscreen-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* This is important for the click-outside functionality */
+    pointer-events: none;
+}
+
+.fullscreen-image {
+    max-width: 95vw;
+    max-height: 95vh;
+    object-fit: contain;
+    cursor: grab;
+    transform-origin: center;
+    transition: transform 0.2s ease-out;
+    /* We need to re-enable pointer events just for the image */
+    pointer-events: auto;
+}
+
+.fullscreen-image:active {
+    cursor: grabbing;
+}
+
+.fullscreen-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    transition: all 0.2s ease;
+    z-index: 10000;
+    /* We need to re-enable pointer events for the close button */
+    pointer-events: auto;
+}
+
+.fullscreen-close:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+}
+
+.fullscreen-close svg {
+    width: 24px;
+    height: 24px;
 } 
