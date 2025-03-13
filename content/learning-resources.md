@@ -39,6 +39,7 @@ hideCitation: true
 - Alignment and Interpretability
   - Anthropic's Alignment Science Blog - https://alignment.anthropic.com/
   - Anthropic's Transformer Circuits Thread - https://transformer-circuits.pub/
+  - Distill - https://distill.pub/
   - LessWrong - https://www.lesswrong.com/
 - Reinforcement Learning
   - RLHF Book - https://rlhfbook.com/
