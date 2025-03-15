@@ -29,8 +29,9 @@ I hold a BS in Computer Science with a specialization in Machine Learning from t
 I'm learning about:
 - AI Safety, Alignment, and Capabilities
 - Technological Determinism
-- Progress Studies
 - Longtermism 
+- Progress Studies
+
 
 ## Favorite Memes
 
