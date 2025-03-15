@@ -14,7 +14,7 @@
       <pubDate>Mon, 03 Mar 2025 10:00:00 -0500</pubDate>
       <guid>http://localhost:55382/posts/claude-plays-pokemon/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Warning&lt;/strong&gt;: This blog post was written based on the initial Claude Plays Pokemon livestream. The implementation appears to have changed since this analysis was written with new tools and potentially new prompts. For the most up-to-date information, please refer to the latest livestream recordings.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Warning&lt;/strong&gt;: This blog post was written based on the initial Claude Plays Pokemon livestream. The implementation appears to have changed since this analysis was written with new tools and likely new prompts. For the most up-to-date information, please refer to the latest livestream recordings.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;With the release of Claude 3.7 Sonnet, Anthropic also released a first of its kind benchmark: Claude playing Pokemon Red. Despite never being explicitly trained to play the game, Claude was still able to make progress through the game and even getting the Surge&amp;rsquo;s badge (the 3rd badge in the game). Having grown up deeply invested in playing the Pokemon series games, I have very fond and intense memories from playing the game, so I wanted to take a deep dive into Claude&amp;rsquo;s experience playing the game. In this post, I will be deep diving into the scaffolding of the system and the tools that help Claude play the game and analyze how well it does.&lt;/p&gt;</description>
