@@ -18,11 +18,10 @@ hideCitation: true
 
 ## Youtube Channels/Podcasts
 - Dwarkesh Patel - https://www.youtube.com/c/DwarkeshPatel
-- AI Explained - https://www.youtube.com/@aiexplained-official
-- Latent Space - https://www.youtube.com/@LatentSpacePod
 - 80 000 hours - https://www.youtube.com/@eightythousandhours
-- Cognitive Revolution - https://www.youtube.com/@CognitiveRevolutionPodcast
+- AI Explained - https://www.youtube.com/@aiexplained-official
 - Neel Nanda - https://www.youtube.com/@neelnanda2469
+- Latent Space - https://www.youtube.com/@LatentSpacePod
 
 ## Courses 
 - Alignment Research Engineer Accelerator (ARENA) - https://github.com/callummcdougall/ARENA_3.0
