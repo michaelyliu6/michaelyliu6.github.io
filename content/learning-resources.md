@@ -23,7 +23,7 @@ hideCitation: true
 - Neel Nanda - https://www.youtube.com/@neelnanda2469
 - Latent Space - https://www.youtube.com/@LatentSpacePod
 - The Gradient - https://www.youtube.com/@thegradientpub
-- 
+  
 ## Courses 
 - Alignment Research Engineer Accelerator (ARENA) - https://github.com/callummcdougall/ARENA_3.0
 - ML Alignment Bootcamp (MLAB) - https://github.com/Kiv/mlab2
