@@ -54,6 +54,8 @@ hideCitation: true
   - How to Scale Your Model: A Systems View of LLMs on TPUs - https://jax-ml.github.io/scaling-book/
   - The Ultra-Scale Playbook: Training LLMs on GPU Clusters - https://huggingface.co/spaces/nanotron/ultrascale-playbook
   - [Distributed Training] Picotron tutorial - https://www.youtube.com/watch?v=u2VSwDDpaBM&list=PL-_armZiJvAnhcRr6yTJ0__f3Oi-LLi9S
+- Diffusion Art
+  - ComfyUI - https://blog.comfy.org/
 
 ## Github Repos
 - System Prompts
