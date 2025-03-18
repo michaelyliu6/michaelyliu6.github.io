@@ -35,10 +35,13 @@ I'm learning about:
 
 ## Quotes I'm thinking about
 
-> "...you’ve just got humans in control of everything and these AI servants doing exactly whatever people want... But as soon as you think maybe, and quite probably, those beings have moral status, that no longer looks like an attractive vision for future society." - Will MacAskill
+> "...you've just got humans in control of everything and these AI servants doing exactly whatever people want... But as soon as you think maybe, and quite probably, those beings have moral status, that no longer looks like an attractive vision for future society."
+>
+> — Will MacAskill
 
-> "...it’s really remarkable the extent to which those utopias now look like dystopias... It’s like only a century, which is small in the grand scheme of things. But very often the societies are totalitarian; very often they bake in kind of moral blindspots of the time. Thomas More’s utopia, the person who coined the term, had amazing abundance, this wonderful society in many ways. Every household owned two slaves. Not so appealing nowadays." - Will MacAskill
-
+> "...it's really remarkable the extent to which those utopias now look like dystopias... It's like only a century, which is small in the grand scheme of things. But very often the societies are totalitarian; very often they bake in kind of moral blindspots of the time. Thomas More's utopia, the person who coined the term, had amazing abundance, this wonderful society in many ways. Every household owned two slaves. Not so appealing nowadays."
+>
+> — Will MacAskill
 
 ## Favorite Memes
 
