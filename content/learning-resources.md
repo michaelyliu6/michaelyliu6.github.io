@@ -22,7 +22,8 @@ hideCitation: true
 - AI Explained - https://www.youtube.com/@aiexplained-official
 - Neel Nanda - https://www.youtube.com/@neelnanda2469
 - Latent Space - https://www.youtube.com/@LatentSpacePod
-
+- The Gradient - https://www.youtube.com/@thegradientpub
+- 
 ## Courses 
 - Alignment Research Engineer Accelerator (ARENA) - https://github.com/callummcdougall/ARENA_3.0
 - ML Alignment Bootcamp (MLAB) - https://github.com/Kiv/mlab2
@@ -45,6 +46,7 @@ hideCitation: true
   - RLHF Book - https://rlhfbook.com/
 - Industry Trends
   - Epoch AI - https://epoch.ai/blog
+  - The Gradient - https://thegradient.pub/
   - SemiAnalysis - https://www.semianalysis.com/
 - Agents
   - Anthropic: Building effective agents - https://www.anthropic.com/research/building-effective-agents
