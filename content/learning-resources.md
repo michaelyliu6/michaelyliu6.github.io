@@ -25,6 +25,7 @@ hideCitation: true
 
 ## Courses 
 - Alignment Research Engineer Accelerator (ARENA) - https://github.com/callummcdougall/ARENA_3.0
+- ML Alignment Bootcamp (MLAB) - https://github.com/Kiv/mlab2
 - Hugging Face - https://huggingface.co/courses
 - Advanced Large Language Model Agents: Berkley MOOC - https://llmagents-learning.org/sp25
 - Andrej Karpathy's Zero to Hero Series - https://karpathy.ai/zero-to-hero.html

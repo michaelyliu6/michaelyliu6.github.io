@@ -29,6 +29,7 @@ Built with PyTorch, [TransformerLens](https://github.com/TransformerLensOrg/Tran
 <details>
 <summary>References</summary>
 - ARENA Chapter 1: Transformer Interpretability - <a href="https://arena-chapter1-transformer-interp.streamlit.app/">https://arena-chapter1-transformer-interp.streamlit.app/</a><br>
+- ML Alignment Bootcamp (MLAB) - <a href="https://github.com/Kiv/mlab2">https://github.com/Kiv/mlab2</a><br>
 - Attention Is All You Need - <a href="https://arxiv.org/pdf/1706.03762">https://arxiv.org/pdf/1706.03762</a><br>
 - Language Models are Unsupervised Multitask Learners (GPT-2) - <a href="https://arxiv.org/pdf/2005.14165">https://arxiv.org/pdf/2005.14165</a><br>
 - Language Models are Few-Shot Learners (GPT-3) - <a href="https://arxiv.org/pdf/2005.14165">https://arxiv.org/pdf/2005.14165</a><br>
@@ -67,6 +68,7 @@ Built with PyTorch, OpenAI Gym, and integrated with Weights & Biases for experim
 <details>
 <summary>References</summary>
 - ARENA Chapter 2: Reinforcement Learning - <a href="https://arena-chapter2-rl.streamlit.app/">https://arena-chapter2-rl.streamlit.app/</a><br>
+- ML Alignment Bootcamp (MLAB) - <a href="https://github.com/Kiv/mlab2">https://github.com/Kiv/mlab2</a><br>
 - Reinforcement Learning by Richard S. Sutton and Andrew G. Barto - <a href="https://www.andrew.cmu.edu/course/10-703/textbook/BartoSutton.pdf">https://www.andrew.cmu.edu/course/10-703/textbook/BartoSutton.pdf</a><br>
 - Q-Learning - <a href="https://link.springer.com/content/pdf/10.1007/BF00992698.pdf">https://link.springer.com/content/pdf/10.1007/BF00992698.pdf</a><br>
 - Playing Atari with Deep Reinforcement Learning - <a href="https://arxiv.org/pdf/1312.5602">https://arxiv.org/pdf/1312.5602</a><br>
