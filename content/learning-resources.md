@@ -92,6 +92,8 @@ hideCitation: true
   - Change <a href="https://arxiv.org/pdf/2412.19437">https://<b>arxiv</b>.org/pdf/2412.19437</a> to <a href="https://alphaxiv.org/pdf/2412.19437">https://<b>alphaxiv</b>.org/pdf/2412.19437</a>
 - Gitingest - https://gitingest.com/
   - Change <a href="https://github.com/deepseek-ai/DeepSeek-V3">https://<b>github</b>.com/deepseek-ai/DeepSeek-V3</a> to <a href="https://gitingest.com/deepseek-ai/DeepSeek-V3">https://<b>gitingest</b>.com/deepseek-ai/DeepSeek-V3</a> and input the tokenized repo to [Google AI Studio](https://aistudio.google.com/)
+- Linear - https://linear.app/
+- Obsidian - https://obsidian.md/
 
 ## LeetCode
 - NeetCode - https://neetcode.io/
