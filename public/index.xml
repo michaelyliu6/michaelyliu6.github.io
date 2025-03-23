@@ -560,6 +560,7 @@ Mountain View, CA 94043&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;LLM Training
 &lt;ul&gt;
+&lt;li&gt;Making Deep Learning Go Brrrr From First Principles - &lt;a href=&#34;https://horace.io/brrr_intro.html&#34;&gt;https://horace.io/brrr_intro.html&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;FineWeb - &lt;a href=&#34;https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1&#34;&gt;https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;How to Scale Your Model: A Systems View of LLMs on TPUs - &lt;a href=&#34;https://jax-ml.github.io/scaling-book/&#34;&gt;https://jax-ml.github.io/scaling-book/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;The Ultra-Scale Playbook: Training LLMs on GPU Clusters - &lt;a href=&#34;https://huggingface.co/spaces/nanotron/ultrascale-playbook&#34;&gt;https://huggingface.co/spaces/nanotron/ultrascale-playbook&lt;/a&gt;&lt;/li&gt;

@@ -52,6 +52,7 @@ hideCitation: true
   - Anthropic: Building effective agents - https://www.anthropic.com/research/building-effective-agents
   - Google: Agents Whitepaper - https://www.kaggle.com/whitepaper-agents
 - LLM Training
+  - Making Deep Learning Go Brrrr From First Principles - https://horace.io/brrr_intro.html
   - FineWeb - https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1
   - How to Scale Your Model: A Systems View of LLMs on TPUs - https://jax-ml.github.io/scaling-book/
   - The Ultra-Scale Playbook: Training LLMs on GPU Clusters - https://huggingface.co/spaces/nanotron/ultrascale-playbook
