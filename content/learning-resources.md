@@ -20,8 +20,9 @@ hideCitation: true
 - Dwarkesh Patel - https://www.youtube.com/c/DwarkeshPatel
 - 80 000 hours - https://www.youtube.com/@eightythousandhours
 - AI Explained - https://www.youtube.com/@aiexplained-official
-- Neel Nanda - https://www.youtube.com/@neelnanda2469
 - Latent Space - https://www.youtube.com/@LatentSpacePod
+- Robert Miles AI Safety -  https://www.youtube.com/@RobertMilesAI
+- Neel Nanda - https://www.youtube.com/@neelnanda2469
 - The Gradient - https://www.youtube.com/@thegradientpub
   
 ## Courses 
