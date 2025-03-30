@@ -34,14 +34,17 @@ I'm learning about:
 - Progress Studies
 
 ## Quotes I'm thinking about
+> "I think the phrase AGI should be retired and replaced by "human-level AI". There is no such thing as AGI. Even human intelligence is very specialized. We do not realize that human intelligence is specialized because all the intelligent tasks we can think of are task that we can apprehend. But that is a tiny subset of all tasks."
+> 
+> — [Yann LeCun](https://www.linkedin.com/posts/yann-lecun_i-think-the-phrase-agi-should-be-retired-activity-6889610518529613824-gl2F/) 
 
 > "...you've just got humans in control of everything and these AI servants doing exactly whatever people want... But as soon as you think maybe, and quite probably, those beings have moral status, that no longer looks like an attractive vision for future society."
 >
-> — Will MacAskill
+> — [Will MacAskill](https://youtu.be/SjSl2re_Fm8?si=uvuFS7C0sLZoltBy&t=6301)
 
 > "...it's really remarkable the extent to which those utopias now look like dystopias... It's like only a century, which is small in the grand scheme of things. But very often the societies are totalitarian; very often they bake in kind of moral blindspots of the time. Thomas More's utopia, the person who coined the term, had amazing abundance, this wonderful society in many ways. Every household owned two slaves. Not so appealing nowadays."
 >
-> — Will MacAskill
+> — [Will MacAskill](https://youtu.be/SjSl2re_Fm8?si=PTdZv7o_eVuEOY3n&t=12814)
 
 ## Favorite Memes
 
