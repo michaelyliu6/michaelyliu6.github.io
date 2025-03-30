@@ -5,7 +5,7 @@ draft: false
 ---
 
 
-> **Warning**: This blog post was written based on the initial Claude Plays Pokemon livestream. The implementation appears to have changed since this analysis was written with new tools and likely new prompts. For the most up-to-date information, please refer to the latest livestream recordings.
+> **Warning**: This blog post was written based on the initial Claude Plays Pokemon livestream. The implementation appears to have changed since this analysis was written with new tools and likely new prompts. For the most up-to-date information, please refer to the latest livestream recordings. If you want to try implementing yourself, check out these starter repos: [ClaudePlaysPokemonStarter](https://github.com/davidhershey/ClaudePlaysPokemonStarter) and [Claude Plays Pokémon Hackathon Quickstart Guide](https://github.com/morph-labs/morphcloud-examples-public/tree/main/pokemon-example)  
 
 
 ## Introduction
