@@ -328,7 +328,7 @@ Remember: when making multiple file edits in a row to the same file, you should 
       <pubDate>Mon, 03 Mar 2025 10:00:00 -0500</pubDate>
       <guid>http://localhost:1313/posts/claude-plays-pokemon/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Warning&lt;/strong&gt;: This blog post was written based on the initial Claude Plays Pokemon livestream. The implementation appears to have changed since this analysis was written with new tools and likely new prompts. For the most up-to-date information, please refer to the latest livestream recordings.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Warning&lt;/strong&gt;: This blog post was written based on the initial Claude Plays Pokemon livestream. The implementation appears to have changed since this analysis was written with new tools and likely new prompts. For the most up-to-date information, please refer to the latest livestream recordings. If you want to try implementing yourself, check out these starter repos: &lt;a href=&#34;https://github.com/davidhershey/ClaudePlaysPokemonStarter&#34;&gt;ClaudePlaysPokemonStarter&lt;/a&gt; and &lt;a href=&#34;https://github.com/morph-labs/morphcloud-examples-public/tree/main/pokemon-example&#34;&gt;Claude Plays Pokémon Hackathon Quickstart Guide&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;With the release of Claude 3.7 Sonnet, Anthropic also released a first of its kind benchmark: Claude playing Pokemon Red. Despite never being explicitly trained to play the game, Claude was still able to make progress through the game and even getting the Surge&amp;rsquo;s badge (the 3rd badge in the game). Having grown up deeply invested in playing the Pokemon series games, I have very fond and intense memories from playing the game, so I wanted to take a deep dive into Claude&amp;rsquo;s experience playing the game. In this post, I will be deep diving into the scaffolding of the system and the tools that help Claude play the game and analyze how well it does.&lt;/p&gt;</description>
@@ -494,149 +494,11 @@ Mountain View, CA 94043&lt;/p&gt;
       <link>http://localhost:1313/learning-resources/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/learning-resources/</guid>
-      <description>&lt;h2 id=&#34;timeless-essaysvideos&#34;&gt;Timeless Essays/Videos&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;The Bitter Lesson - &lt;a href=&#34;http://www.incompleteideas.net/IncIdeas/BitterLesson.html&#34;&gt;http://www.incompleteideas.net/IncIdeas/BitterLesson.html&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;The &amp;ldquo;most important century&amp;rdquo; blog post series - &lt;a href=&#34;https://www.cold-takes.com/most-important-century&#34;&gt;https://www.cold-takes.com/most-important-century&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Situational Awareness - &lt;a href=&#34;https://situational-awareness.ai/&#34;&gt;https://situational-awareness.ai/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Machines of Loving Grace - &lt;a href=&#34;https://darioamodei.com/machines-of-loving-grace&#34;&gt;https://darioamodei.com/machines-of-loving-grace&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;How Far Are We From An AI Einstein? - Adam Brown - &lt;a href=&#34;https://www.youtube.com/watch?v=LjY0i2B-Avc&#34;&gt;https://www.youtube.com/watch?v=LjY0i2B-Avc&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Stanford CS25: V4 I Hyung Won Chung of OpenAI (2:05 - 15:18) - &lt;a href=&#34;https://youtu.be/orDKvo8h71o?si=oFd2l7YQzOoGat1q&#34;&gt;https://youtu.be/orDKvo8h71o?si=oFd2l7YQzOoGat1q&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;AlphaGo Documentary - &lt;a href=&#34;https://youtu.be/WXuK6gekU1Y?si=uuPxNmTrpUNwzPA5&#34;&gt;https://youtu.be/WXuK6gekU1Y?si=uuPxNmTrpUNwzPA5&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Andrew Ng&amp;rsquo;s Career Advice / Reading Research Papers &lt;a href=&#34;https://youtu.be/733m6qBH-jI?si=OLaGzeqvuObpjl9H&#34;&gt;https://youtu.be/733m6qBH-jI?si=OLaGzeqvuObpjl9H&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;youtube-channelspodcasts&#34;&gt;Youtube Channels/Podcasts&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Dwarkesh Patel - &lt;a href=&#34;https://www.youtube.com/c/DwarkeshPatel&#34;&gt;https://www.youtube.com/c/DwarkeshPatel&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;80 000 hours - &lt;a href=&#34;https://www.youtube.com/@eightythousandhours&#34;&gt;https://www.youtube.com/@eightythousandhours&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;AI Explained - &lt;a href=&#34;https://www.youtube.com/@aiexplained-official&#34;&gt;https://www.youtube.com/@aiexplained-official&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Neel Nanda - &lt;a href=&#34;https://www.youtube.com/@neelnanda2469&#34;&gt;https://www.youtube.com/@neelnanda2469&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Latent Space - &lt;a href=&#34;https://www.youtube.com/@LatentSpacePod&#34;&gt;https://www.youtube.com/@LatentSpacePod&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;The Gradient - &lt;a href=&#34;https://www.youtube.com/@thegradientpub&#34;&gt;https://www.youtube.com/@thegradientpub&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;courses&#34;&gt;Courses&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Alignment Research Engineer Accelerator (ARENA) - &lt;a href=&#34;https://github.com/callummcdougall/ARENA_3.0&#34;&gt;https://github.com/callummcdougall/ARENA_3.0&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;ML Alignment Bootcamp (MLAB) - &lt;a href=&#34;https://github.com/Kiv/mlab2&#34;&gt;https://github.com/Kiv/mlab2&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Hugging Face - &lt;a href=&#34;https://huggingface.co/courses&#34;&gt;https://huggingface.co/courses&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Advanced Large Language Model Agents: Berkley MOOC - &lt;a href=&#34;https://llmagents-learning.org/sp25&#34;&gt;https://llmagents-learning.org/sp25&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Andrej Karpathy&amp;rsquo;s Zero to Hero Series - &lt;a href=&#34;https://karpathy.ai/zero-to-hero.html&#34;&gt;https://karpathy.ai/zero-to-hero.html&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;From Deep Learning Foundations to Stable Diffusion - &lt;a href=&#34;https://course.fast.ai/Lessons/part2.html&#34;&gt;https://course.fast.ai/Lessons/part2.html&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;DeepLearning.AI specializations (short courses are skippable imo) - &lt;a href=&#34;https://www.deeplearning.ai/&#34;&gt;https://www.deeplearning.ai/&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;blogs&#34;&gt;Blogs&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;GOATs
-&lt;ul&gt;
-&lt;li&gt;Gwern - &lt;a href=&#34;https://www.gwern.net/&#34;&gt;https://www.gwern.net/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Lillian Weng&amp;rsquo;s Lil&amp;rsquo; Log - &lt;a href=&#34;https://lilianweng.github.io/&#34;&gt;https://lilianweng.github.io/&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Alignment and Interpretability
-&lt;ul&gt;
-&lt;li&gt;Anthropic&amp;rsquo;s Alignment Science Blog - &lt;a href=&#34;https://alignment.anthropic.com/&#34;&gt;https://alignment.anthropic.com/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Anthropic&amp;rsquo;s Transformer Circuits Thread - &lt;a href=&#34;https://transformer-circuits.pub/&#34;&gt;https://transformer-circuits.pub/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Distill - &lt;a href=&#34;https://distill.pub/&#34;&gt;https://distill.pub/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;LessWrong - &lt;a href=&#34;https://www.lesswrong.com/&#34;&gt;https://www.lesswrong.com/&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Reinforcement Learning
-&lt;ul&gt;
-&lt;li&gt;RLHF Book - &lt;a href=&#34;https://rlhfbook.com/&#34;&gt;https://rlhfbook.com/&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Industry Trends
-&lt;ul&gt;
-&lt;li&gt;Epoch AI - &lt;a href=&#34;https://epoch.ai/blog&#34;&gt;https://epoch.ai/blog&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;The Gradient - &lt;a href=&#34;https://thegradient.pub/&#34;&gt;https://thegradient.pub/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;SemiAnalysis - &lt;a href=&#34;https://www.semianalysis.com/&#34;&gt;https://www.semianalysis.com/&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Agents
-&lt;ul&gt;
-&lt;li&gt;Anthropic: Building effective agents - &lt;a href=&#34;https://www.anthropic.com/research/building-effective-agents&#34;&gt;https://www.anthropic.com/research/building-effective-agents&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Google: Agents Whitepaper - &lt;a href=&#34;https://www.kaggle.com/whitepaper-agents&#34;&gt;https://www.kaggle.com/whitepaper-agents&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;LLM Training
-&lt;ul&gt;
-&lt;li&gt;Making Deep Learning Go Brrrr From First Principles - &lt;a href=&#34;https://horace.io/brrr_intro.html&#34;&gt;https://horace.io/brrr_intro.html&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;FineWeb - &lt;a href=&#34;https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1&#34;&gt;https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;How to Scale Your Model: A Systems View of LLMs on TPUs - &lt;a href=&#34;https://jax-ml.github.io/scaling-book/&#34;&gt;https://jax-ml.github.io/scaling-book/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;The Ultra-Scale Playbook: Training LLMs on GPU Clusters - &lt;a href=&#34;https://huggingface.co/spaces/nanotron/ultrascale-playbook&#34;&gt;https://huggingface.co/spaces/nanotron/ultrascale-playbook&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;[Distributed Training] Picotron tutorial - &lt;a href=&#34;https://www.youtube.com/watch?v=u2VSwDDpaBM&amp;amp;list=PL-_armZiJvAnhcRr6yTJ0__f3Oi-LLi9S&#34;&gt;https://www.youtube.com/watch?v=u2VSwDDpaBM&amp;amp;list=PL-_armZiJvAnhcRr6yTJ0__f3Oi-LLi9S&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Diffusion Art
-&lt;ul&gt;
-&lt;li&gt;ComfyUI - &lt;a href=&#34;https://blog.comfy.org/&#34;&gt;https://blog.comfy.org/&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;github-repos&#34;&gt;Github Repos&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;System Prompts
-&lt;ul&gt;
-&lt;li&gt;Leaked System Prompts - &lt;a href=&#34;https://github.com/jujumilk3/leaked-system-prompts&#34;&gt;https://github.com/jujumilk3/leaked-system-prompts&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;LLM Inference
-&lt;ul&gt;
-&lt;li&gt;EAGLE - &lt;a href=&#34;https://github.com/SafeAILab/EAGLE&#34;&gt;https://github.com/SafeAILab/EAGLE&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;SGLang - &lt;a href=&#34;https://github.com/sgl-project/sglang&#34;&gt;https://github.com/sgl-project/sglang&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;vLLM - &lt;a href=&#34;https://github.com/vllm-project/vllm&#34;&gt;https://github.com/vllm-project/vllm&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;TensorRT - &lt;a href=&#34;https://github.com/NVIDIA/TensorRT&#34;&gt;https://github.com/NVIDIA/TensorRT&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Reinforcement Learning
-&lt;ul&gt;
-&lt;li&gt;verl - &lt;a href=&#34;https://github.com/volcengine/verl&#34;&gt;https://github.com/volcengine/verl&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;trl - &lt;a href=&#34;https://github.com/huggingface/trl&#34;&gt;https://github.com/huggingface/trl&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Search-R1 - &lt;a href=&#34;https://github.com/PeterGriffinJin/Search-R1&#34;&gt;https://github.com/PeterGriffinJin/Search-R1&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Agents
-&lt;ul&gt;
-&lt;li&gt;smolagents - &lt;a href=&#34;https://github.com/huggingface/smolagents&#34;&gt;https://github.com/huggingface/smolagents&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;OpenHands (formerly OpenDevin) - &lt;a href=&#34;https://github.com/All-Hands-AI/OpenHands&#34;&gt;https://github.com/All-Hands-AI/OpenHands&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;textbooks&#34;&gt;Textbooks&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Reinforcement Learning by Richard S. Sutton and Andrew G. Barto - &lt;a href=&#34;https://www.andrew.cmu.edu/course/10-703/textbook/BartoSutton.pdf&#34;&gt;https://www.andrew.cmu.edu/course/10-703/textbook/BartoSutton.pdf&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Generative AI System Design Interview - &lt;a href=&#34;https://www.amazon.com/Generative-AI-System-Design-Interview/dp/1736049143&#34;&gt;https://www.amazon.com/Generative-AI-System-Design-Interview/dp/1736049143&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;newsletters&#34;&gt;Newsletters&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;AI News - &lt;a href=&#34;https://buttondown.com/ainews/&#34;&gt;https://buttondown.com/ainews/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Latent Space - &lt;a href=&#34;https://www.latent.space/&#34;&gt;https://www.latent.space/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;China Talk - &lt;a href=&#34;https://www.chinatalk.media/&#34;&gt;https://www.chinatalk.media/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Import AI by Jack Clark - &lt;a href=&#34;https://importai.substack.com/&#34;&gt;https://importai.substack.com/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Rohan&amp;rsquo;s Bytes - &lt;a href=&#34;https://rohanpaul.substack.com/&#34;&gt;https://rohanpaul.substack.com/&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;tools&#34;&gt;Tools&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Cursor - &lt;a href=&#34;https://www.cursor.com/&#34;&gt;https://www.cursor.com/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;alphaXiv - &lt;a href=&#34;https://www.alphaxiv.org/explore&#34;&gt;https://www.alphaxiv.org/explore&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;Change &lt;a href=&#34;https://arxiv.org/pdf/2412.19437&#34;&gt;https://&lt;b&gt;arxiv&lt;/b&gt;.org/pdf/2412.19437&lt;/a&gt; to &lt;a href=&#34;https://alphaxiv.org/pdf/2412.19437&#34;&gt;https://&lt;b&gt;alphaxiv&lt;/b&gt;.org/pdf/2412.19437&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Gitingest - &lt;a href=&#34;https://gitingest.com/&#34;&gt;https://gitingest.com/&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;Change &lt;a href=&#34;https://github.com/deepseek-ai/DeepSeek-V3&#34;&gt;https://&lt;b&gt;github&lt;/b&gt;.com/deepseek-ai/DeepSeek-V3&lt;/a&gt; to &lt;a href=&#34;https://gitingest.com/deepseek-ai/DeepSeek-V3&#34;&gt;https://&lt;b&gt;gitingest&lt;/b&gt;.com/deepseek-ai/DeepSeek-V3&lt;/a&gt; and input the tokenized repo to &lt;a href=&#34;https://aistudio.google.com/&#34;&gt;Google AI Studio&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Linear - &lt;a href=&#34;https://linear.app/&#34;&gt;https://linear.app/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Obsidian - &lt;a href=&#34;https://obsidian.md/&#34;&gt;https://obsidian.md/&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;leetcode&#34;&gt;LeetCode&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;NeetCode - &lt;a href=&#34;https://neetcode.io/&#34;&gt;https://neetcode.io/&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;what-is-this-page&#34;&gt;What is this page?&lt;/h2&gt;
-&lt;p&gt;This is my personal collection of AI learning resources that I&amp;rsquo;ve found valuable in my journey. While it primarily serves as my digital garden of knowledge links (which I keep permanently bookmarked for easy reference), I&amp;rsquo;m sharing it publicly for two important reasons:&lt;/p&gt;</description>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Last updated:&lt;/strong&gt; April 2nd, 2025&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;timeless-essaysvideos&#34;&gt;Timeless Essays/Videos&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;http://www.incompleteideas.net/IncIdeas/BitterLesson.html&#34;&gt;The Bitter Lesson&lt;/a&gt; - In this essay, &lt;a href=&#34;https://en.wikipedia.org/wiki/Richard_S._Sutton&#34;&gt;Richard Sutton&lt;/a&gt; explains that throughout the history of AI, the methods that drive the most progress in the field are &amp;ldquo;general purpose methods&amp;rdquo; or &amp;ldquo;methods that continue to scale with increased computation&amp;rdquo;, with the two methods that seem to scale arbitrarily being &lt;strong&gt;search&lt;/strong&gt; and &lt;strong&gt;learning&lt;/strong&gt;. Definitely a must read. I&amp;rsquo;ve found that it&amp;rsquo;s pretty much impossible for AI research scientist to talk about AI without explicitly mentioning or at least alluding to this essay in some way.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Projects</title>
