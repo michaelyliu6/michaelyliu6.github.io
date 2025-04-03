@@ -50,9 +50,9 @@ I'm learning about:
 
 ![This is normal](/assets/images/memes/this-is-normal.png)
 
+![Shoggoth](/assets/images/memes/gptcotopus.png)
 
-
-![Shoggoth](/assets/images/memes/shoggoth.png)
+![performance](/assets/images/memes/performance.png)
 
 ![bitter lesson](/assets/images/memes/bitter-lesson.png)
 
