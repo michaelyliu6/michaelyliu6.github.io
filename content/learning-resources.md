@@ -25,14 +25,12 @@ hideCitation: true
 [Andrew Ng's Career Advice / Reading Research Papers](https://youtu.be/733m6qBH-jI?si=OLaGzeqvuObpjl9H) - If you have never read in AI research paper before, it can be EXTREMELY intimidating and hard to know how to start. Counterintuitively, [Andrew Ng](https://en.wikipedia.org/wiki/Andrew_Ng) explains that reading a paper from start to finish is actually the WORST way to read an research paper, and goes in depth about the right way to read research papers. He also gives some good general career advice for building a career in AI.  
 
 ## Youtube Channels/Podcasts
-- Dwarkesh Patel - https://www.youtube.com/c/DwarkeshPatel
-   <!-- - By far my favorite podcast currently. Dwarkesh  -->
-- 80,000 hours - https://www.youtube.com/@eightythousandhours
-<!-- -  - 80,000 hours is a nonprofit organization that helps people figure out how to have a ["positive"](https://80000hours.org/articles/what-is-social-impact-definition/) impact in their careers (i.e. existential risk from AI, animal welfare, etc). In the podcast, [Rob Wiblin](https://www.robwiblin.com/) has 'unusually in-depth conversations about the world's most pressing problems and how you can use your career to solve them'.  -->
+- Dwarkesh Patel - https://www.youtube.com/c/DwarkeshPatel<!-- - By far my favorite podcast currently. Dwarkesh  -->
+- 80,000 hours - https://www.youtube.com/@eightythousandhours<!-- -  - 80,000 hours is a nonprofit organization that helps people figure out how to have a ["positive"](https://80000hours.org/articles/what-is-social-impact-definition/) impact in their careers (i.e. existential risk from AI, animal welfare, etc). In the podcast, [Rob Wiblin](https://www.robwiblin.com/) has 'unusually in-depth conversations about the world's most pressing problems and how you can use your career to solve them'.  -->
 - AI Explained - https://www.youtube.com/@aiexplained-official
 - Latent Space - https://www.youtube.com/@LatentSpacePod
-- Neel Nanda - https://www.youtube.com/@neelnanda2469
-<!-- -  - Neel Nanda is a mechanistic interpretability researcher, a field that aims to "reverse engineer" the inner workings of AI models, analogous to reverse engineering a compiled program binary back into its original source code. His channel is inactive now, but  -->
+- Robert Miles AI Safety  - https://www.youtube.com/@RobertMilesAI
+- Neel Nanda - https://www.youtube.com/@neelnanda2469<!-- -  - Neel Nanda is a mechanistic interpretability researcher, a field that aims to "reverse engineer" the inner workings of AI models, analogous to reverse engineering a compiled program binary back into its original source code. His channel is inactive now, but  -->
 - The Gradient - https://www.youtube.com/@thegradientpub
   
 ## Courses 
@@ -68,8 +66,7 @@ hideCitation: true
   - The Ultra-Scale Playbook: Training LLMs on GPU Clusters - https://huggingface.co/spaces/nanotron/ultrascale-playbook
   - [Distributed Training] Picotron tutorial - https://www.youtube.com/watch?v=u2VSwDDpaBM&list=PL-_armZiJvAnhcRr6yTJ0__f3Oi-LLi9S
 - Diffusion Art
-  - ComfyUI - https://blog.comfy.org/
-  <!-- - - ComfyUI uses a graph UI to enable composability of different image and video generation components and models (i.e. CLIP conditioning, VAEs, Diffusion Models, etc). The package is actively maintained and constantly being updated with new open source model release with a blog posts detailing example workflows. Image/Video generation can be resource intensive and slow, but it's fun to read the blog to stay-to-date with the newest image and video models.  -->
+  - ComfyUI - https://blog.comfy.org/<!-- - - ComfyUI uses a graph UI to enable composability of different image and video generation components and models (i.e. CLIP conditioning, VAEs, Diffusion Models, etc). The package is actively maintained and constantly being updated with new open source model release with a blog posts detailing example workflows. Image/Video generation can be resource intensive and slow, but it's fun to read the blog to stay-to-date with the newest image and video models.  -->
 
 ## Github Repos
 - System Prompts
@@ -92,8 +89,7 @@ hideCitation: true
 - Generative AI System Design Interview - https://www.amazon.com/Generative-AI-System-Design-Interview/dp/1736049143
 
 ## Newsletters
-- AI News - https://buttondown.com/ainews/
-<!-- - Daily AI news summaries. Includes a daily highlight from [swyx](https://www.swyx.io/) and AI generated summaries of AI twitter, reddit, discord, etc. -->
+- AI News - https://buttondown.com/ainews/<!-- - Daily AI news summaries. Includes a daily highlight from [swyx](https://www.swyx.io/) and AI generated summaries of AI twitter, reddit, discord, etc. -->
 - Latent Space - https://www.latent.space/
 - China Talk - https://www.chinatalk.media/
 - Import AI by Jack Clark - https://importai.substack.com/
