@@ -37,6 +37,7 @@ hideCitation: true
 - Alignment Research Engineer Accelerator (ARENA) - https://github.com/callummcdougall/ARENA_3.0
 - ML Alignment Bootcamp (MLAB) - https://github.com/Kiv/mlab2
 - Advanced Large Language Model Agents: Berkley MOOC - https://llmagents-learning.org/sp25
+- BlueDot Impact's AI Safety Fundamentals - https://aisafetyfundamentals.com/
 - Andrej Karpathy's Zero to Hero Series - https://karpathy.ai/zero-to-hero.html
 - From Deep Learning Foundations to Stable Diffusion - https://course.fast.ai/Lessons/part2.html
 - DeepLearning.AI specializations - https://www.deeplearning.ai/
