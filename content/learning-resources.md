@@ -28,6 +28,7 @@ hideCitation: true
 - Dwarkesh Patel - https://www.youtube.com/c/DwarkeshPatel<!-- - By far my favorite podcast currently. Dwarkesh  -->
 - 80,000 hours - https://www.youtube.com/@eightythousandhours<!-- -  - 80,000 hours is a nonprofit organization that helps people figure out how to have a ["positive"](https://80000hours.org/articles/what-is-social-impact-definition/) impact in their careers (i.e. existential risk from AI, animal welfare, etc). In the podcast, [Rob Wiblin](https://www.robwiblin.com/) has 'unusually in-depth conversations about the world's most pressing problems and how you can use your career to solve them'.  -->
 - AI Explained - https://www.youtube.com/@aiexplained-official
+- Cognitive Revolution "How AI Changes Everything" - https://www.youtube.com/@CognitiveRevolutionPodcast
 - Latent Space - https://www.youtube.com/@LatentSpacePod
 - Robert Miles AI Safety  - https://www.youtube.com/@RobertMilesAI
 - Neel Nanda - https://www.youtube.com/@neelnanda2469<!-- -  - Neel Nanda is a mechanistic interpretability researcher, a field that aims to "reverse engineer" the inner workings of AI models, analogous to reverse engineering a compiled program binary back into its original source code. His channel is inactive now, but  -->
