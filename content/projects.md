@@ -78,6 +78,7 @@ Built with PyTorch, OpenAI Gym, and integrated with Weights & Biases for experim
 - Deep Reinforcement Learning from Human Preferences - <a href="https://arxiv.org/pdf/1706.03741">https://arxiv.org/pdf/1706.03741</a><br>
 - Illustrating Reinforcement Learning from Human Feedback (RLHF) - <a href="https://huggingface.co/blog/rlhf">https://huggingface.co/blog/rlhf</a><br>
 - Training language models to follow instructions with human feedback - <a href="https://arxiv.org/pdf/2203.02155">https://arxiv.org/pdf/2203.02155</a>
+- Reinforcement Learning from Human Feedback - <a href="https://rlhfbook.com/">https://rlhfbook.com/</a>
 </details>
 
 ---
@@ -117,6 +118,7 @@ This project investigates the emergent behaviors of Large Language Models (LLMs)
 - Toolformer: Language Models Can Teach Themselves to Use Tools - <a href="https://arxiv.org/pdf/2302.04761">https://arxiv.org/pdf/2302.04761</a><br>
 - ReAct: Synergizing Reasoning and Acting in Language Models - <a href="https://arxiv.org/pdf/2210.03629">https://arxiv.org/pdf/2210.03629</a><br>
 - Reflexion: Language Agents with Verbal Reinforcement Learning - <a href="https://arxiv.org/pdf/2303.11366">https://arxiv.org/pdf/2303.11366</a>
+- LLM Powered Autonomous Agents - <a href="https://lilianweng.github.io/posts/2023-06-23-agent/">https://lilianweng.github.io/posts/2023-06-23-agent/</a>
 </details>
 
 
@@ -146,5 +148,6 @@ Built with PyTorch and integrated with Weights & Biases for experiment tracking.
 - Denoising Diffusion Probabilistic Models - <a href="https://arxiv.org/pdf/2006.11239">https://arxiv.org/pdf/2006.11239</a><br>
 - Denoising Diffusion Implicit Models - <a href="https://arxiv.org/pdf/2010.02502">https://arxiv.org/pdf/2010.02502</a><br>
 - Learning Transferable Visual Models From Natural Language Supervision - <a href="https://arxiv.org/pdf/2103.00020">https://arxiv.org/pdf/2103.00020</a>
+- What are Diffusion Models? - <a href="https://lilianweng.github.io/posts/2021-07-11-diffusion-models/">https://lilianweng.github.io/posts/2021-07-11-diffusion-models/</a>
 </details>
 

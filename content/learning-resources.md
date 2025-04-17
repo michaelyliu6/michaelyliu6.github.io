@@ -67,7 +67,8 @@ hideCitation: true
   - How to Scale Your Model: A Systems View of LLMs on TPUs - https://jax-ml.github.io/scaling-book/
   - The Ultra-Scale Playbook: Training LLMs on GPU Clusters - https://huggingface.co/spaces/nanotron/ultrascale-playbook
   - [Distributed Training] Picotron tutorial - https://www.youtube.com/watch?v=u2VSwDDpaBM&list=PL-_armZiJvAnhcRr6yTJ0__f3Oi-LLi9S
-- Diffusion Art
+- Diffusion
+  - Sander Dieleman - https://sander.ai/
   - ComfyUI - https://blog.comfy.org/<!-- - - ComfyUI uses a graph UI to enable composability of different image and video generation components and models (i.e. CLIP conditioning, VAEs, Diffusion Models, etc). The package is actively maintained and constantly being updated with new open source model release with a blog posts detailing example workflows. Image/Video generation can be resource intensive and slow, but it's fun to read the blog to stay-to-date with the newest image and video models.  -->
 
 ## Github Repos
