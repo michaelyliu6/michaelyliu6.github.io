@@ -73,7 +73,7 @@ hideCitation: true
 
 ## Github Repos
 - System Prompts
-  - Leaked System Prompts - https://github.com/jujumilk3/leaked-system-prompts
+  - Leaked System Prompts - https://github.com/elder-plinius
 - LLM Inference
   - EAGLE - https://github.com/SafeAILab/EAGLE
   - SGLang - https://github.com/sgl-project/sglang
