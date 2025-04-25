@@ -46,11 +46,13 @@ I'm learning about:
 >
 > — [Will MacAskill](https://youtu.be/SjSl2re_Fm8?si=PTdZv7o_eVuEOY3n&t=12814)
 
-## Favorite Memes
+## Favorite Memes/Slides
 
 ![This is normal](/assets/images/memes/this-is-normal.png)
 
-![Shoggoth](/assets/images/memes/gptcotopus.png)
+![mode covering vs mode seeking](/assets/images/memes/mode-cover-vs-seeking.png)
+
+![Shoggoth](/assets/images/memes/shoggoth.png)
 
 ![performance](/assets/images/memes/performance.png)
 
