@@ -37,6 +37,7 @@ hideCitation: true
 ## Courses 
 - Alignment Research Engineer Accelerator (ARENA) - https://github.com/callummcdougall/ARENA_3.0
 - ML Alignment Bootcamp (MLAB) - https://github.com/Kiv/mlab2
+- Learning Resources by Google Deepmind - https://www.youtube.com/playlist?list=PLqYmG7hTraZCRwoyGxvQkqVrZgDQi4m-5
 - Advanced Large Language Model Agents: Berkley MOOC - https://llmagents-learning.org/sp25
 - BlueDot Impact's AI Safety Fundamentals - https://aisafetyfundamentals.com/
 - Andrej Karpathy's Zero to Hero Series - https://karpathy.ai/zero-to-hero.html
