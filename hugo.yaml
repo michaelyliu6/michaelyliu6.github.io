@@ -82,6 +82,10 @@ menu:
           name: Learning Resources
           url: /learning-resources/
           weight: 17
+        - identifier: resume
+          name: Resume
+          url: /Michael_Liu_Resume_2025_Aug.pdf
+          weight: 18
         - identifier: about
           name: About
           url: /about/

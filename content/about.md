@@ -9,7 +9,7 @@ hideCitation: true
 
 Hi there! I'm Michael Liu, a software engineer passionate about AI development and safety. I combine practical engineering experience with a deep interest in advancing AI technology in reliable and beneficial ways.
 
-I'm currently seeking roles in AI development. You can view my <a href="/Michael_Liu_Resume_2025-03-05.pdf" target="_blank">resume here</a>.
+I'm currently seeking roles in AI development. You can view my <a href="/Michael_Liu_Resume_2025_Aug.pdf" target="_blank">resume here</a>.
 
 ## Professional Background
 
